@@ -731,7 +731,7 @@
         void main() {
           vec3 raw = texture2D(map, vUv).rgb;
           float gray = dot(raw, vec3(0.333));
-          vec3 col = pow(vec3(gray), vec3(1.4)) * vec3(0.96, 0.98, 1.04);
+          vec3 col = pow(vec3(gray), vec3(1.4)) * vec3(0.80, 0.82, 0.81);
 
           vec3 n = normalize(vN);
           vec3 t = normalize(cross(vec3(0.0, 1.0, 0.0), n));
@@ -742,11 +742,11 @@
           n = normalize(n - (t * dx + b * dy) * 2.2);
 
           float diff = max(dot(n, sun), 0.0);
-          vec3 lit = col * (vec3(1.35, 1.38, 1.45) * pow(diff, 0.85) + vec3(0.09, 0.10, 0.13));
+          vec3 lit = col * (vec3(1.30, 1.34, 1.36) * pow(diff, 0.85) + vec3(0.024, 0.078, 0.106));
 
           // Soft Fresnel Moonlight Rim
           float fres = pow(1.0 - max(vN.z, 0.0), 3.2);
-          lit += vec3(0.72, 0.82, 1.0) * fres * (0.08 + diff * 0.45);
+          lit += vec3(0.61, 0.66, 0.67) * fres * (0.08 + diff * 0.45);
 
           // Tone mapping
           lit = lit / (lit * 0.28 + 1.0) * 1.25;
@@ -781,7 +781,7 @@
           float a = smoothstep(0.0, 0.55, z);
           float s = 0.55 + 0.6 * max(dot(-vN * vec3(1.0, 1.0, 0.0), normalize(sun * vec3(1.0, 1.0, 0.0))), 0.0);
           a = pow(a, 2.6) * s * 0.52;
-          gl_FragColor = vec4(vec3(0.78, 0.86, 1.0), a * ready);
+          gl_FragColor = vec4(vec3(0.61, 0.66, 0.67), a * ready);
         }
       `
     });
@@ -833,8 +833,8 @@
     sprite.width = sprite.height = 64;
     const sCtx = sprite.getContext('2d');
     const sGrad = sCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    sGrad.addColorStop(0, 'rgba(235, 242, 255, 0.9)');
-    sGrad.addColorStop(0.4, 'rgba(180, 195, 220, 0.35)');
+    sGrad.addColorStop(0, 'rgba(204, 208, 207, 0.9)');
+    sGrad.addColorStop(0.4, 'rgba(155, 168, 171, 0.35)');
     sGrad.addColorStop(1, 'transparent');
     sCtx.fillStyle = sGrad;
     sCtx.fillRect(0, 0, 64, 64);
