@@ -1218,6 +1218,29 @@
         display: none;
       }
 
+      .admin-header {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header-left {
+        gap: 12px;
+      }
+
+      .admin-nav-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 8px;
+        flex-wrap: nowrap;
+      }
+
+      .kpi-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+      }
+
       .catalog-table th:nth-child(3),
       .catalog-table td:nth-child(3) {
         display: none;
@@ -1225,6 +1248,10 @@
 
       .form-row {
         grid-template-columns: 1fr;
+      }
+
+      .admin-main {
+        padding: clamp(16px, 3vw, 24px);
       }
     }
   </style>

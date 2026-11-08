@@ -43,12 +43,55 @@
         <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
         <span class="bag-badge" id="bagBadge">0</span>
       </button>
+      <!-- Mobile Navigation Hamburger Button -->
+      <button class="action-btn mobile-menu-btn" aria-label="Open Navigation Menu" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileNavPanel">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
   </header>
 
-  <!-- ==================== HERO (3D MOON) ==================== -->
+  <!-- ==================== MOBILE NAVIGATION DRAWER ==================== -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" aria-hidden="true">
+    <nav class="mobile-nav-panel" id="mobileNavPanel" role="dialog" aria-label="Mobile Navigation">
+      <div class="mobile-nav-header">
+        <a class="logo" href="#hero">
+          <img src="logo.png" alt="MOND Logo" class="brand-logo-img">
+          MOND
+        </a>
+        <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close navigation">✕</button>
+      </div>
+      <div class="mobile-nav-links">
+        <a href="#featuredCollections" class="mobile-nav-link">
+          <span>Featured Collections</span>
+          <span class="mobile-nav-arrow">›</span>
+        </a>
+        <a href="#collection" class="mobile-nav-link">
+          <span>Haute Fragrances</span>
+          <span class="mobile-nav-arrow">›</span>
+        </a>
+        <a href="checkout.html" class="mobile-nav-link">
+          <span>Private Checkout</span>
+          <span class="mobile-nav-arrow">›</span>
+        </a>
+        <a href="admin.html" class="mobile-nav-link admin-nav-item">
+          <span>Atelier Admin</span>
+          <span class="mobile-nav-badge">Staff</span>
+        </a>
+      </div>
+      <div class="mobile-nav-footer">
+        <p>Lunar Haute Parfumerie · Handcrafted Small Batch Allocations</p>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ==================== HERO (3D MOON AS LETTER 'O') ==================== -->
   <section id="hero">
-    <div id="word0" class="hero-el">MOND</div>
+    <h1 id="word0" class="hero-el" aria-label="MOND">
+      <span class="hero-char" aria-hidden="true">M</span>
+      <span class="hero-moon-slot" id="moonSlot" aria-hidden="true"></span>
+      <span class="hero-char" aria-hidden="true">N</span>
+      <span class="hero-char" aria-hidden="true">D</span>
+    </h1>
     <div id="eyebrow" class="hero-el">Lunar Essence · Haute Parfumerie</div>
     <div id="flare" class="hero-el"></div>
     <canvas id="gl"></canvas>
@@ -985,6 +1028,41 @@
       if (e.target === cartBackdrop) closeCartDrawer();
     });
 
+    // 3A-2. MOBILE NAVIGATION CONTROLS
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNavBackdrop = document.getElementById('mobileNavBackdrop');
+    const mobileNavClose = document.getElementById('mobileNavClose');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    function openMobileNav() {
+      if (!mobileNavBackdrop) return;
+      mobileNavBackdrop.classList.add('open');
+      mobileNavBackdrop.setAttribute('aria-hidden', 'false');
+      if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileNav() {
+      if (!mobileNavBackdrop) return;
+      mobileNavBackdrop.classList.remove('open');
+      mobileNavBackdrop.setAttribute('aria-hidden', 'true');
+      if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileNav);
+    if (mobileNavClose) mobileNavClose.addEventListener('click', closeMobileNav);
+    if (mobileNavBackdrop) {
+      mobileNavBackdrop.addEventListener('click', (e) => {
+        if (e.target === mobileNavBackdrop) closeMobileNav();
+      });
+    }
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        closeMobileNav();
+      });
+    });
+
     cartCheckoutBtn.addEventListener('click', () => {
       const cart = getStoredCart();
       if (cart.length === 0) {
@@ -1646,8 +1724,45 @@
     // Dimensions & Steady Rotation
     let W = window.innerWidth;
     let H = window.innerHeight;
-    let R0 = 140, R = R0;
+    let R0 = 60, R = R0;
     let yaw = 0.4, pitch = 0.16;
+
+    const moonSlot = document.getElementById('moonSlot');
+    let moonWorldX = 0;
+    let moonWorldY = 0;
+
+    function updateMoonMetrics() {
+      if (!heroSection) return;
+      const heroRect = heroSection.getBoundingClientRect();
+
+      if (moonSlot) {
+        const slotRect = moonSlot.getBoundingClientRect();
+        // Slot center relative to hero section top-left
+        const slotCenterX = (slotRect.left + slotRect.width / 2) - heroRect.left;
+        const slotCenterY = (slotRect.top + slotRect.height / 2) - heroRect.top;
+
+        // Map to Three.js OrthographicCamera coordinates
+        moonWorldX = slotCenterX - W / 2;
+        moonWorldY = H / 2 - slotCenterY;
+
+        // Radius of moon sphere: matches the slot dimensions
+        R0 = slotRect.width * 0.495;
+
+        // Center flare glow right behind the 3D moon in the letter 'O'
+        const flareEl = document.getElementById('flare');
+        if (flareEl) {
+          flareEl.style.left = slotCenterX + 'px';
+          flareEl.style.top = slotCenterY + 'px';
+          flareEl.style.width = (slotRect.width * 2.3) + 'px';
+          flareEl.style.height = (slotRect.height * 2.3) + 'px';
+        }
+      } else {
+        const portrait = H > W * 1.05;
+        R0 = portrait ? W * 0.25 : Math.min(H * 0.21, W * 0.135);
+        moonWorldX = 0;
+        moonWorldY = 0;
+      }
+    }
 
     function resize() {
       W = window.innerWidth;
@@ -1662,11 +1777,18 @@
       dustCanvas.width = W * Math.min(window.devicePixelRatio, 1.5);
       dustCanvas.height = H * Math.min(window.devicePixelRatio, 1.5);
 
-      const portrait = H > W * 1.05;
-      R0 = portrait ? W * 0.25 : Math.min(H * 0.21, W * 0.135);
+      updateMoonMetrics();
     }
     window.addEventListener('resize', resize);
+    window.addEventListener('orientationchange', () => setTimeout(resize, 100));
     resize();
+
+    // Re-align once typography is ready
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        resize();
+      });
+    }
 
     // Stardust Particles Background Canvas
     const dCtx = dustCanvas.getContext('2d');
@@ -1712,7 +1834,7 @@
       yaw += dt * 0.12;
       pitch = 0.16;
 
-      planet.position.set(0, 0, 0);
+      planet.position.set(moonWorldX, moonWorldY, 0);
       planet.scale.setScalar(R);
       tilt.rotation.x = pitch;
       spin.rotation.y = yaw;
