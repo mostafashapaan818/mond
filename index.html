@@ -16,6 +16,9 @@
     }
   </script>
   <link rel="stylesheet" href="styles.css">
+  <!-- Supabase JS Client & Realtime Layer -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
 </head>
 <body>
 
@@ -27,7 +30,8 @@
     </a>
 
     <nav class="nav-links">
-      <a href="#collection">Collection</a>
+      <a href="#featuredCollections">Collections</a>
+      <a href="#collection">Fragrances</a>
       <a href="admin.html">Atelier Admin</a>
     </nav>
 
@@ -50,10 +54,564 @@
     <canvas id="gl"></canvas>
     <canvas id="dust"></canvas>
 
-    <a href="#collection" class="scroll-indicator" aria-label="Scroll to Discover Collection">
+    <a href="#featuredCollections" class="scroll-indicator" aria-label="Scroll to Discover Collection">
       <div class="mouse-icon"></div>
       <span>Scroll to Discover Collection</span>
     </a>
+  </section>
+
+  <!-- ==================== 1. SCROLLING BRAND LOGO MARQUEE ==================== -->
+  <section class="brand-marquee-section" id="brandMarquee" aria-label="Authentic Luxury Perfume Houses">
+    <div class="marquee-viewport">
+      <div class="marquee-track" id="marqueeTrack">
+        <!-- Set 1 (Authentic Brand Logos as in Reference) -->
+        <!-- 1. VERSACE -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Versace">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 54 30" aria-label="Versace Medusa Emblem">
+              <circle cx="27" cy="14" r="11" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <circle cx="27" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="1.8 1.4"/>
+              <path d="M23.5 12c.7-1.3 1.8-1.7 3.5-1.7s2.8.4 3.5 1.7c.6 1.2.4 2.4-.4 3.6l-1.3 1.5h-3.6l-1.3-1.5c-.8-1.2-1-2.4-.4-3.6z" fill="none" stroke="currentColor" stroke-width="0.9"/>
+              <circle cx="25.6" cy="13" r="0.65" fill="currentColor"/>
+              <circle cx="28.4" cy="13" r="0.65" fill="currentColor"/>
+              <path d="M25.7 16.2c.8.5 1.8.5 2.6 0" fill="none" stroke="currentColor" stroke-width="0.8"/>
+            </svg>
+            <span class="brand-wordmark brand-versace">VERSACE</span>
+          </div>
+        </div>
+
+        <!-- 2. VICTORIA'S SECRET -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Victoria's Secret">
+          <div class="brand-lockup brand-lockup-inline">
+            <span class="brand-wordmark brand-vs">VICTORIA’S SECRET</span>
+          </div>
+        </div>
+
+        <!-- 3. الماجد للعود (AL MAJED OUD) -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Al Majed Oud">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 46 26" aria-label="Al Majed Oud Emblem">
+              <path d="M14 9c2.8 0 5-2 6.5-5 1 3 2.2 5 5.5 5-2.6 3-1.8 6.5-1.8 9h-8.4c0-2.5.8-6-1.8-9z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+              <path d="M17 13.5h8M18 16.5h6" stroke="currentColor" stroke-width="1.1"/>
+              <polygon points="21 9 22.8 12.5 19.2 12.5" fill="currentColor"/>
+              <line x1="12" y1="19.5" x2="30" y2="19.5" stroke="currentColor" stroke-width="1.3"/>
+            </svg>
+            <div class="brand-bilingual">
+              <span class="brand-ar">الماجد للعود</span>
+              <span class="brand-en">Al majed oud</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. AMOUAGE -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Amouage">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 44 26" aria-label="Amouage Royal Sunburst">
+              <circle cx="22" cy="13" r="7.5" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <circle cx="22" cy="13" r="4.5" fill="none" stroke="currentColor" stroke-width="0.8"/>
+              <path d="M22 2.5v2.8M22 20.7v2.8M11.5 13h2.8M29.7 13h2.8M14.5 5.5l2 2M27.5 18.5l2 2M14.5 20.5l2-2M27.5 7.5l2-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="22" cy="13" r="1.6" fill="currentColor"/>
+            </svg>
+            <span class="brand-wordmark brand-amouage">AMOUAGE</span>
+          </div>
+        </div>
+
+        <!-- 5. ARMAF -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Armaf">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 52 30" aria-label="Armaf Medallion">
+              <circle cx="26" cy="15" r="12.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="1.8 1.4"/>
+              <circle cx="26" cy="15" r="10" fill="none" stroke="currentColor" stroke-width="0.8"/>
+              <text x="26" y="17.6" text-anchor="middle" font-size="6.5" font-family="'Montserrat', sans-serif" font-weight="900" letter-spacing="1.2" fill="currentColor">ARMAF</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 6. ASSAF (عساف) -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Assaf Perfumes">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 44 26" aria-label="Assaf Horse Emblem">
+              <path d="M18 20l-2.6-9.5 4.5-6 8 2.6-1.8 4.2 3.5.9-4.4 7.8-3.6-1.7-3.6 1.7z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+              <polyline points="20 5 23.5 10.5 19 11.5" fill="none" stroke="currentColor" stroke-width="0.9"/>
+              <line x1="23.5" y1="10.5" x2="24.5" y2="16.5" stroke="currentColor" stroke-width="0.9"/>
+            </svg>
+            <span class="brand-wordmark brand-assaf">ASSAF</span>
+          </div>
+        </div>
+
+        <!-- 7. EILISH FRAGRANCES -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Eilish Fragrances">
+          <div class="brand-lockup brand-lockup-stacked">
+            <span class="brand-wordmark brand-eilish">EILISH</span>
+            <span class="brand-wordmark-sub">FRAGRANCES</span>
+          </div>
+        </div>
+
+        <!-- 8. BURBERRY -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Burberry">
+          <div class="brand-lockup brand-lockup-inline">
+            <span class="brand-wordmark brand-burberry">BURBERRY</span>
+          </div>
+        </div>
+
+        <!-- 9. TOM FORD -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Tom Ford">
+          <div class="brand-lockup brand-lockup-inline">
+            <span class="brand-wordmark brand-tomford">TOM FORD</span>
+          </div>
+        </div>
+
+        <!-- 10. CHANEL -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Chanel">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 44 20" aria-label="Chanel Interlocking CC">
+              <path d="M20 5a5.5 5.5 0 1 0 0 10h1.8M24 5a5.5 5.5 0 1 1 0 10h-1.8" fill="none" stroke="currentColor" stroke-width="1.4"/>
+            </svg>
+            <span class="brand-wordmark brand-chanel">CHANEL</span>
+          </div>
+        </div>
+
+        <!-- 11. DIOR -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Dior">
+          <div class="brand-lockup brand-lockup-inline">
+            <span class="brand-wordmark brand-dior">DIOR</span>
+          </div>
+        </div>
+
+        <!-- 12. CREED -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Creed 1760">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 40 22" aria-label="Creed Royal Plumes">
+              <path d="M20 3c-.9 3.5-1.8 6-4.5 7.8 2.6 0 4.5-1.8 4.5-7.8zM20 3c.9 3.5 1.8 6 4.5 7.8-2.6 0-4.5-1.8-4.5-7.8zM20 11.5v5.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+              <circle cx="20" cy="18" r="1.2" fill="currentColor"/>
+            </svg>
+            <span class="brand-wordmark brand-creed">CREED</span>
+          </div>
+        </div>
+
+        <!-- Set 2 (Exact Duplicate for Seamless Infinite Scrolling) -->
+        <!-- 1. VERSACE -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Versace" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 54 30">
+              <circle cx="27" cy="14" r="11" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <circle cx="27" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="1.8 1.4"/>
+              <path d="M23.5 12c.7-1.3 1.8-1.7 3.5-1.7s2.8.4 3.5 1.7c.6 1.2.4 2.4-.4 3.6l-1.3 1.5h-3.6l-1.3-1.5c-.8-1.2-1-2.4-.4-3.6z" fill="none" stroke="currentColor" stroke-width="0.9"/>
+              <circle cx="25.6" cy="13" r="0.65" fill="currentColor"/>
+              <circle cx="28.4" cy="13" r="0.65" fill="currentColor"/>
+              <path d="M25.7 16.2c.8.5 1.8.5 2.6 0" fill="none" stroke="currentColor" stroke-width="0.8"/>
+            </svg>
+            <span class="brand-wordmark brand-versace">VERSACE</span>
+          </div>
+        </div>
+
+        <!-- 2. VICTORIA'S SECRET -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Victoria's Secret" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-inline">
+            <span class="brand-wordmark brand-vs">VICTORIA’S SECRET</span>
+          </div>
+        </div>
+
+        <!-- 3. الماجد للعود (AL MAJED OUD) -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Al Majed Oud" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 46 26">
+              <path d="M14 9c2.8 0 5-2 6.5-5 1 3 2.2 5 5.5 5-2.6 3-1.8 6.5-1.8 9h-8.4c0-2.5.8-6-1.8-9z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+              <path d="M17 13.5h8M18 16.5h6" stroke="currentColor" stroke-width="1.1"/>
+              <polygon points="21 9 22.8 12.5 19.2 12.5" fill="currentColor"/>
+              <line x1="12" y1="19.5" x2="30" y2="19.5" stroke="currentColor" stroke-width="1.3"/>
+            </svg>
+            <div class="brand-bilingual">
+              <span class="brand-ar">الماجد للعود</span>
+              <span class="brand-en">Al majed oud</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. AMOUAGE -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Amouage" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 44 26">
+              <circle cx="22" cy="13" r="7.5" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <circle cx="22" cy="13" r="4.5" fill="none" stroke="currentColor" stroke-width="0.8"/>
+              <path d="M22 2.5v2.8M22 20.7v2.8M11.5 13h2.8M29.7 13h2.8M14.5 5.5l2 2M27.5 18.5l2 2M14.5 20.5l2-2M27.5 7.5l2-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="22" cy="13" r="1.6" fill="currentColor"/>
+            </svg>
+            <span class="brand-wordmark brand-amouage">AMOUAGE</span>
+          </div>
+        </div>
+
+        <!-- 5. ARMAF -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Armaf" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 52 30">
+              <circle cx="26" cy="15" r="12.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="1.8 1.4"/>
+              <circle cx="26" cy="15" r="10" fill="none" stroke="currentColor" stroke-width="0.8"/>
+              <text x="26" y="17.6" text-anchor="middle" font-size="6.5" font-family="'Montserrat', sans-serif" font-weight="900" letter-spacing="1.2" fill="currentColor">ARMAF</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 6. ASSAF (عساف) -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Assaf Perfumes" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 44 26">
+              <path d="M18 20l-2.6-9.5 4.5-6 8 2.6-1.8 4.2 3.5.9-4.4 7.8-3.6-1.7-3.6 1.7z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+              <polyline points="20 5 23.5 10.5 19 11.5" fill="none" stroke="currentColor" stroke-width="0.9"/>
+              <line x1="23.5" y1="10.5" x2="24.5" y2="16.5" stroke="currentColor" stroke-width="0.9"/>
+            </svg>
+            <span class="brand-wordmark brand-assaf">ASSAF</span>
+          </div>
+        </div>
+
+        <!-- 7. EILISH FRAGRANCES -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Eilish Fragrances" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-stacked">
+            <span class="brand-wordmark brand-eilish">EILISH</span>
+            <span class="brand-wordmark-sub">FRAGRANCES</span>
+          </div>
+        </div>
+
+        <!-- 8. BURBERRY -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Burberry" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-inline">
+            <span class="brand-wordmark brand-burberry">BURBERRY</span>
+          </div>
+        </div>
+
+        <!-- 9. TOM FORD -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Tom Ford" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-inline">
+            <span class="brand-wordmark brand-tomford">TOM FORD</span>
+          </div>
+        </div>
+
+        <!-- 10. CHANEL -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Chanel" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 44 20">
+              <path d="M20 5a5.5 5.5 0 1 0 0 10h1.8M24 5a5.5 5.5 0 1 1 0 10h-1.8" fill="none" stroke="currentColor" stroke-width="1.4"/>
+            </svg>
+            <span class="brand-wordmark brand-chanel">CHANEL</span>
+          </div>
+        </div>
+
+        <!-- 11. DIOR -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Dior" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-inline">
+            <span class="brand-wordmark brand-dior">DIOR</span>
+          </div>
+        </div>
+
+        <!-- 12. CREED -->
+        <div class="marquee-brand-item" data-scroll-to="#collection" title="Creed 1760" aria-hidden="true">
+          <div class="brand-lockup brand-lockup-stacked">
+            <svg class="brand-svg-icon" viewBox="0 0 40 22">
+              <path d="M20 3c-.9 3.5-1.8 6-4.5 7.8 2.6 0 4.5-1.8 4.5-7.8zM20 3c.9 3.5 1.8 6 4.5 7.8-2.6 0-4.5-1.8-4.5-7.8zM20 11.5v5.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+              <circle cx="20" cy="18" r="1.2" fill="currentColor"/>
+            </svg>
+            <span class="brand-wordmark brand-creed">CREED</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 2. ICON-BASED FEATURED COLLECTIONS ==================== -->
+  <section class="featured-collections-section" id="featuredCollections" aria-label="Explore Perfume Categories">
+    <div class="section-wrap">
+      <div class="section-header">
+        <span class="section-tag">EXPLORE OUR CATEGORIES</span>
+        <h2 class="section-title">Featured Collections</h2>
+      </div>
+
+      <div class="collections-grid-wrap">
+        <div class="collections-grid-8" id="collectionsGrid">
+          <!-- 1. Summer -->
+          <div class="category-card-item" data-category="Summer" tabindex="0" role="button" aria-label="Explore Summer Perfumes">
+            <div class="category-box">
+              <svg class="category-svg-emblem" viewBox="0 0 100 100" fill="none">
+                <defs>
+                  <radialGradient id="sunGrad" cx="50%" cy="38%" r="45%">
+                    <stop offset="0%" stop-color="#FFE8B5" />
+                    <stop offset="55%" stop-color="#E2A855" />
+                    <stop offset="100%" stop-color="#9C5A20" />
+                  </radialGradient>
+                  <linearGradient id="palmGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#4E2310" />
+                    <stop offset="100%" stop-color="#241005" />
+                  </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="44" stroke="#D8A868" stroke-width="2.5" fill="#FAF6EE" />
+                <circle cx="50" cy="50" r="41" stroke="#EED8B5" stroke-width="1" stroke-dasharray="2 2" fill="none" />
+                <!-- Sun with rays -->
+                <circle cx="50" cy="36" r="14" fill="url(#sunGrad)" />
+                <path d="M50 16v4M50 52v4M30 36h4M66 36h4M36 22l3 3M61 47l3 3M36 50l3-3M61 25l3-3" stroke="#D8A868" stroke-width="2" stroke-linecap="round" />
+                <!-- Tropical Palms -->
+                <path d="M42 66c3-10 6-18 8-28 2 10 5 18 8 28h-16z" fill="url(#palmGrad)" />
+                <path d="M48 42c-8-6-16-4-22 3 6-1 14 0 18 4-4 2-10 7-12 14 4-4 10-6 15-4-5 5-7 12-7 16 5-4 9-9 12-14z" fill="url(#palmGrad)" />
+                <path d="M52 42c8-6 16-4 22 3-6-1-14 0-18 4 4 2 10 7 12 14-4-4-10-6-15-4 5 5 7 12 7 16-5-4-9-9-12-14z" fill="url(#palmGrad)" />
+                <!-- Ornate Base Lotus Motif -->
+                <path d="M26 74c7-8 16-10 24-4 8-6 17-4 24 4-6 6-15 8-24 5-9 3-18 1-24-5z" fill="#782F18" />
+                <circle cx="28" cy="30" r="1.5" fill="#E2A855" />
+                <circle cx="72" cy="30" r="1.5" fill="#E2A855" />
+              </svg>
+            </div>
+            <div class="category-meta">
+              <span class="category-label-title">Summer</span>
+              <span class="category-cta-link">Shop Now <span class="cta-arrow">›</span></span>
+            </div>
+          </div>
+
+          <!-- 2. Best sellers -->
+          <div class="category-card-item" data-category="Best sellers" tabindex="0" role="button" aria-label="Explore Best Sellers">
+            <div class="category-box">
+              <svg class="category-svg-emblem" viewBox="0 0 100 100" fill="none">
+                <defs>
+                  <linearGradient id="pinkLiquid" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#F2BAC9" />
+                    <stop offset="50%" stop-color="#EAA1B5" />
+                    <stop offset="100%" stop-color="#DE89A1" />
+                  </linearGradient>
+                  <linearGradient id="silverCap" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#FFFFFF" />
+                    <stop offset="50%" stop-color="#C2C8CB" />
+                    <stop offset="100%" stop-color="#9BA2A6" />
+                  </linearGradient>
+                </defs>
+                <!-- Cap -->
+                <rect x="41" y="16" width="18" height="22" rx="3" fill="url(#silverCap)" stroke="#7A8287" stroke-width="0.8" />
+                <line x1="41" y1="23" x2="59" y2="23" stroke="#5C6367" stroke-width="0.8" />
+                <!-- Pink Flacon Body -->
+                <rect x="39" y="38" width="22" height="46" rx="4" fill="url(#pinkLiquid)" stroke="#C8728C" stroke-width="1.2" />
+                <!-- Inner Reflection & Tube -->
+                <line x1="50" y1="38" x2="50" y2="82" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="1.2" />
+                <rect x="42" y="42" width="3" height="38" rx="1.5" fill="#FFFFFF" fill-opacity="0.45" />
+                <!-- Label Banner -->
+                <rect x="42" y="56" width="16" height="10" rx="1" fill="#FFFFFF" fill-opacity="0.9" />
+                <line x1="45" y1="60" x2="55" y2="60" stroke="#7A3D4E" stroke-width="1" />
+                <line x1="47" y1="63" x2="53" y2="63" stroke="#7A3D4E" stroke-width="0.8" />
+              </svg>
+            </div>
+            <div class="category-meta">
+              <span class="category-label-title">Best sellers</span>
+              <span class="category-cta-link">Shop Now <span class="cta-arrow">›</span></span>
+            </div>
+          </div>
+
+          <!-- 3. Unisex -->
+          <div class="category-card-item" data-category="Unisex" tabindex="0" role="button" aria-label="Explore Unisex Perfumes">
+            <div class="category-box">
+              <svg class="category-svg-emblem" viewBox="0 0 100 100" fill="none">
+                <defs>
+                  <linearGradient id="goldCapGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#FFEBB8" />
+                    <stop offset="50%" stop-color="#D9A84E" />
+                    <stop offset="100%" stop-color="#9C6B1C" />
+                  </linearGradient>
+                </defs>
+                <!-- Gold Cube Cap -->
+                <rect x="42" y="20" width="16" height="19" rx="2" fill="url(#goldCapGrad)" stroke="#8A5A12" stroke-width="1" />
+                <line x1="44" y1="24" x2="44" y2="35" stroke="#FFFFFF" stroke-opacity="0.6" stroke-width="1.2" />
+                <!-- Neck Ring -->
+                <rect x="45" y="39" width="10" height="3" fill="#D9A84E" />
+                <!-- Cream Minimalist Bottle -->
+                <rect x="34" y="42" width="32" height="42" rx="3" fill="#F4EEDB" stroke="#D3C7A8" stroke-width="1.2" />
+                <!-- Modern Minimalist Brand Text Box -->
+                <rect x="38" y="52" width="24" height="20" fill="#ECE4CB" stroke="#C4B692" stroke-width="0.8" />
+                <text x="50" y="61" text-anchor="middle" font-size="5" font-family="'Montserrat', sans-serif" font-weight="900" letter-spacing="1" fill="#2E2412">NISHANE</text>
+                <text x="50" y="67" text-anchor="middle" font-size="3.5" font-family="'Montserrat', sans-serif" font-weight="600" fill="#5A4726">EXTRAIT</text>
+              </svg>
+            </div>
+            <div class="category-meta">
+              <span class="category-label-title">Unisex</span>
+              <span class="category-cta-link">Shop Now <span class="cta-arrow">›</span></span>
+            </div>
+          </div>
+
+          <!-- 4. Men -->
+          <div class="category-card-item" data-category="Men" tabindex="0" role="button" aria-label="Explore Men's Perfumes">
+            <div class="category-box">
+              <svg class="category-svg-emblem" viewBox="0 0 100 100" fill="none">
+                <defs>
+                  <linearGradient id="sauvageGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#080C14" />
+                    <stop offset="60%" stop-color="#10253E" />
+                    <stop offset="90%" stop-color="#1A3E66" />
+                    <stop offset="100%" stop-color="#3A6C9E" />
+                  </linearGradient>
+                </defs>
+                <!-- Ribbed Black Cap -->
+                <rect x="41" y="20" width="18" height="16" rx="2" fill="#0C0E14" stroke="#2A303C" stroke-width="0.8" />
+                <line x1="43" y1="24" x2="57" y2="24" stroke="#2A303C" stroke-width="0.8" />
+                <line x1="43" y1="28" x2="57" y2="28" stroke="#2A303C" stroke-width="0.8" />
+                <line x1="43" y1="32" x2="57" y2="32" stroke="#2A303C" stroke-width="0.8" />
+                <!-- Silver Collar Ring -->
+                <rect x="43" y="36" width="14" height="2" fill="#CCD0CF" />
+                <!-- Cylindrical Sauvage Bottle -->
+                <rect x="36" y="38" width="28" height="46" rx="4" fill="url(#sauvageGrad)" stroke="#1A2D44" stroke-width="1.2" />
+                <!-- Glass Light Streak -->
+                <line x1="40" y1="42" x2="40" y2="80" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1.4" stroke-linecap="round" />
+                <!-- White Serif Brand Label -->
+                <text x="50" y="58" text-anchor="middle" font-size="4.8" font-family="'Times New Roman', serif" font-weight="800" letter-spacing="1.2" fill="#FFFFFF">SAUVAGE</text>
+                <text x="50" y="65" text-anchor="middle" font-size="3.2" font-family="sans-serif" font-weight="600" letter-spacing="0.8" fill="#CCD0CF">Dior</text>
+              </svg>
+            </div>
+            <div class="category-meta">
+              <span class="category-label-title">Men</span>
+              <span class="category-cta-link">Shop Now <span class="cta-arrow">›</span></span>
+            </div>
+          </div>
+
+          <!-- 5. Women -->
+          <div class="category-card-item" data-category="Women" tabindex="0" role="button" aria-label="Explore Women's Perfumes">
+            <div class="category-box">
+              <svg class="category-svg-emblem" viewBox="0 0 100 100" fill="none">
+                <defs>
+                  <linearGradient id="stilettoGold" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#FFEAA8" />
+                    <stop offset="50%" stop-color="#D9A83E" />
+                    <stop offset="100%" stop-color="#8C5C12" />
+                  </linearGradient>
+                  <linearGradient id="heelGlass" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#050810" />
+                    <stop offset="45%" stop-color="#142144" />
+                    <stop offset="85%" stop-color="#080B14" />
+                  </linearGradient>
+                </defs>
+                <!-- Carolina Herrera Good Girl High-Heel Stiletto Flacon -->
+                <!-- Golden Stiletto Heel Pin -->
+                <path d="M57 44l-2 38c0 1.5.8 2 2 2 .8 0 1.2-.5 1.5-2l4-38h-5.5z" fill="url(#stilettoGold)" stroke="#6E4405" stroke-width="0.7" />
+                <!-- Curved Shoe Upper Body -->
+                <path d="M48 20c-3 10-6 22-8 32-3 14 2 24 14 28 5 2 12 1 15-2-4-3-8-8-10-15l10-24c2-5 3-11 1-16-4-3-8-4-12-3h-10z" fill="url(#heelGlass)" stroke="#263A6E" stroke-width="1.2" />
+                <!-- Midnight Blue Reflection Highlights -->
+                <path d="M47 24c-2 8-5 18-7 26 2-7 6-17 9-24l-2-2z" fill="#4B6DB8" fill-opacity="0.8" />
+                <path d="M46 62c-1 8 2 14 10 16-6-3-9-9-10-16z" fill="#4B6DB8" fill-opacity="0.6" />
+                <!-- Heel Base Ring -->
+                <circle cx="58" cy="84" r="2" fill="url(#stilettoGold)" />
+              </svg>
+            </div>
+            <div class="category-meta">
+              <span class="category-label-title">Women</span>
+              <span class="category-cta-link">Shop Now <span class="cta-arrow">›</span></span>
+            </div>
+          </div>
+
+          <!-- 6. Winter -->
+          <div class="category-card-item" data-category="Winter" tabindex="0" role="button" aria-label="Explore Winter Perfumes">
+            <div class="category-box">
+              <svg class="category-svg-emblem" viewBox="0 0 100 100" fill="none">
+                <defs>
+                  <linearGradient id="amberWhiskey" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#FFDA8A" />
+                    <stop offset="40%" stop-color="#E88C22" />
+                    <stop offset="85%" stop-color="#9C4A08" />
+                    <stop offset="100%" stop-color="#592403" />
+                  </linearGradient>
+                  <linearGradient id="crystalCap" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#FFFFFF" />
+                    <stop offset="50%" stop-color="#D6E2E8" />
+                    <stop offset="100%" stop-color="#9BB0BC" />
+                  </linearGradient>
+                </defs>
+                <!-- Crystal Ribbed Cap (Khamrah) -->
+                <path d="M38 18h24l4 18H34l4-18z" fill="url(#crystalCap)" stroke="#748C9A" stroke-width="1" />
+                <line x1="44" y1="18" x2="42" y2="36" stroke="#48606E" stroke-width="0.8" />
+                <line x1="50" y1="18" x2="50" y2="36" stroke="#48606E" stroke-width="0.8" />
+                <line x1="56" y1="18" x2="58" y2="36" stroke="#48606E" stroke-width="0.8" />
+                <!-- Faceted Heavy Crystal Bottle with Amber Liquid -->
+                <rect x="33" y="38" width="34" height="46" rx="3" fill="url(#amberWhiskey)" stroke="#7A3D06" stroke-width="1.3" />
+                <!-- Diagonal Crystal Glass Facet Cuts -->
+                <line x1="34" y1="48" x2="66" y2="78" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.2" />
+                <line x1="66" y1="48" x2="34" y2="78" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1.2" />
+                <!-- Golden Arabic Plaque -->
+                <rect x="41" y="52" width="18" height="18" rx="1.5" fill="#C98818" stroke="#633C02" stroke-width="0.9" />
+                <text x="50" y="63" text-anchor="middle" font-size="5.5" font-family="system-ui, sans-serif" font-weight="800" fill="#2E1801">خمرة</text>
+                <text x="50" y="68" text-anchor="middle" font-size="2.8" font-family="'Montserrat', sans-serif" font-weight="700" letter-spacing="0.5" fill="#4A2602">LATTAFA</text>
+              </svg>
+            </div>
+            <div class="category-meta">
+              <span class="category-label-title">Winter</span>
+              <span class="category-cta-link">Shop Now <span class="cta-arrow">›</span></span>
+            </div>
+          </div>
+
+          <!-- 7. All perfumes -->
+          <div class="category-card-item" data-category="All perfumes" tabindex="0" role="button" aria-label="Explore All Perfumes">
+            <div class="category-box">
+              <svg class="category-svg-emblem" viewBox="0 0 100 100" fill="none">
+                <defs>
+                  <linearGradient id="lancomePink" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#FFFFFF" />
+                    <stop offset="35%" stop-color="#FCDCE5" />
+                    <stop offset="85%" stop-color="#F29FBA" />
+                    <stop offset="100%" stop-color="#E07A9B" />
+                  </linearGradient>
+                  <linearGradient id="ribbonSilver" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#FFFFFF" />
+                    <stop offset="100%" stop-color="#A5ACB2" />
+                  </linearGradient>
+                </defs>
+                <!-- Silver Square Cap -->
+                <rect x="44" y="16" width="12" height="13" rx="1" fill="#CCD3D7" stroke="#727B82" stroke-width="0.8" />
+                <!-- Chiffon Wings Ribbon tied at neck -->
+                <path d="M56 28c6-6 16-9 22-5-4 4-10 7-18 6 5 2 12 5 14 10-7-1-13-4-18-9z" fill="url(#ribbonSilver)" opacity="0.85" />
+                <!-- Heavy Crystal Bottle with Smile Arc Base -->
+                <rect x="31" y="32" width="38" height="50" rx="6" fill="#FFFFFF" stroke="#87959E" stroke-width="1.3" />
+                <!-- Inner Curved Pink Perfume Smile Cavity -->
+                <path d="M37 38h26v24c0 10-5 16-13 16s-13-6-13-16V38z" fill="url(#lancomePink)" stroke="#DB8EA8" stroke-width="1" />
+                <!-- Glass Light Rim Reflections -->
+                <line x1="33" y1="36" x2="33" y2="76" stroke="#FFFFFF" stroke-width="1.8" />
+                <line x1="67" y1="36" x2="67" y2="76" stroke="#FFFFFF" stroke-width="1" />
+              </svg>
+            </div>
+            <div class="category-meta">
+              <span class="category-label-title">All perfumes</span>
+              <span class="category-cta-link">Shop Now <span class="cta-arrow">›</span></span>
+            </div>
+          </div>
+
+          <!-- 8. Niche -->
+          <div class="category-card-item" data-category="Niche" tabindex="0" role="button" aria-label="Explore Niche Perfumes">
+            <div class="category-box">
+              <svg class="category-svg-emblem" viewBox="0 0 100 100" fill="none">
+                <defs>
+                  <linearGradient id="crownGold" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#FFF2CE" />
+                    <stop offset="45%" stop-color="#E2B148" />
+                    <stop offset="100%" stop-color="#9C6F12" />
+                  </linearGradient>
+                  <linearGradient id="nicheVelvet" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#3A0808" />
+                    <stop offset="50%" stop-color="#140202" />
+                    <stop offset="100%" stop-color="#4E1212" />
+                  </linearGradient>
+                </defs>
+                <!-- Xerjoff Sculpted Crown Cap with Curved Finial -->
+                <path d="M50 12l2 4c2 3 5 5 5 9h-14c0-4 3-6 5-9l2-4z" fill="url(#crownGold)" stroke="#744F08" stroke-width="0.8" />
+                <path d="M42 25h16l2 7H40l2-7z" fill="url(#crownGold)" stroke="#744F08" stroke-width="0.8" />
+                <!-- Elegant Flared Tapered Bottle Body -->
+                <path d="M43 33h14l8 12c3 6 4 14 3 24-1 9-6 15-18 15s-17-6-18-15c-1-10 0-18 3-24l8-12z" fill="url(#nicheVelvet)" stroke="#E2B148" stroke-width="1.3" />
+                <!-- Gold Royal Crest Plaque on Chest -->
+                <polygon points="50,48 57,59 50,70 43,59" fill="url(#crownGold)" stroke="#593902" stroke-width="0.8" />
+                <text x="50" y="63" text-anchor="middle" font-size="6" font-family="'Times New Roman', serif" font-weight="900" fill="#2E1801">X</text>
+              </svg>
+            </div>
+            <div class="category-meta">
+              <span class="category-label-title">Niche</span>
+              <span class="category-cta-link">Shop Now <span class="cta-arrow">›</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="collection-active-filter-bar" id="collectionFilterBar">
+        <span style="font-size:12px; color:var(--text-secondary); letter-spacing:0.1em; text-transform:uppercase;">
+          Active Category: <strong id="activeFilterName" style="color:var(--text-primary);">All</strong>
+        </span>
+        <button type="button" class="filter-reset-pill" id="resetCollectionFilterBtn">Show All Formulations ✕</button>
+      </div>
+    </div>
   </section>
 
   <!-- ==================== MAIN FRAGRANCES SHOWCASE ==================== -->
@@ -116,10 +674,15 @@
             <button class="size-btn" data-size="50">50 ml</button>
             <button class="size-btn active" data-size="100">100 ml</button>
           </div>
-          <button class="add-bag-btn" id="modalAddBtn">
-            <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-            Add to Bag
-          </button>
+          <div class="card-cta-group">
+            <button class="add-bag-btn" id="modalAddBtn" type="button">
+              <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              Add to Bag
+            </button>
+            <button class="buy-now-btn" id="modalBuyNowBtn" type="button">
+              Buy Now
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -170,7 +733,8 @@
         id: 'eclipse-noir',
         name: 'Eclipse Noir',
         concentration: 'Extrait de Parfum',
-        tag: 'Signature',
+        categories: ['Men', 'Winter', 'Best sellers', 'All perfumes'],
+        tag: 'Men, Winter, Best sellers',
         prices: { 50: 170, 100: 240 },
         inStock: true,
         description: 'Conceived under the total solar eclipse. An enigmatic synthesis of smoked Somali frankincense, dark patchouli, and black amber veiled in bitter Italian bergamot.',
@@ -186,7 +750,8 @@
         id: 'silver-crater',
         name: 'Silver Crater',
         concentration: 'Eau de Parfum Intense',
-        tag: 'Crystalline',
+        categories: ['Unisex', 'Summer', 'Best sellers', 'All perfumes'],
+        tag: 'Unisex, Summer, Best sellers',
         prices: { 50: 150, 100: 210 },
         inStock: true,
         description: 'An ethereal distillation of lunar regolith and cold starlight. Opening with frosted aldehydes and aristocratic iris, settling into silken Atlas cedarwood and lunar ambergris.',
@@ -202,7 +767,8 @@
         id: 'mare-tranquillitatis',
         name: 'Mare Tranquillitatis',
         concentration: 'Extrait de Parfum',
-        tag: 'Nocturnal Sea',
+        categories: ['Women', 'Summer', 'All perfumes'],
+        tag: 'Women, Summer, All perfumes',
         prices: { 50: 165, 100: 230 },
         inStock: true,
         description: 'Named after the tranquil lunar sea. A meditative nocturnal floral wrapped in crystalline neroli, night-blooming jasmine, and milky Mysore sandalwood.',
@@ -218,7 +784,8 @@
         id: 'lunar-oud',
         name: 'Lunar Oud',
         concentration: 'Royal Reserve Extrait',
-        tag: 'Collector Edition',
+        categories: ['Niche', 'Winter', 'Unisex', 'All perfumes'],
+        tag: 'Niche, Winter, Unisex, Royal Reserve',
         prices: { 50: 195, 100: 280 },
         inStock: true,
         description: 'A precious reserve aged across nine full moon cycles. 15-year vintage Cambodian oud accented with hand-harvested Taif rose, saffron threads, and honeyed labdanum.',
@@ -288,7 +855,7 @@
 
     function getStoredCart() {
       try {
-        const raw = localStorage.getItem(CART_KEY);
+        const raw = localStorage.getItem('mond_cart_v1') || localStorage.getItem('mond_cart');
         return raw ? JSON.parse(raw) : [];
       } catch (e) {
         return [];
@@ -296,7 +863,9 @@
     }
 
     function saveCart(cart) {
-      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      const serialized = JSON.stringify(cart);
+      localStorage.setItem('mond_cart_v1', serialized);
+      localStorage.setItem('mond_cart', serialized);
       renderCartUI();
     }
 
@@ -425,13 +994,92 @@
       showToast('Proceeding to private celestial checkout...');
       setTimeout(() => {
         closeCartDrawer();
-      }, 1000);
+        window.location.href = 'checkout.html';
+      }, 700);
     });
 
-    function addToBag(fragrance, size, price) {
+    // 3B. ANIMATED FLY-TO-CART EFFECT (DYNAMIC PRODUCT IMAGE TRANSITION)
+    function animateFlyToCart(sourceImgEl, onComplete) {
+      if (!sourceImgEl || !bagBtn) {
+        if (typeof onComplete === 'function') onComplete();
+        return;
+      }
+
+      const startRect = sourceImgEl.getBoundingClientRect();
+      const targetRect = bagBtn.getBoundingClientRect();
+
+      // If source image is offscreen or hidden, fallback gracefully
+      if (startRect.width === 0 || startRect.height === 0) {
+        if (typeof onComplete === 'function') onComplete();
+        return;
+      }
+
+      const clone = document.createElement('img');
+      clone.src = sourceImgEl.currentSrc || sourceImgEl.src;
+      clone.alt = '';
+      clone.className = 'flying-product-clone';
+
+      const startSize = Math.min(Math.max(startRect.width * 0.42, 72), 110);
+      const endSize = 22;
+
+      const startX = startRect.left + startRect.width / 2;
+      const startY = startRect.top + startRect.height / 2;
+      const endX = targetRect.left + targetRect.width / 2;
+      const endY = targetRect.top + targetRect.height / 2;
+
+      // Quadratic Bezier control point for a graceful elevated arc toward the header bag
+      const ctrlX = (startX + endX) * 0.5 + (endX > startX ? -40 : 40);
+      const ctrlY = Math.min(startY, endY) - Math.min(160, Math.max(80, Math.abs(startY - endY) * 0.35));
+
+      clone.style.width = `${startSize}px`;
+      clone.style.height = `${startSize}px`;
+      clone.style.left = `${startX - startSize / 2}px`;
+      clone.style.top = `${startY - startSize / 2}px`;
+      clone.style.opacity = '1';
+      document.body.appendChild(clone);
+
+      const duration = 720;
+      const startTime = performance.now();
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const t = Math.min(1, elapsed / duration);
+        // Smooth ease-in-out cubic curve
+        const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+        const inv = 1 - ease;
+        const curX = inv * inv * startX + 2 * inv * ease * ctrlX + ease * ease * endX;
+        const curY = inv * inv * startY + 2 * inv * ease * ctrlY + ease * ease * endY;
+        const curSize = startSize + (endSize - startSize) * ease;
+        const rotation = ease * 18;
+        const opacity = t > 0.85 ? 1 - ((t - 0.85) / 0.15) * 0.65 : 1;
+
+        clone.style.width = `${curSize}px`;
+        clone.style.height = `${curSize}px`;
+        clone.style.left = `${curX - curSize / 2}px`;
+        clone.style.top = `${curY - curSize / 2}px`;
+        clone.style.transform = `rotate(${rotation}deg) scale(${1 + Math.sin(t * Math.PI) * 0.14})`;
+        clone.style.opacity = String(opacity);
+
+        if (t < 1) {
+          requestAnimationFrame(step);
+        } else {
+          clone.remove();
+          bagBtn.classList.remove('cart-hit-glow');
+          void bagBtn.offsetWidth; // trigger reflow for replay
+          bagBtn.classList.add('cart-hit-glow');
+          setTimeout(() => bagBtn.classList.remove('cart-hit-glow'), 680);
+          if (typeof onComplete === 'function') onComplete();
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    function addToBag(fragrance, size, price, options = {}) {
       if (fragrance.inStock === false) {
         showToast(`${fragrance.name} is currently sold out`);
-        return;
+        return false;
       }
 
       let cart = getStoredCart();
@@ -453,34 +1101,61 @@
 
       bagBadge.classList.add('pop');
       setTimeout(() => bagBadge.classList.remove('pop'), 300);
-      showToast(`${fragrance.name} (${size}ml) added to bag · ${price.toLocaleString()}`);
+
+      if (!options.silentToast) {
+        showToast(`${fragrance.name} (${size}ml) added to bag · ${price.toLocaleString()}`);
+      }
+      return true;
     }
 
-    // 4. RENDER CATALOG SHOWCASE (DYNAMIC FROM LOCALSTORAGE)
+    // 4. RENDER CATALOG SHOWCASE (DYNAMIC FROM LOCALSTORAGE + COLLECTION FILTER)
     const grid = document.getElementById('fragranceGrid');
     const activeSizes = {}; // tracks selected 50ml / 100ml size per item id
+    let activeCollectionFilter = null;
 
     function renderProductGrid() {
-      const fragrances = getStoredProducts();
+      const allFragrances = getStoredProducts();
+      const isAllCategory = !activeCollectionFilter || activeCollectionFilter.toLowerCase().trim() === 'all perfumes' || activeCollectionFilter.toLowerCase().trim() === 'all';
+      const fragrances = isAllCategory
+        ? allFragrances
+        : allFragrances.filter(item => {
+            const filterTag = activeCollectionFilter.toLowerCase().trim();
+            // Check categories array if present
+            if (Array.isArray(item.categories)) {
+              if (item.categories.some(c => {
+                const lc = String(c).toLowerCase().trim();
+                return lc === filterTag || lc.includes(filterTag) || filterTag.includes(lc);
+              })) return true;
+            }
+            // Check tag string (comma-separated or single)
+            const itemTag = (item.tag || '').toLowerCase();
+            const tagsList = itemTag.split(',').map(s => s.trim());
+            if (tagsList.some(t => t === filterTag || t.includes(filterTag) || filterTag.includes(t))) return true;
+            // Fallback match by name or concentration or description
+            return (item.concentration || '').toLowerCase().includes(filterTag) ||
+                   (item.name || '').toLowerCase().includes(filterTag);
+          });
+
       grid.innerHTML = '';
 
       if (fragrances.length === 0) {
         grid.innerHTML = `
           <div class="empty-catalog">
-            <h3>No Formulations Available</h3>
-            <p>The atelier is currently preparing next lunar macerations. Visit the <a href="admin.html" class="admin-link">Admin Portal</a> to configure fragrances.</p>
+            <h3>${activeCollectionFilter ? `No "${activeCollectionFilter}" Formulations Found` : 'No Formulations Available'}</h3>
+            <p>${activeCollectionFilter ? 'Try selecting "All perfumes" or resetting the category filter to view all creations.' : 'The atelier is currently preparing next lunar macerations. Visit the <a href="admin.html" class="admin-link">Admin Portal</a> to configure fragrances.'}</p>
           </div>
         `;
         return;
       }
 
-      fragrances.forEach(item => {
+      fragrances.forEach((item, index) => {
         if (!activeSizes[item.id]) activeSizes[item.id] = 100;
         const currentSize = activeSizes[item.id];
         const isAvailable = item.inStock !== false;
 
         const card = document.createElement('article');
         card.className = 'perfume-card';
+        card.style.animationDelay = `${index * 60}ms`;
         card.innerHTML = `
           <div class="card-media" data-id="${item.id}">
             <span class="card-badge ${isAvailable ? '' : 'sold-out'}">
@@ -497,9 +1172,9 @@
             <div class="card-concentration">${item.concentration}</div>
             
             <div class="notes-tags">
-              <span class="note-tag">Top: ${item.pyramid.top ? item.pyramid.top.split(',')[0] : 'Bergamot'}</span>
-              <span class="note-tag">Heart: ${item.pyramid.heart ? item.pyramid.heart.split(',')[0] : 'Amber'}</span>
-              <span class="note-tag">Base: ${item.pyramid.base ? item.pyramid.base.split(',')[0] : 'Oud'}</span>
+              <span class="note-tag">Top: ${item.pyramid && item.pyramid.top ? item.pyramid.top.split(',')[0] : 'Bergamot'}</span>
+              <span class="note-tag">Heart: ${item.pyramid && item.pyramid.heart ? item.pyramid.heart.split(',')[0] : 'Amber'}</span>
+              <span class="note-tag">Base: ${item.pyramid && item.pyramid.base ? item.pyramid.base.split(',')[0] : 'Oud'}</span>
             </div>
 
             <div class="card-controls">
@@ -507,10 +1182,15 @@
                 <button type="button" class="size-btn ${currentSize === 50 ? 'active' : ''}" data-id="${item.id}" data-size="50">50 ml</button>
                 <button type="button" class="size-btn ${currentSize === 100 ? 'active' : ''}" data-id="${item.id}" data-size="100">100 ml</button>
               </div>
-              <button type="button" class="add-bag-btn ${isAvailable ? '' : 'disabled'}" data-add="${item.id}" ${isAvailable ? '' : 'disabled'}>
-                <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                ${isAvailable ? 'Add to Bag' : 'Sold Out'}
-              </button>
+              <div class="card-cta-group">
+                <button type="button" class="add-bag-btn ${isAvailable ? '' : 'disabled'}" data-add="${item.id}" ${isAvailable ? '' : 'disabled'}>
+                  <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                  ${isAvailable ? 'Add to Bag' : 'Sold Out'}
+                </button>
+                <button type="button" class="buy-now-btn ${isAvailable ? '' : 'disabled'}" data-buy="${item.id}" ${isAvailable ? '' : 'disabled'}>
+                  ${isAvailable ? 'Buy Now' : 'Unavailable'}
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -537,13 +1217,98 @@
             e.stopPropagation();
             if (!isAvailable) return;
             const chosenSize = activeSizes[item.id] || 100;
-            addToBag(item, chosenSize, item.prices[chosenSize]);
+            animateFlyToCart(imgEl, () => {
+              addToBag(item, chosenSize, item.prices[chosenSize]);
+            });
+          });
+        }
+
+        const buyBtn = card.querySelector(`[data-buy="${item.id}"]`);
+        if (buyBtn) {
+          buyBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!isAvailable) return;
+            const chosenSize = activeSizes[item.id] || 100;
+            animateFlyToCart(imgEl, () => {
+              const added = addToBag(item, chosenSize, item.prices[chosenSize], { silentToast: true });
+              if (added) {
+                showToast(`${item.name} (${chosenSize}ml) secured · Proceeding to checkout...`);
+                setTimeout(() => {
+                  window.location.href = 'checkout.html';
+                }, 480);
+              }
+            });
           });
         }
 
         grid.appendChild(card);
       });
     }
+
+    // 4B. FEATURED COLLECTIONS FILTER LOGIC & MOTIONS INTERACTIVITY
+    const categoryCardItems = document.querySelectorAll('.category-card-item[data-category]');
+    const collectionFilterBar = document.getElementById('collectionFilterBar');
+    const activeFilterName = document.getElementById('activeFilterName');
+    const resetCollectionFilterBtn = document.getElementById('resetCollectionFilterBtn');
+
+    function setCollectionFilter(categoryName, displayTitle) {
+      if (!categoryName || categoryName === 'All perfumes' || activeCollectionFilter === categoryName) {
+        activeCollectionFilter = null;
+      } else {
+        activeCollectionFilter = categoryName;
+      }
+
+      categoryCardItems.forEach(c => {
+        const isSelected = activeCollectionFilter && c.dataset.category === activeCollectionFilter;
+        c.classList.toggle('active', isSelected);
+      });
+
+      if (activeCollectionFilter && collectionFilterBar && activeFilterName) {
+        activeFilterName.textContent = displayTitle || activeCollectionFilter;
+        collectionFilterBar.classList.add('visible');
+      } else if (collectionFilterBar) {
+        collectionFilterBar.classList.remove('visible');
+      }
+
+      renderProductGrid();
+    }
+
+    categoryCardItems.forEach(card => {
+      const triggerFilter = () => {
+        const cat = card.dataset.category;
+        const titleEl = card.querySelector('.category-label-title');
+        const label = titleEl ? titleEl.textContent.trim() : cat;
+
+        setCollectionFilter(cat, label);
+
+        const target = document.getElementById('collection');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      };
+
+      card.addEventListener('click', triggerFilter);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          triggerFilter();
+        }
+      });
+    });
+
+    if (resetCollectionFilterBtn) {
+      resetCollectionFilterBtn.addEventListener('click', () => {
+        setCollectionFilter(null);
+      });
+    }
+
+    // Marquee Brand Item Click -> Scroll to Collection
+    document.querySelectorAll('.marquee-brand-item').forEach(brandEl => {
+      brandEl.addEventListener('click', () => {
+        const target = document.getElementById('collection');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
 
     // 5. QUICK-VIEW MODAL LOGIC
     const modal = document.getElementById('quickModal');
@@ -558,6 +1323,7 @@
     const modalBase = document.getElementById('modalBase');
     const modalSizeBtns = document.querySelectorAll('#modalSizeToggle .size-btn');
     const modalAddBtn = document.getElementById('modalAddBtn');
+    const modalBuyNowBtn = document.getElementById('modalBuyNowBtn');
 
     let currentModalItem = null;
     let modalSelectedSize = 100;
@@ -586,6 +1352,11 @@
         modalAddBtn.disabled = true;
         modalAddBtn.classList.add('disabled');
         modalAddBtn.innerHTML = `Sold Out`;
+        if (modalBuyNowBtn) {
+          modalBuyNowBtn.disabled = true;
+          modalBuyNowBtn.classList.add('disabled');
+          modalBuyNowBtn.textContent = 'Unavailable';
+        }
       } else {
         modalAddBtn.disabled = false;
         modalAddBtn.classList.remove('disabled');
@@ -593,6 +1364,11 @@
           <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           Add to Bag
         `;
+        if (modalBuyNowBtn) {
+          modalBuyNowBtn.disabled = false;
+          modalBuyNowBtn.classList.remove('disabled');
+          modalBuyNowBtn.textContent = 'Buy Now';
+        }
       }
 
       modal.classList.add('open');
@@ -621,9 +1397,33 @@
 
     modalAddBtn.addEventListener('click', () => {
       if (!currentModalItem || currentModalItem.inStock === false) return;
-      addToBag(currentModalItem, modalSelectedSize, currentModalItem.prices[modalSelectedSize]);
+      const itemToAdd = currentModalItem;
+      const sizeToAdd = modalSelectedSize;
+      const priceToAdd = itemToAdd.prices[sizeToAdd];
+      animateFlyToCart(modalImg, () => {
+        addToBag(itemToAdd, sizeToAdd, priceToAdd);
+      });
       closeModal();
     });
+
+    if (modalBuyNowBtn) {
+      modalBuyNowBtn.addEventListener('click', () => {
+        if (!currentModalItem || currentModalItem.inStock === false) return;
+        const itemToBuy = currentModalItem;
+        const sizeToBuy = modalSelectedSize;
+        const priceToBuy = itemToBuy.prices[sizeToBuy];
+        animateFlyToCart(modalImg, () => {
+          const added = addToBag(itemToBuy, sizeToBuy, priceToBuy, { silentToast: true });
+          if (added) {
+            showToast(`${itemToBuy.name} (${sizeToBuy}ml) secured · Proceeding to checkout...`);
+            setTimeout(() => {
+              window.location.href = 'checkout.html';
+            }, 480);
+          }
+        });
+        closeModal();
+      });
+    }
 
     modalClose.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => {
@@ -638,7 +1438,7 @@
 
     // 6. REAL-TIME STORAGE EVENT LISTENER (SYNC WITH ADMIN.HTML)
     window.addEventListener('storage', (e) => {
-      if (e.key === STORAGE_KEY) {
+      if (e.key === STORAGE_KEY || e.key === 'mond_products_updated' || !e.key) {
         renderProductGrid();
         syncCartWithCatalog();
         if (modal.classList.contains('open') && currentModalItem) {
@@ -649,14 +1449,55 @@
             closeModal();
           }
         }
-      } else if (e.key === CART_KEY) {
+      } else if (e.key === CART_KEY || e.key === 'mond_cart') {
         renderCartUI();
+      }
+    });
+
+    window.addEventListener('focus', () => {
+      renderProductGrid();
+      syncCartWithCatalog();
+      if (window.MondDB && window.MondDB.fetchProducts) {
+        window.MondDB.fetchProducts().then(products => {
+          if (products && products.length > 0) {
+            renderProductGrid();
+            syncCartWithCatalog();
+          }
+        });
       }
     });
 
     // Initial Catalog & Cart Render
     renderProductGrid();
     syncCartWithCatalog();
+
+    // Asynchronous Supabase Fetch & Realtime Synchronizer (Zero Data Loss)
+    if (window.MondDB) {
+      window.MondDB.fetchProducts().then(products => {
+        if (products && products.length > 0) {
+          renderProductGrid();
+          syncCartWithCatalog();
+        }
+      });
+
+      // Subscribe to live database updates (Zero-latency inventory & formulation sync)
+      window.MondDB.subscribeProducts(
+        (updatedProduct) => {
+          renderProductGrid();
+          syncCartWithCatalog();
+          if (modal.classList.contains('open') && currentModalItem && currentModalItem.id === updatedProduct.id) {
+            openModal(updatedProduct);
+          }
+        },
+        (deletedId) => {
+          renderProductGrid();
+          syncCartWithCatalog();
+          if (modal.classList.contains('open') && currentModalItem && currentModalItem.id === deletedId) {
+            closeModal();
+          }
+        }
+      );
+    }
 
     // Header scroll background effect
     const header = document.getElementById('mainHeader');
