@@ -61,12 +61,16 @@ header.scrolled {
   opacity: 0.92;
 }
 .brand-logo-img {
-  height: 40px;
+  height: 42px;
   width: auto;
   object-fit: contain;
-  mix-blend-mode: screen;
-  filter: contrast(1.15) brightness(1.06);
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
   display: block;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+.logo:hover .brand-logo-img {
+  transform: scale(1.04);
+  filter: drop-shadow(0 3px 12px rgba(204, 208, 207, 0.25));
 }
 .nav-links {
   display: flex;
@@ -951,13 +955,31 @@ footer {
   .mobile-menu-btn {
     display: grid;
   }
+  /* Compact Mobile Hero Section Banner (45vh to 52vh / 380px - 440px) */
+  #hero {
+    height: 50vh;
+    height: 50dvh;
+    min-height: 380px;
+    max-height: 440px;
+  }
   #word0 {
-    font-size: clamp(48px, 18.5vw, 120px);
+    left: 50%;
+    top: calc(50% + 12px);
+    transform: translate(-50%, -50%);
+    font-size: clamp(44px, 16.5vw, 84px);
+    letter-spacing: -0.015em;
   }
   #eyebrow {
-    font-size: clamp(9px, 2.4vw, 12px);
-    letter-spacing: 0.16em;
+    left: 50%;
+    top: calc(50% - min(12.5vw, 48px));
+    transform: translate(-50%, -50%);
+    font-size: clamp(8.5px, 2.2vw, 11px);
+    letter-spacing: 0.18em;
     max-width: 90vw;
+  }
+  /* Hide Scroll Indicator on Mobile */
+  .scroll-indicator {
+    display: none !important;
   }
   .section-wrap {
     padding: clamp(48px, 8vh, 80px) clamp(16px, 3.5vw, 32px);
@@ -1276,12 +1298,18 @@ footer {
   .brand-logo-img {
     height: 28px;
   }
+  #hero {
+    min-height: 340px;
+    max-height: 380px;
+  }
   #eyebrow {
     font-size: 8px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
+    top: calc(50% - min(12vw, 40px));
   }
   #word0 {
-    font-size: clamp(38px, 18vw, 56px);
+    font-size: clamp(34px, 15vw, 48px);
+    top: calc(50% + 8px);
   }
 }
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MOND — Lunar Haute Parfumerie</title>
-  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="icon" type="image/png" href="logo.png?v=3.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=2.6">
+  <link rel="stylesheet" href="styles.css?v=3.0">
   <!-- Supabase JS Client & Realtime Layer -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
@@ -25,7 +25,7 @@
   <!-- ==================== HEADER ==================== -->
   <header id="mainHeader">
     <a class="logo" href="#hero">
-      <img src="logo.png" alt="MOND Logo" class="brand-logo-img">
+      <img src="logo.png?v=3.0" alt="MOND Logo" class="brand-logo-img">
       MOND
     </a>
 
@@ -654,7 +654,7 @@
     <nav class="mobile-nav-panel" id="mobileNavPanel" role="dialog" aria-label="Mobile Navigation">
       <div class="mobile-nav-header">
         <a class="logo" href="#hero">
-          <img src="logo.png" alt="MOND Logo" class="brand-logo-img">
+          <img src="logo.png?v=3.0" alt="MOND Logo" class="brand-logo-img">
           MOND
         </a>
         <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close navigation">✕</button>
@@ -1908,6 +1908,15 @@
       });
     }
 
+    // Dynamic ResizeObserver ensures instant sharp scaling on mobile orientation & layout shifts
+    if (window.ResizeObserver && moonSlot) {
+      const ro = new ResizeObserver(() => {
+        resize();
+      });
+      if (heroSection) ro.observe(heroSection);
+      ro.observe(moonSlot);
+    }
+
     // Stardust Particles Background Canvas
     const dCtx = dustCanvas.getContext('2d');
     const sprite = document.createElement('canvas');
@@ -1935,8 +1944,9 @@
     function animate(now) {
       requestAnimationFrame(animate);
 
-      // Only render when hero is visible in viewport
-      if (window.scrollY > window.innerHeight) return;
+      // Only render when hero is visible in viewport (pauses WebGL when scrolled past compact mobile banner)
+      const heroLimit = heroSection ? (heroSection.offsetTop + heroSection.offsetHeight) : window.innerHeight;
+      if (window.scrollY > heroLimit) return;
 
       const dt = Math.min((now - lastNow) / 1000, 0.05);
       lastNow = now;
