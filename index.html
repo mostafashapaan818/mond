@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MOND — Lunar Haute Parfumerie</title>
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
@@ -21,16 +22,13 @@
   <!-- ==================== HEADER ==================== -->
   <header id="mainHeader">
     <a class="logo" href="#hero">
-      <svg viewBox="0 0 32 32" fill="none" stroke-width="2.2">
-        <path d="M21 5a11 11 0 1 0 6 19.5A9.5 9.5 0 0 1 21 5z"/>
-      </svg>
+      <img src="logo.png" alt="MOND Logo" class="brand-logo-img">
       MOND
     </a>
 
     <nav class="nav-links">
-      <a href="#collection">Fragrances</a>
-      <a href="#notes">Notes & Alchemy</a>
-      <a href="#story">The House</a>
+      <a href="#collection">Collection</a>
+      <a href="admin.html">Atelier Admin</a>
     </nav>
 
     <div class="header-actions">
@@ -73,102 +71,12 @@
     </div>
   </main>
 
-  <!-- ==================== OLFACTORY NOTES PHILOSOPHY ==================== -->
-  <section id="notes">
-    <div class="section-wrap">
-      <div class="section-header">
-        <span class="section-tag">Olfactory Philosophy</span>
-        <h2 class="section-title">Nocturnal Alchemy</h2>
-        <p class="section-desc">Every flacon is an expedition through celestial quietude, utilizing rare extractions macerated beneath the waxing and waning moon.</p>
-      </div>
-
-      <div class="philosophy-grid">
-        <div class="philosophy-item">
-          <div class="philosophy-num">01 / EXTRACTION</div>
-          <h3 class="philosophy-title">Night-Harvested Flora</h3>
-          <p class="philosophy-text">Petals gathered exclusively between astronomical twilight and dawn, when aromatic oil concentrations peak before the break of sunlight.</p>
-        </div>
-        <div class="philosophy-item">
-          <div class="philosophy-num">02 / AGING</div>
-          <h3 class="philosophy-title">Nine-Phase Maceration</h3>
-          <p class="philosophy-text">Our Extrait concentrations rest undisturbed in French obsidian vats across nine complete lunar cycles to harmonize intense base resins.</p>
-        </div>
-        <div class="philosophy-item">
-          <div class="philosophy-num">03 / FLACON</div>
-          <h3 class="philosophy-title">Brushed Obsidian Glass</h3>
-          <p class="philosophy-text">Weighted ultra-dense blackened glass with precision magnetic cap engraved with lunar coordinates, safeguarding volatile essential absolutes.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== BRAND STORY ==================== -->
-  <section id="story">
-    <div class="section-wrap">
-      <div class="story-content">
-        <div>
-          <span class="section-tag">Heritage & Craft</span>
-          <h2 class="story-lead">Born of Cold Starlight & Volcanic Earth</h2>
-          <div class="story-body">
-            <p>MOND was established with a singular vision: to translate the silence, magnetic gravity, and luminous textures of the moon into boundary-defying haute parfumerie.</p>
-            <p>Unbound by commercial fragrance conventions, our master noses explore uncharted juxtapositions—pairing aged Cambodian ouds with crystalline mineral aldehydes, and wild night violet with smoked frankincense.</p>
-            <p>Every bottle is individually hand-numbered and sealed in our nocturnal laboratory.</p>
-          </div>
-        </div>
-        <div class="story-visual">
-          <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=85" alt="MOND Lunar Lab Landscape" id="storyImg">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== FOOTER ==================== -->
+  <!-- ==================== MINIMAL LUXURY FOOTER ==================== -->
   <footer>
-    <div class="section-wrap" style="padding-top:0; padding-bottom:0;">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <a class="logo" href="#hero">
-            <svg viewBox="0 0 32 32" fill="none" stroke-width="2.2">
-              <path d="M21 5a11 11 0 1 0 6 19.5A9.5 9.5 0 0 1 21 5z"/>
-            </svg>
-            MOND
-          </a>
-          <p class="footer-desc">Lunar Essence · Haute Parfumerie. Bespoke formulations conceived under nocturnal skies.</p>
-        </div>
-
-        <div class="footer-col">
-          <h4>Explore</h4>
-          <ul>
-            <li><a href="#collection">Lunar Collection</a></li>
-            <li><a href="#notes">Olfactory Pyramid</a></li>
-            <li><a href="#story">The House</a></li>
-            <li><a href="#">Bespoke Monogramming</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Boutiques</h4>
-          <ul>
-            <li>Place Vendôme, Paris</li>
-            <li>Mayfair, London</li>
-            <li>Ginza, Tokyo</li>
-            <li>Fifth Avenue, New York</li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Lunar Dispatches</h4>
-          <p style="font-size:12.5px; color:var(--silver-muted); margin-bottom:10px;">Receive private batch allocations & exclusive reserve announcements.</p>
-          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed to Lunar Dispatches'); this.reset();">
-            <input type="email" placeholder="Your email address" class="newsletter-input" required>
-            <button type="submit" class="newsletter-btn">→</button>
-          </form>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <div>© <span id="year"></span> MOND Fragrance House. All rights reserved. · <a href="admin.html" class="admin-link">Atelier Admin</a></div>
-        <div>Haute Parfumerie · Small Batch Allocations</div>
+    <div class="section-wrap" style="padding: 36px clamp(20px, 3.5vw, 48px);">
+      <div class="footer-bottom" style="padding-top:0; border-top:0;">
+        <div>© <span id="year"></span> MOND Fragrance House · Haute Parfumerie · <a href="admin.html" class="admin-link">Atelier Admin</a></div>
+        <div>Small Batch Allocations</div>
       </div>
     </div>
   </footer>
@@ -184,7 +92,7 @@
         <div>
           <div class="modal-tag" id="modalConcentration">Extrait de Parfum</div>
           <h3 class="modal-title" id="modalTitle">Eclipse Noir</h3>
-          <div class="modal-price" id="modalPrice">$240</div>
+          <div class="modal-price" id="modalPrice">240</div>
           <p class="modal-story" id="modalStory"></p>
 
           <div class="modal-pyramid">
@@ -235,7 +143,7 @@
       <div class="cart-footer">
         <div class="cart-summary-row">
           <span>Subtotal</span>
-          <span class="cart-subtotal" id="cartSubtotal">$0</span>
+          <span class="cart-subtotal" id="cartSubtotal">0</span>
         </div>
         <p class="cart-note">Complimentary insured nocturnal delivery & bespoke signature packaging included with every flacon.</p>
         <button class="cart-checkout-btn" id="cartCheckoutBtn">Proceed to Checkout</button>
@@ -431,7 +339,7 @@
 
       bagBadge.textContent = totalItems;
       cartDrawerCount.textContent = totalItems;
-      cartSubtotal.textContent = `$${subtotal.toLocaleString()}`;
+      cartSubtotal.textContent = subtotal.toLocaleString();
 
       if (cart.length === 0) {
         cartItemsList.innerHTML = `
@@ -453,7 +361,7 @@
           <div class="cart-item-info">
             <h4>${item.name}</h4>
             <div class="cart-item-meta">${item.size}ml · Extrait</div>
-            <div class="cart-item-price">$${item.price}</div>
+            <div class="cart-item-price">${item.price.toLocaleString()}</div>
           </div>
           <div class="cart-item-actions">
             <div class="cart-qty-ctrl">
@@ -545,7 +453,7 @@
 
       bagBadge.classList.add('pop');
       setTimeout(() => bagBadge.classList.remove('pop'), 300);
-      showToast(`${fragrance.name} (${size}ml) added to bag · $${price}`);
+      showToast(`${fragrance.name} (${size}ml) added to bag · ${price.toLocaleString()}`);
     }
 
     // 4. RENDER CATALOG SHOWCASE (DYNAMIC FROM LOCALSTORAGE)
@@ -584,7 +492,7 @@
           <div class="card-body">
             <div class="card-header">
               <h3 class="card-title">${item.name}</h3>
-              <span class="card-price" id="price-${item.id}">$${item.prices[currentSize]}</span>
+              <span class="card-price" id="price-${item.id}">${item.prices[currentSize].toLocaleString()}</span>
             </div>
             <div class="card-concentration">${item.concentration}</div>
             
@@ -619,7 +527,7 @@
             const chosenSize = parseInt(btn.dataset.size);
             activeSizes[item.id] = chosenSize;
             sizeBtns.forEach(b => b.classList.toggle('active', b === btn));
-            card.querySelector(`#price-${item.id}`).textContent = `$${item.prices[chosenSize]}`;
+            card.querySelector(`#price-${item.id}`).textContent = item.prices[chosenSize].toLocaleString();
           });
         });
 
@@ -700,7 +608,7 @@
 
     function updateModalPrice() {
       if (!currentModalItem) return;
-      modalPrice.textContent = `$${currentModalItem.prices[modalSelectedSize]}`;
+      modalPrice.textContent = currentModalItem.prices[modalSelectedSize].toLocaleString();
     }
 
     modalSizeBtns.forEach(btn => {
@@ -894,15 +802,11 @@
     };
     imgLoader.src = MOON_MAP_URL;
 
-    // Interaction & Dimensions
+    // Dimensions & Steady Rotation
     let W = window.innerWidth;
     let H = window.innerHeight;
-    let R0 = 200, R = R0;
+    let R0 = 140, R = R0;
     let yaw = 0.4, pitch = 0.16;
-    let vy = 0;
-    let dragging = false;
-    let lastDragTime = 0;
-    let prevX = 0, prevY = 0;
 
     function resize() {
       W = window.innerWidth;
@@ -918,39 +822,10 @@
       dustCanvas.height = H * Math.min(window.devicePixelRatio, 1.5);
 
       const portrait = H > W * 1.05;
-      R0 = portrait ? W * 0.36 : Math.min(H * 0.32, W * 0.20);
+      R0 = portrait ? W * 0.25 : Math.min(H * 0.21, W * 0.135);
     }
     window.addEventListener('resize', resize);
     resize();
-
-    // Drag-to-spin physics
-    glCanvas.addEventListener('pointerdown', e => {
-      dragging = true;
-      glCanvas.classList.add('drag');
-      prevX = e.clientX;
-      prevY = e.clientY;
-      vy = 0;
-    });
-
-    window.addEventListener('pointermove', e => {
-      if (!dragging) return;
-      const dx = e.clientX - prevX;
-      const dy = e.clientY - prevY;
-      prevX = e.clientX;
-      prevY = e.clientY;
-
-      const k = 1.1 / R0;
-      yaw += dx * k;
-      pitch = Math.max(-0.9, Math.min(0.9, pitch + dy * k));
-      vy = dx * k * 0.6;
-      lastDragTime = performance.now();
-    });
-
-    window.addEventListener('pointerup', () => {
-      if (!dragging) return;
-      dragging = false;
-      glCanvas.classList.remove('drag');
-    });
 
     // Stardust Particles Background Canvas
     const dCtx = dustCanvas.getContext('2d');
@@ -974,12 +849,12 @@
       p: rnd() * 6.28
     }));
 
-    // Animation Render Loop
+    // Animation Render Loop (Continuous Calm Auto-Rotation)
     let lastNow = performance.now();
     function animate(now) {
       requestAnimationFrame(animate);
 
-      // Only perform heavy rendering if hero is in view
+      // Only render when hero is visible in viewport
       if (window.scrollY > H) return;
 
       const dt = Math.min((now - lastNow) / 1000, 0.05);
@@ -992,13 +867,9 @@
 
       R = R0 * (0.1 + 0.9 * grow);
 
-      // Auto-rotation when idle
-      if (!dragging && now - lastDragTime > 1200) {
-        yaw += dt * 0.06;
-      }
-      yaw += vy;
-      vy *= Math.exp(-dt * 4);
-      pitch += (0.16 - pitch) * (1 - Math.exp(-dt * 1.5));
+      // Steady continuous auto-rotation
+      yaw += dt * 0.12;
+      pitch = 0.16;
 
       planet.position.set(0, 0, 0);
       planet.scale.setScalar(R);

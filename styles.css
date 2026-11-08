@@ -59,8 +59,19 @@ header.scrolled {
   letter-spacing: .08em;
   text-transform: uppercase;
   color: #fff;
+  transition: opacity 0.25s ease;
 }
-.logo svg { width: 28px; height: 28px; stroke: #fff; }
+.logo:hover {
+  opacity: 0.92;
+}
+.brand-logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  mix-blend-mode: screen;
+  filter: contrast(1.15) brightness(1.06);
+  display: block;
+}
 .nav-links {
   display: flex;
   align-items: center;
@@ -162,7 +173,7 @@ header.scrolled {
   top: 50%;
   transform: translate(-50%, -50%);
   font-weight: 900;
-  font-size: min(25vw, 44vh);
+  font-size: min(22vw, 36vh);
   line-height: .8;
   letter-spacing: -.035em;
   white-space: nowrap;
@@ -174,25 +185,26 @@ header.scrolled {
 }
 #eyebrow {
   left: 50%;
-  top: calc(50% - min(14vw, 25vh));
+  top: calc(50% - min(13vw, 22vh));
   transform: translate(-50%, -50%);
   z-index: 3;
   font-weight: 400;
-  font-size: clamp(12px, 1.25vw, 18px);
-  letter-spacing: .24em;
+  font-size: clamp(10px, 1.1vw, 15px);
+  letter-spacing: .22em;
   text-transform: uppercase;
   white-space: nowrap;
   user-select: none;
   pointer-events: none;
   color: rgba(226, 232, 240, 0.85);
+  text-align: center;
 }
 #flare {
   z-index: 1;
-  width: 44vmin;
-  height: 44vmin;
+  width: 36vmin;
+  height: 36vmin;
   border-radius: 50%;
   pointer-events: none;
-  background: radial-gradient(closest-side, rgba(235, 242, 255, .85), rgba(180, 200, 235, .28) 28%, rgba(120, 145, 190, .06) 58%, transparent);
+  background: radial-gradient(closest-side, rgba(235, 242, 255, .85), rgba(180, 200, 235, .25) 28%, rgba(120, 145, 190, .05) 58%, transparent);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -202,10 +214,9 @@ header.scrolled {
   width: 100%;
   height: 100%;
   z-index: 4;
-  cursor: grab;
-  touch-action: none;
+  pointer-events: none;
+  cursor: default;
 }
-#gl.drag { cursor: grabbing; }
 #dust {
   inset: 0;
   width: 100%;
@@ -299,8 +310,20 @@ header.scrolled {
 
 .fragrance-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-  gap: clamp(24px, 3vw, 36px);
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(20px, 2.4vw, 32px);
+}
+@media (max-width: 1080px) {
+  .fragrance-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+@media (max-width: 640px) {
+  .fragrance-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
 
 /* Product Card */
@@ -1094,6 +1117,30 @@ footer {
 .cart-checkout-btn:hover {
   background: var(--accent-hover);
   box-shadow: 0 6px 24px rgba(200, 29, 49, 0.4);
+}
+
+@media (max-width: 480px) {
+  .cart-drawer {
+    width: 100%;
+  }
+  .cart-header, .cart-items, .cart-footer {
+    padding: 16px 18px;
+  }
+  .modal-content {
+    padding: 22px 18px;
+  }
+  .header-actions {
+    gap: 10px;
+  }
+  header {
+    padding: 14px 18px;
+  }
+  .logo {
+    font-size: 18px;
+  }
+  .brand-logo-img {
+    height: 32px;
+  }
 }
 
 
