@@ -404,9 +404,27 @@
         </div>
       </div>
 
-      <a href="index.html" class="inline-block w-full bg-mist text-void hover:bg-secondary font-bold text-xs uppercase tracking-widest py-3.5 px-6 rounded transition-colors">
-        Return to Mooned Boutique
-      </a>
+      <!-- Action Buttons -->
+      <div class="space-y-3">
+        <!-- WhatsApp Order Transmission Button -->
+        <a
+          id="whatsappOrderBtn"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm tracking-wider uppercase py-3.5 px-6 rounded transition-all duration-300 flex items-center justify-center gap-2.5 shadow-lg shadow-[#25D366]/25 hover:shadow-[#25D366]/40 transform hover:-translate-y-0.5 group"
+        >
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.371s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+          </svg>
+          <span>إرسال تفاصيل الطلب عبر واتساب</span>
+        </a>
+
+        <!-- Return to Boutique Button -->
+        <a href="index.html" class="inline-block w-full bg-void/80 hover:bg-elevated text-secondary hover:text-mist border border-elevated font-semibold text-xs uppercase tracking-widest py-3 px-6 rounded transition-colors">
+          العودة إلى المتجر (Return to Boutique)
+        </a>
+      </div>
     </div>
   </div>
 
@@ -702,6 +720,47 @@
       document.getElementById('orderRefDisplay').textContent = orderRef;
       document.getElementById('destDisplay').textContent = `${cityVal}, ${postalCodeVal}`;
       document.getElementById('contactDisplay').textContent = phoneVal;
+
+      // Build WhatsApp message with all customer and order details
+      const WHATSAPP_PHONE = '201157704050';
+      let itemsListText = '';
+      if (Array.isArray(orderPayload.items) && orderPayload.items.length > 0) {
+        orderPayload.items.forEach((item, i) => {
+          const itemSize = item.size ? ` (${item.size}ml)` : '';
+          const itemQty = Number(item.qty) || 1;
+          const itemPrice = item.price ? ` - ${Number(item.price) * itemQty} EGP` : '';
+          itemsListText += `${i + 1}. *${item.name || 'عطر MOND'}*${itemSize} × ${itemQty}${itemPrice}\n`;
+        });
+      } else {
+        itemsListText = '1. طلب تشكيلة عطور خاصة\n';
+      }
+
+      const paymentMethodArabic = (orderPayload.payment_method === 'card') 
+        ? 'بطاقة دفع بنكية مشفرة' 
+        : 'الدفع عند الاستلام (COD)';
+      const deliveryNotes = orderPayload.notes ? `\n📝 *ملاحظات التوصيل:* ${orderPayload.notes}` : '';
+
+      const waMessage = 
+`🌙 *طلب جديد من متجر MOND Perfumes*
+━━━━━━━━━━━━━━━━━━
+📋 *رقم الطلب:* ${orderPayload.order_ref}
+👤 *اسم العميل:* ${orderPayload.full_name}
+📞 *رقم الهاتف:* ${orderPayload.phone_number}
+✉️ *البريد الإلكتروني:* ${orderPayload.email || 'غير محدد'}
+📍 *عنوان التوصيل:* ${orderPayload.shipping_address}${deliveryNotes}
+💳 *طريقة الدفع:* ${paymentMethodArabic}
+━━━━━━━━━━━━━━━━━━
+🛍️ *تفاصيل العطور:*
+${itemsListText}━━━━━━━━━━━━━━━━━━
+💰 *إجمالي الطلب:* ${orderPayload.total_amount} EGP
+🚚 *الشحن:* شحن ليلي مؤمّن مجاني
+━━━━━━━━━━━━━━━━━━
+يرجى تأكيد استلام الطلب وتجهيز الشحن.`;
+
+      const waBtn = document.getElementById('whatsappOrderBtn');
+      if (waBtn) {
+        waBtn.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(waMessage)}`;
+      }
 
       submitBtn.innerHTML = originalBtnHtml;
       submitBtn.disabled = false;

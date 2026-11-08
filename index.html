@@ -15,7 +15,7 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2.6">
   <!-- Supabase JS Client & Realtime Layer -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase.js"></script>
@@ -50,51 +50,18 @@
     </div>
   </header>
 
-  <!-- ==================== MOBILE NAVIGATION DRAWER ==================== -->
-  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" aria-hidden="true">
-    <nav class="mobile-nav-panel" id="mobileNavPanel" role="dialog" aria-label="Mobile Navigation">
-      <div class="mobile-nav-header">
-        <a class="logo" href="#hero">
-          <img src="logo.png" alt="MOND Logo" class="brand-logo-img">
-          MOND
-        </a>
-        <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close navigation">✕</button>
-      </div>
-      <div class="mobile-nav-links">
-        <a href="#featuredCollections" class="mobile-nav-link">
-          <span>Featured Collections</span>
-          <span class="mobile-nav-arrow">›</span>
-        </a>
-        <a href="#collection" class="mobile-nav-link">
-          <span>Haute Fragrances</span>
-          <span class="mobile-nav-arrow">›</span>
-        </a>
-        <a href="checkout.html" class="mobile-nav-link">
-          <span>Private Checkout</span>
-          <span class="mobile-nav-arrow">›</span>
-        </a>
-        <a href="admin.html" class="mobile-nav-link admin-nav-item">
-          <span>Atelier Admin</span>
-          <span class="mobile-nav-badge">Staff</span>
-        </a>
-      </div>
-      <div class="mobile-nav-footer">
-        <p>Lunar Haute Parfumerie · Handcrafted Small Batch Allocations</p>
-      </div>
-    </nav>
-  </div>
-
   <!-- ==================== HERO (3D MOON AS LETTER 'O') ==================== -->
   <section id="hero">
     <h1 id="word0" class="hero-el" aria-label="MOND">
       <span class="hero-char" aria-hidden="true">M</span>
-      <span class="hero-moon-slot" id="moonSlot" aria-hidden="true"></span>
+      <span class="hero-moon-slot" id="moonSlot" aria-hidden="true">
+        <div class="moon-flare" id="flare"></div>
+        <canvas id="gl"></canvas>
+      </span>
       <span class="hero-char" aria-hidden="true">N</span>
       <span class="hero-char" aria-hidden="true">D</span>
     </h1>
     <div id="eyebrow" class="hero-el">Lunar Essence · Haute Parfumerie</div>
-    <div id="flare" class="hero-el"></div>
-    <canvas id="gl"></canvas>
     <canvas id="dust"></canvas>
 
     <a href="#featuredCollections" class="scroll-indicator" aria-label="Scroll to Discover Collection">
@@ -682,6 +649,40 @@
     </div>
   </footer>
 
+  <!-- ==================== MOBILE NAVIGATION DRAWER ==================== -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" style="display: none;" aria-hidden="true">
+    <nav class="mobile-nav-panel" id="mobileNavPanel" role="dialog" aria-label="Mobile Navigation">
+      <div class="mobile-nav-header">
+        <a class="logo" href="#hero">
+          <img src="logo.png" alt="MOND Logo" class="brand-logo-img">
+          MOND
+        </a>
+        <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close navigation">✕</button>
+      </div>
+      <div class="mobile-nav-links">
+        <a href="#featuredCollections" class="mobile-nav-link">
+          <span>Featured Collections</span>
+          <span class="mobile-nav-arrow">›</span>
+        </a>
+        <a href="#collection" class="mobile-nav-link">
+          <span>Haute Fragrances</span>
+          <span class="mobile-nav-arrow">›</span>
+        </a>
+        <a href="checkout.html" class="mobile-nav-link">
+          <span>Private Checkout</span>
+          <span class="mobile-nav-arrow">›</span>
+        </a>
+        <a href="admin.html" class="mobile-nav-link admin-nav-item">
+          <span>Atelier Admin</span>
+          <span class="mobile-nav-badge">Staff</span>
+        </a>
+      </div>
+      <div class="mobile-nav-footer">
+        <p>Lunar Haute Parfumerie · Handcrafted Small Batch Allocations</p>
+      </div>
+    </nav>
+  </div>
+
   <!-- ==================== QUICK-VIEW MODAL ==================== -->
   <div class="modal-backdrop" id="quickModal" aria-hidden="true">
     <div class="modal-card">
@@ -1036,6 +1037,8 @@
 
     function openMobileNav() {
       if (!mobileNavBackdrop) return;
+      mobileNavBackdrop.style.display = 'block';
+      void mobileNavBackdrop.offsetWidth;
       mobileNavBackdrop.classList.add('open');
       mobileNavBackdrop.setAttribute('aria-hidden', 'false');
       if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'true');
@@ -1048,6 +1051,11 @@
       mobileNavBackdrop.setAttribute('aria-hidden', 'true');
       if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
+      setTimeout(() => {
+        if (!mobileNavBackdrop.classList.contains('open')) {
+          mobileNavBackdrop.style.display = 'none';
+        }
+      }, 350);
     }
 
     if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileNav);
@@ -1593,15 +1601,15 @@
     });
 
     // =========================================================
-    // 5. THREE.JS 3D MOON HERO (STAGE 1 - ELEVATED)
+    // 5. THREE.JS 3D MOON HERO (INTEGRATED AS LETTER 'O' IN MOND)
     // =========================================================
-    const MOON_MAP_URL = 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg';
     const glCanvas = document.getElementById('gl');
     const dustCanvas = document.getElementById('dust');
     const heroSection = document.getElementById('hero');
+    const moonSlot = document.getElementById('moonSlot');
 
-    const renderer = new THREE.WebGLRenderer({ canvas: glCanvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const renderer = new THREE.WebGLRenderer({ canvas: glCanvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -2e5, 2e5);
@@ -1613,11 +1621,131 @@
     tilt.add(spin);
     scene.add(planet);
 
+    // Procedural Lunar Surface Texture Generator (Guarantees Instant 3D Moon Appearance)
+    function createProceduralMoonTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1024;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+
+      const baseGrad = ctx.createLinearGradient(0, 0, 0, 512);
+      baseGrad.addColorStop(0, '#c4c8c7');
+      baseGrad.addColorStop(0.5, '#b8bdbb');
+      baseGrad.addColorStop(1, '#acb1af');
+      ctx.fillStyle = baseGrad;
+      ctx.fillRect(0, 0, 1024, 512);
+
+      let seed = 1337;
+      function rnd() {
+        seed = (seed * 16807) % 2147483647;
+        return seed / 2147483647;
+      }
+      const imgData = ctx.getImageData(0, 0, 1024, 512);
+      const data = imgData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const noise = (rnd() - 0.5) * 26;
+        data[i] = Math.min(255, Math.max(0, data[i] + noise));
+        data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + noise));
+        data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + noise));
+      }
+      ctx.putImageData(imgData, 0, 0);
+
+      function drawMaria(cx, cy, rx, ry, angle, opacity) {
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(angle);
+        const grad = ctx.createRadialGradient(0, 0, rx * 0.1, 0, 0, rx);
+        grad.addColorStop(0, 'rgba(42, 46, 50, ' + opacity + ')');
+        grad.addColorStop(0.55, 'rgba(58, 63, 67, ' + (opacity * 0.75) + ')');
+        grad.addColorStop(0.85, 'rgba(88, 94, 98, ' + (opacity * 0.35) + ')');
+        grad.addColorStop(1, 'rgba(120, 126, 130, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // Major Basins / Lunar Maria
+      drawMaria(320, 220, 170, 130, -0.15, 0.88); // Oceanus Procellarum
+      drawMaria(380, 160, 100, 80, 0.1, 0.90);    // Mare Imbrium
+      drawMaria(540, 180, 75, 65, 0, 0.85);       // Mare Serenitatis
+      drawMaria(610, 240, 85, 70, 0.2, 0.88);     // Mare Tranquillitatis
+      drawMaria(760, 210, 55, 45, -0.1, 0.92);    // Mare Crisium
+      drawMaria(670, 300, 60, 50, 0.3, 0.80);     // Mare Fecunditatis
+      drawMaria(590, 310, 45, 40, -0.2, 0.75);    // Mare Nectaris
+      drawMaria(340, 330, 65, 55, 0.1, 0.82);     // Mare Nubium
+      drawMaria(260, 340, 40, 35, 0, 0.78);       // Mare Humorum
+      drawMaria(880, 260, 70, 55, 0, 0.65);
+      drawMaria(110, 250, 60, 50, 0, 0.60);
+
+      function drawCrater(cx, cy, r, hasRays, rayLen) {
+        if (hasRays) {
+          ctx.save();
+          for (let a = 0; a < Math.PI * 2; a += Math.PI / 10 + (rnd() - 0.5) * 0.15) {
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            const len = rayLen * (0.6 + rnd() * 0.8);
+            const ex = cx + Math.cos(a) * len;
+            const ey = cy + Math.sin(a) * len;
+            const rayGrad = ctx.createLinearGradient(cx, cy, ex, ey);
+            rayGrad.addColorStop(0, 'rgba(245, 250, 252, 0.55)');
+            rayGrad.addColorStop(0.4, 'rgba(230, 235, 238, 0.25)');
+            rayGrad.addColorStop(1, 'rgba(200, 205, 210, 0)');
+            ctx.strokeStyle = rayGrad;
+            ctx.lineWidth = 1.5 + rnd() * 2;
+            ctx.lineTo(ex, ey);
+            ctx.stroke();
+          }
+          ctx.restore();
+        }
+
+        const rimGrad = ctx.createRadialGradient(cx - r * 0.2, cy - r * 0.2, r * 0.2, cx, cy, r);
+        rimGrad.addColorStop(0, 'rgba(38, 40, 44, 0.92)');
+        rimGrad.addColorStop(0.7, 'rgba(85, 90, 95, 0.6)');
+        rimGrad.addColorStop(0.9, 'rgba(242, 247, 252, 0.92)');
+        rimGrad.addColorStop(1, 'rgba(160, 165, 170, 0)');
+        ctx.fillStyle = rimGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(248, 252, 255, 0.85)';
+        ctx.beginPath();
+        ctx.arc(cx + r * 0.05, cy + r * 0.05, Math.max(1, r * 0.18), 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Landmarks & Famous Craters
+      drawCrater(470, 400, 16, true, 260); // Tycho
+      drawCrater(380, 220, 14, true, 140); // Copernicus
+      drawCrater(290, 230, 10, true, 90);  // Kepler
+      drawCrater(245, 195, 8, true, 60);   // Aristarchus
+      drawCrater(530, 220, 9, false, 0);   // Plinius
+      drawCrater(460, 120, 12, false, 0);  // Plato
+      drawCrater(680, 160, 10, false, 0);  // Posidonius
+
+      for (let i = 0; i < 90; i++) {
+        const rx = rnd() * 1024;
+        const ry = rnd() * 512;
+        const rad = 2 + rnd() * 6;
+        drawCrater(rx, ry, rad, rnd() > 0.85, 30 + rnd() * 40);
+      }
+
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.ClampToEdgeWrapping;
+      texture.needsUpdate = true;
+      return texture;
+    }
+
+    const proceduralTexture = createProceduralMoonTexture();
+
     const uniforms = {
-      map: { value: null },
+      map: { value: proceduralTexture },
       texel: { value: new THREE.Vector2(1 / 1024, 1 / 512) },
       sun: { value: new THREE.Vector3(0.62, 0.5, 0.6).normalize() },
-      ready: { value: 0 }
+      ready: { value: 1.0 }
     };
 
     // Lunar Crater Surface Shader with Realistic Dynamic Lighting
@@ -1706,81 +1834,71 @@
     });
     planet.add(new THREE.Mesh(new THREE.SphereGeometry(1.14, 64, 48), atmoMat));
 
-    // Texture Loader
-    let loadTime = null;
-    const imgLoader = new Image();
-    imgLoader.crossOrigin = 'anonymous';
-    imgLoader.onload = () => {
-      const tex = new THREE.Texture(imgLoader);
-      tex.wrapS = THREE.RepeatWrapping;
-      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      tex.needsUpdate = true;
-      uniforms.map.value = tex;
-      uniforms.texel.value.set(1 / imgLoader.width, 1 / imgLoader.height);
-      loadTime = performance.now();
-    };
-    imgLoader.src = MOON_MAP_URL;
+    // Progressive upgrade to photographic NASA texture if network permits
+    function loadCdnTexture(urls) {
+      if (!urls || !urls.length) return;
+      const url = urls[0];
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        const tex = new THREE.Texture(img);
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        tex.needsUpdate = true;
+        uniforms.map.value = tex;
+        uniforms.texel.value.set(1 / img.width, 1 / img.height);
+      };
+      img.onerror = () => loadCdnTexture(urls.slice(1));
+      img.src = url;
+    }
+    loadCdnTexture([
+      'https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/textures/planets/moon_1024.jpg',
+      'https://unpkg.com/three@0.160.0/examples/textures/planets/moon_1024.jpg',
+      'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg'
+    ]);
 
     // Dimensions & Steady Rotation
-    let W = window.innerWidth;
-    let H = window.innerHeight;
+    let loadTime = performance.now();
     let R0 = 60, R = R0;
-    let yaw = 0.4, pitch = 0.16;
-
-    const moonSlot = document.getElementById('moonSlot');
-    let moonWorldX = 0;
-    let moonWorldY = 0;
-
-    function updateMoonMetrics() {
-      if (!heroSection) return;
-      const heroRect = heroSection.getBoundingClientRect();
-
-      if (moonSlot) {
-        const slotRect = moonSlot.getBoundingClientRect();
-        // Slot center relative to hero section top-left
-        const slotCenterX = (slotRect.left + slotRect.width / 2) - heroRect.left;
-        const slotCenterY = (slotRect.top + slotRect.height / 2) - heroRect.top;
-
-        // Map to Three.js OrthographicCamera coordinates
-        moonWorldX = slotCenterX - W / 2;
-        moonWorldY = H / 2 - slotCenterY;
-
-        // Radius of moon sphere: matches the slot dimensions
-        R0 = slotRect.width * 0.495;
-
-        // Center flare glow right behind the 3D moon in the letter 'O'
-        const flareEl = document.getElementById('flare');
-        if (flareEl) {
-          flareEl.style.left = slotCenterX + 'px';
-          flareEl.style.top = slotCenterY + 'px';
-          flareEl.style.width = (slotRect.width * 2.3) + 'px';
-          flareEl.style.height = (slotRect.height * 2.3) + 'px';
-        }
-      } else {
-        const portrait = H > W * 1.05;
-        R0 = portrait ? W * 0.25 : Math.min(H * 0.21, W * 0.135);
-        moonWorldX = 0;
-        moonWorldY = 0;
-      }
-    }
+    let yaw = 0.4, pitch = 0.14;
 
     function resize() {
-      W = window.innerWidth;
-      H = window.innerHeight;
-      renderer.setSize(W, H);
-      camera.left = -W / 2;
-      camera.right = W / 2;
-      camera.top = H / 2;
-      camera.bottom = -H / 2;
-      camera.updateProjectionMatrix();
+      if (!heroSection) return;
+      const heroRect = heroSection.getBoundingClientRect();
+      const heroW = heroRect.width || window.innerWidth;
+      const heroH = heroRect.height || window.innerHeight;
 
-      dustCanvas.width = W * Math.min(window.devicePixelRatio, 1.5);
-      dustCanvas.height = H * Math.min(window.devicePixelRatio, 1.5);
+      // Dust canvas covers full hero section
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dustCanvas.width = heroW * dpr;
+      dustCanvas.height = heroH * dpr;
+      dustCanvas.style.width = heroW + 'px';
+      dustCanvas.style.height = heroH + 'px';
 
-      updateMoonMetrics();
+      // 3D Moon canvas size inside the 'O' letter slot
+      if (moonSlot && glCanvas) {
+        const slotRect = moonSlot.getBoundingClientRect();
+        const slotW = slotRect.width || (heroW * 0.15);
+        // Canvas is 1.4x of slot to accommodate soft atmospheric glow without edge clipping
+        const canvasPx = Math.max(64, Math.round(slotW * 1.4));
+
+        renderer.setSize(canvasPx, canvasPx, false);
+        glCanvas.style.width = '140%';
+        glCanvas.style.height = '140%';
+
+        camera.left = -canvasPx / 2;
+        camera.right = canvasPx / 2;
+        camera.top = canvasPx / 2;
+        camera.bottom = -canvasPx / 2;
+        camera.updateProjectionMatrix();
+
+        // Moon sphere radius precisely fits slot
+        R0 = slotW * 0.495;
+      }
     }
     window.addEventListener('resize', resize);
     window.addEventListener('orientationchange', () => setTimeout(resize, 100));
+    window.addEventListener('load', resize);
     resize();
 
     // Re-align once typography is ready
@@ -1818,23 +1936,22 @@
       requestAnimationFrame(animate);
 
       // Only render when hero is visible in viewport
-      if (window.scrollY > H) return;
+      if (window.scrollY > window.innerHeight) return;
 
       const dt = Math.min((now - lastNow) / 1000, 0.05);
       lastNow = now;
       const t = now / 1000;
 
-      const age = loadTime ? (now - loadTime) / 1000 : 0;
-      const grow = loadTime ? Math.min(1, age / 1.4) : 0;
-      uniforms.ready.value = loadTime ? Math.min(1, age * 2.5) : 0;
+      const age = (now - loadTime) / 1000;
+      const grow = Math.min(1, age / 0.8);
 
-      R = R0 * (0.1 + 0.9 * grow);
+      R = R0 * (0.85 + 0.15 * grow);
 
       // Steady continuous auto-rotation
-      yaw += dt * 0.12;
-      pitch = 0.16;
+      yaw += dt * 0.15;
+      pitch = 0.14;
 
-      planet.position.set(moonWorldX, moonWorldY, 0);
+      planet.position.set(0, 0, 0);
       planet.scale.setScalar(R);
       tilt.rotation.x = pitch;
       spin.rotation.y = yaw;

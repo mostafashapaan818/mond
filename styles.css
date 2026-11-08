@@ -162,13 +162,25 @@ header.scrolled {
   background: rgba(6, 20, 27, 0.85);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+  display: none;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity 0.35s ease, visibility 0.35s ease;
 }
 .mobile-nav-backdrop.open {
-  opacity: 1;
-  visibility: visible;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+@media (min-width: 769px) {
+  .mobile-nav-backdrop,
+  .mobile-menu-btn {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
 }
 .mobile-nav-panel {
   position: absolute;
@@ -310,18 +322,41 @@ header.scrolled {
   line-height: 1;
 }
 .hero-moon-slot {
-  display: inline-block;
-  width: 0.74em;
-  height: 0.74em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.80em;
+  height: 0.80em;
   border-radius: 50%;
   margin: 0 0.035em;
   position: relative;
   flex-shrink: 0;
-  box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.5), 0 0 20px rgba(204, 208, 207, 0.12);
-  background: radial-gradient(circle, rgba(37, 55, 69, 0.3) 0%, rgba(17, 33, 45, 0.6) 100%);
-  border: 1px solid rgba(204, 208, 207, 0.15);
   vertical-align: middle;
   pointer-events: none;
+}
+.moon-flare, #flare {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200%;
+  height: 200%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(204, 208, 207, .85), rgba(155, 168, 171, .3) 35%, rgba(74, 92, 106, .08) 65%, transparent);
+  z-index: 1;
+}
+#moonSlot canvas#gl, #gl {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140%;
+  height: 140%;
+  pointer-events: none;
+  cursor: default;
+  z-index: 2;
+  border-radius: 50%;
 }
 #eyebrow {
   left: 50%;
@@ -339,30 +374,12 @@ header.scrolled {
   text-align: center;
   max-width: 90vw;
 }
-#flare {
-  z-index: 1;
-  position: absolute;
-  width: 36vmin;
-  height: 36vmin;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(closest-side, rgba(204, 208, 207, .85), rgba(155, 168, 171, .25) 28%, rgba(74, 92, 106, .08) 58%, transparent);
-  transform: translate(-50%, -50%);
-  transition: width 0.3s ease, height 0.3s ease;
-}
-#gl {
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3;
-  pointer-events: none;
-  cursor: default;
-}
 #dust {
+  position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 5;
+  z-index: 1;
   pointer-events: none;
 }
 .scroll-indicator {
