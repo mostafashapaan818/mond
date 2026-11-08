@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOND — Lunar Haute Parfumerie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <header id="mainHeader">
+    <a class="logo" href="#hero">
+      <svg viewBox="0 0 32 32" fill="none" stroke-width="2.2">
+        <path d="M21 5a11 11 0 1 0 6 19.5A9.5 9.5 0 0 1 21 5z"/>
+      </svg>
+      MOND
+    </a>
+
+    <nav class="nav-links">
+      <a href="#collection">Fragrances</a>
+      <a href="#notes">Notes & Alchemy</a>
+      <a href="#story">The House</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="action-btn" aria-label="Search Fragrances" id="searchBtn">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </button>
+      <button class="action-btn" aria-label="Shopping Bag" id="bagBtn">
+        <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="bag-badge" id="bagBadge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==================== HERO (3D MOON) ==================== -->
+  <section id="hero">
+    <div id="word0" class="hero-el">MOND</div>
+    <div id="eyebrow" class="hero-el">Lunar Essence · Haute Parfumerie</div>
+    <div id="flare" class="hero-el"></div>
+    <canvas id="gl"></canvas>
+    <canvas id="dust"></canvas>
+
+    <a href="#collection" class="scroll-indicator" aria-label="Scroll to Discover Collection">
+      <div class="mouse-icon"></div>
+      <span>Scroll to Discover Collection</span>
+    </a>
+  </section>
+
+  <!-- ==================== MAIN FRAGRANCES SHOWCASE ==================== -->
+  <main id="collection">
+    <div class="section-wrap">
+      <div class="section-header">
+        <span class="section-tag">Haute Parfumerie</span>
+        <h2 class="section-title">The Lunar Collection</h2>
+        <p class="section-desc">Extrait formulations distilled in small batches. Night-blooming botanicals, smoked resins, and cold mineral accords born under celestial phases.</p>
+      </div>
+
+      <div class="fragrance-grid" id="fragranceGrid">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== OLFACTORY NOTES PHILOSOPHY ==================== -->
+  <section id="notes">
+    <div class="section-wrap">
+      <div class="section-header">
+        <span class="section-tag">Olfactory Philosophy</span>
+        <h2 class="section-title">Nocturnal Alchemy</h2>
+        <p class="section-desc">Every flacon is an expedition through celestial quietude, utilizing rare extractions macerated beneath the waxing and waning moon.</p>
+      </div>
+
+      <div class="philosophy-grid">
+        <div class="philosophy-item">
+          <div class="philosophy-num">01 / EXTRACTION</div>
+          <h3 class="philosophy-title">Night-Harvested Flora</h3>
+          <p class="philosophy-text">Petals gathered exclusively between astronomical twilight and dawn, when aromatic oil concentrations peak before the break of sunlight.</p>
+        </div>
+        <div class="philosophy-item">
+          <div class="philosophy-num">02 / AGING</div>
+          <h3 class="philosophy-title">Nine-Phase Maceration</h3>
+          <p class="philosophy-text">Our Extrait concentrations rest undisturbed in French obsidian vats across nine complete lunar cycles to harmonize intense base resins.</p>
+        </div>
+        <div class="philosophy-item">
+          <div class="philosophy-num">03 / FLACON</div>
+          <h3 class="philosophy-title">Brushed Obsidian Glass</h3>
+          <p class="philosophy-text">Weighted ultra-dense blackened glass with precision magnetic cap engraved with lunar coordinates, safeguarding volatile essential absolutes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BRAND STORY ==================== -->
+  <section id="story">
+    <div class="section-wrap">
+      <div class="story-content">
+        <div>
+          <span class="section-tag">Heritage & Craft</span>
+          <h2 class="story-lead">Born of Cold Starlight & Volcanic Earth</h2>
+          <div class="story-body">
+            <p>MOND was established with a singular vision: to translate the silence, magnetic gravity, and luminous textures of the moon into boundary-defying haute parfumerie.</p>
+            <p>Unbound by commercial fragrance conventions, our master noses explore uncharted juxtapositions—pairing aged Cambodian ouds with crystalline mineral aldehydes, and wild night violet with smoked frankincense.</p>
+            <p>Every bottle is individually hand-numbered and sealed in our nocturnal laboratory.</p>
+          </div>
+        </div>
+        <div class="story-visual">
+          <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=85" alt="MOND Lunar Lab Landscape" id="storyImg">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="section-wrap" style="padding-top:0; padding-bottom:0;">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="logo" href="#hero">
+            <svg viewBox="0 0 32 32" fill="none" stroke-width="2.2">
+              <path d="M21 5a11 11 0 1 0 6 19.5A9.5 9.5 0 0 1 21 5z"/>
+            </svg>
+            MOND
+          </a>
+          <p class="footer-desc">Lunar Essence · Haute Parfumerie. Bespoke formulations conceived under nocturnal skies.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#collection">Lunar Collection</a></li>
+            <li><a href="#notes">Olfactory Pyramid</a></li>
+            <li><a href="#story">The House</a></li>
+            <li><a href="#">Bespoke Monogramming</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Boutiques</h4>
+          <ul>
+            <li>Place Vendôme, Paris</li>
+            <li>Mayfair, London</li>
+            <li>Ginza, Tokyo</li>
+            <li>Fifth Avenue, New York</li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Lunar Dispatches</h4>
+          <p style="font-size:12.5px; color:var(--silver-muted); margin-bottom:10px;">Receive private batch allocations & exclusive reserve announcements.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed to Lunar Dispatches'); this.reset();">
+            <input type="email" placeholder="Your email address" class="newsletter-input" required>
+            <button type="submit" class="newsletter-btn">→</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© <span id="year"></span> MOND Fragrance House. All rights reserved. · <a href="admin.html" class="admin-link">Atelier Admin</a></div>
+        <div>Haute Parfumerie · Small Batch Allocations</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== QUICK-VIEW MODAL ==================== -->
+  <div class="modal-backdrop" id="quickModal" aria-hidden="true">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose" aria-label="Close modal">✕</button>
+      <div class="modal-media">
+        <img id="modalImg" src="" alt="Perfume Preview">
+      </div>
+      <div class="modal-content">
+        <div>
+          <div class="modal-tag" id="modalConcentration">Extrait de Parfum</div>
+          <h3 class="modal-title" id="modalTitle">Eclipse Noir</h3>
+          <div class="modal-price" id="modalPrice">$240</div>
+          <p class="modal-story" id="modalStory"></p>
+
+          <div class="modal-pyramid">
+            <div class="pyramid-row">
+              <span class="pyramid-label">Top</span>
+              <span class="pyramid-val" id="modalTop"></span>
+            </div>
+            <div class="pyramid-row">
+              <span class="pyramid-label">Heart</span>
+              <span class="pyramid-val" id="modalHeart"></span>
+            </div>
+            <div class="pyramid-row">
+              <span class="pyramid-label">Base</span>
+              <span class="pyramid-val" id="modalBase"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-controls">
+          <div class="size-toggle" id="modalSizeToggle">
+            <button class="size-btn" data-size="50">50 ml</button>
+            <button class="size-btn active" data-size="100">100 ml</button>
+          </div>
+          <button class="add-bag-btn" id="modalAddBtn">
+            <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Add to Bag
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE-OUT SHOPPING BAG DRAWER ==================== -->
+  <div class="cart-backdrop" id="cartBackdrop" aria-hidden="true">
+    <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Shopping Bag">
+      <div class="cart-header">
+        <div class="cart-title-wrap">
+          <svg viewBox="0 0 24 24" class="cart-icon"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <h3>Shopping Bag (<span id="cartDrawerCount">0</span>)</h3>
+        </div>
+        <button class="cart-close" id="cartClose" aria-label="Close Shopping Bag">✕</button>
+      </div>
+
+      <div class="cart-items" id="cartItemsList">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="cart-footer">
+        <div class="cart-summary-row">
+          <span>Subtotal</span>
+          <span class="cart-subtotal" id="cartSubtotal">$0</span>
+        </div>
+        <p class="cart-note">Complimentary insured nocturnal delivery & bespoke signature packaging included with every flacon.</p>
+        <button class="cart-checkout-btn" id="cartCheckoutBtn">Proceed to Checkout</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <div class="toast-icon">✓</div>
+    <div class="toast-msg" id="toastMsg">Added to bag</div>
+  </div>
+
+  <!-- ==================== THREE.JS & APP SCRIPT ==================== -->
+  <script type="module">
+    import * as THREE from 'three';
+
+    // 1. DATA ARCHITECTURE & STORAGE SYNC
+    const STORAGE_KEY = 'mond_products_v1';
+    const CART_KEY = 'mond_cart_v1';
+
+    const DEFAULT_FRAGRANCES = [
+      {
+        id: 'eclipse-noir',
+        name: 'Eclipse Noir',
+        concentration: 'Extrait de Parfum',
+        tag: 'Signature',
+        prices: { 50: 170, 100: 240 },
+        inStock: true,
+        description: 'Conceived under the total solar eclipse. An enigmatic synthesis of smoked Somali frankincense, dark patchouli, and black amber veiled in bitter Italian bergamot.',
+        pyramid: {
+          top: 'Italian Bergamot, Pink Peppercorn, Cardamom',
+          heart: 'Smoked Somali Frankincense, Black Amber, Night Violet',
+          base: 'Wild Cambodian Oud, Birch Tar, Dark Patchouli'
+        },
+        img: 'items/adee3ca2-7e4d-4b58-b088-80c84a62d729.JPG',
+        fallback: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=85'
+      },
+      {
+        id: 'silver-crater',
+        name: 'Silver Crater',
+        concentration: 'Eau de Parfum Intense',
+        tag: 'Crystalline',
+        prices: { 50: 150, 100: 210 },
+        inStock: true,
+        description: 'An ethereal distillation of lunar regolith and cold starlight. Opening with frosted aldehydes and aristocratic iris, settling into silken Atlas cedarwood and lunar ambergris.',
+        pyramid: {
+          top: 'Frosted Aldehydes, White Iris, Silver Sage',
+          heart: 'Crushed Mineral Accord, Angelica Seed, Orris Butter',
+          base: 'Atlas Cedarwood, Cashmeran, Lunar Ambergris'
+        },
+        img: 'items/d755243f-03e3-4c35-851c-ac3dd978e7d4.JPG',
+        fallback: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=85'
+      },
+      {
+        id: 'mare-tranquillitatis',
+        name: 'Mare Tranquillitatis',
+        concentration: 'Extrait de Parfum',
+        tag: 'Nocturnal Sea',
+        prices: { 50: 165, 100: 230 },
+        inStock: true,
+        description: 'Named after the tranquil lunar sea. A meditative nocturnal floral wrapped in crystalline neroli, night-blooming jasmine, and milky Mysore sandalwood.',
+        pyramid: {
+          top: 'White Neroli, Bergamot Nectar, Lunar Petals',
+          heart: 'Night-Blooming Jasmine, White Tea, Heliotrope',
+          base: 'Mysore Sandalwood, Silken White Musk, Clean Amber'
+        },
+        img: 'items/dc40686c-4a98-45fc-a82b-0dad0c78b08d.JPG',
+        fallback: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=800&q=85'
+      },
+      {
+        id: 'lunar-oud',
+        name: 'Lunar Oud',
+        concentration: 'Royal Reserve Extrait',
+        tag: 'Collector Edition',
+        prices: { 50: 195, 100: 280 },
+        inStock: true,
+        description: 'A precious reserve aged across nine full moon cycles. 15-year vintage Cambodian oud accented with hand-harvested Taif rose, saffron threads, and honeyed labdanum.',
+        pyramid: {
+          top: 'Persian Saffron, Bitter Orange, Coriander Seed',
+          heart: 'Taif Damask Rose, Smoky Leather, Golden Honey',
+          base: '15-Year Vintage Cambodian Oud, Labdanum, Benzoin'
+        },
+        img: 'items/da39d9fc-b0aa-42b3-a808-1d5923b35ebd.JPG',
+        fallback: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=800&q=85'
+      }
+    ];
+
+    function getStoredProducts() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_FRAGRANCES));
+          return DEFAULT_FRAGRANCES;
+        }
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_FRAGRANCES));
+        return DEFAULT_FRAGRANCES;
+      } catch (e) {
+        console.error('Error reading catalog:', e);
+        return DEFAULT_FRAGRANCES;
+      }
+    }
+
+    // Helper: Graceful image fallback
+    function handleImageFallback(imgEl, fallbackUrl) {
+      imgEl.onerror = () => {
+        imgEl.onerror = null;
+        if (fallbackUrl) imgEl.src = fallbackUrl;
+      };
+    }
+
+    // Set Copyright Year
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // 2. TOAST NOTIFICATION
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    let toastTimeout = null;
+
+    window.showToast = function(msg) {
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    };
+
+    // 3. CART ARCHITECTURE & SLIDE-OUT DRAWER
+    const bagBadge = document.getElementById('bagBadge');
+    const cartBackdrop = document.getElementById('cartBackdrop');
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartClose = document.getElementById('cartClose');
+    const cartItemsList = document.getElementById('cartItemsList');
+    const cartDrawerCount = document.getElementById('cartDrawerCount');
+    const cartSubtotal = document.getElementById('cartSubtotal');
+    const cartCheckoutBtn = document.getElementById('cartCheckoutBtn');
+    const bagBtn = document.getElementById('bagBtn');
+
+    function getStoredCart() {
+      try {
+        const raw = localStorage.getItem(CART_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      renderCartUI();
+    }
+
+    function syncCartWithCatalog() {
+      const products = getStoredProducts();
+      let cart = getStoredCart();
+      let changed = false;
+
+      // Filter out products that have been deleted in admin
+      const initialLen = cart.length;
+      cart = cart.filter(ci => products.some(p => p.id === ci.id));
+      if (cart.length !== initialLen) changed = true;
+
+      // Update names, prices, and stock status
+      cart.forEach(ci => {
+        const prod = products.find(p => p.id === ci.id);
+        if (prod) {
+          const freshPrice = prod.prices[ci.size] || ci.price;
+          if (ci.price !== freshPrice || ci.name !== prod.name || ci.img !== prod.img) {
+            ci.price = freshPrice;
+            ci.name = prod.name;
+            ci.img = prod.img;
+            ci.fallback = prod.fallback;
+            changed = true;
+          }
+        }
+      });
+
+      if (changed) {
+        saveCart(cart);
+      } else {
+        renderCartUI();
+      }
+    }
+
+    function renderCartUI() {
+      const cart = getStoredCart();
+      const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+      const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+
+      bagBadge.textContent = totalItems;
+      cartDrawerCount.textContent = totalItems;
+      cartSubtotal.textContent = `$${subtotal.toLocaleString()}`;
+
+      if (cart.length === 0) {
+        cartItemsList.innerHTML = `
+          <div class="cart-empty">
+            <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <p>Your nocturnal shopping bag is empty.</p>
+            <a href="#collection" class="card-quick-btn" style="position:static; opacity:1; display:inline-block; transform:none;" onclick="closeCartDrawer()">Explore Fragrances</a>
+          </div>
+        `;
+        return;
+      }
+
+      cartItemsList.innerHTML = '';
+      cart.forEach((item, idx) => {
+        const row = document.createElement('div');
+        row.className = 'cart-item';
+        row.innerHTML = `
+          <img src="${item.img}" alt="${item.name}">
+          <div class="cart-item-info">
+            <h4>${item.name}</h4>
+            <div class="cart-item-meta">${item.size}ml · Extrait</div>
+            <div class="cart-item-price">$${item.price}</div>
+          </div>
+          <div class="cart-item-actions">
+            <div class="cart-qty-ctrl">
+              <button class="cart-qty-btn" data-action="dec" data-idx="${idx}">−</button>
+              <span class="cart-qty-val">${item.qty}</span>
+              <button class="cart-qty-btn" data-action="inc" data-idx="${idx}">+</button>
+            </div>
+            <button class="cart-remove-btn" data-action="remove" data-idx="${idx}">Remove</button>
+          </div>
+        `;
+
+        const itemImg = row.querySelector('img');
+        handleImageFallback(itemImg, item.fallback);
+
+        row.querySelectorAll('[data-action]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const act = btn.dataset.action;
+            const i = parseInt(btn.dataset.idx);
+            let currentCart = getStoredCart();
+            if (act === 'inc') {
+              currentCart[i].qty += 1;
+            } else if (act === 'dec') {
+              currentCart[i].qty -= 1;
+              if (currentCart[i].qty <= 0) currentCart.splice(i, 1);
+            } else if (act === 'remove') {
+              currentCart.splice(i, 1);
+            }
+            saveCart(currentCart);
+          });
+        });
+
+        cartItemsList.appendChild(row);
+      });
+    }
+
+    function openCartDrawer() {
+      cartBackdrop.classList.add('open');
+      cartBackdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      renderCartUI();
+    }
+
+    function closeCartDrawer() {
+      cartBackdrop.classList.remove('open');
+      cartBackdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    bagBtn.addEventListener('click', openCartDrawer);
+    cartClose.addEventListener('click', closeCartDrawer);
+    cartBackdrop.addEventListener('click', (e) => {
+      if (e.target === cartBackdrop) closeCartDrawer();
+    });
+
+    cartCheckoutBtn.addEventListener('click', () => {
+      const cart = getStoredCart();
+      if (cart.length === 0) {
+        showToast('Your shopping bag is empty');
+        return;
+      }
+      showToast('Proceeding to private celestial checkout...');
+      setTimeout(() => {
+        closeCartDrawer();
+      }, 1000);
+    });
+
+    function addToBag(fragrance, size, price) {
+      if (fragrance.inStock === false) {
+        showToast(`${fragrance.name} is currently sold out`);
+        return;
+      }
+
+      let cart = getStoredCart();
+      const existing = cart.find(ci => ci.id === fragrance.id && ci.size === size);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({
+          id: fragrance.id,
+          name: fragrance.name,
+          size: size,
+          price: price,
+          img: fragrance.img,
+          fallback: fragrance.fallback,
+          qty: 1
+        });
+      }
+      saveCart(cart);
+
+      bagBadge.classList.add('pop');
+      setTimeout(() => bagBadge.classList.remove('pop'), 300);
+      showToast(`${fragrance.name} (${size}ml) added to bag · $${price}`);
+    }
+
+    // 4. RENDER CATALOG SHOWCASE (DYNAMIC FROM LOCALSTORAGE)
+    const grid = document.getElementById('fragranceGrid');
+    const activeSizes = {}; // tracks selected 50ml / 100ml size per item id
+
+    function renderProductGrid() {
+      const fragrances = getStoredProducts();
+      grid.innerHTML = '';
+
+      if (fragrances.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-catalog">
+            <h3>No Formulations Available</h3>
+            <p>The atelier is currently preparing next lunar macerations. Visit the <a href="admin.html" class="admin-link">Admin Portal</a> to configure fragrances.</p>
+          </div>
+        `;
+        return;
+      }
+
+      fragrances.forEach(item => {
+        if (!activeSizes[item.id]) activeSizes[item.id] = 100;
+        const currentSize = activeSizes[item.id];
+        const isAvailable = item.inStock !== false;
+
+        const card = document.createElement('article');
+        card.className = 'perfume-card';
+        card.innerHTML = `
+          <div class="card-media" data-id="${item.id}">
+            <span class="card-badge ${isAvailable ? '' : 'sold-out'}">
+              ${isAvailable ? (item.tag || 'Reserve') : 'Sold Out'}
+            </span>
+            <img src="${item.img}" alt="${item.name} Bottle" loading="lazy">
+            <button class="card-quick-btn" type="button">Discover Scent</button>
+          </div>
+          <div class="card-body">
+            <div class="card-header">
+              <h3 class="card-title">${item.name}</h3>
+              <span class="card-price" id="price-${item.id}">$${item.prices[currentSize]}</span>
+            </div>
+            <div class="card-concentration">${item.concentration}</div>
+            
+            <div class="notes-tags">
+              <span class="note-tag">Top: ${item.pyramid.top ? item.pyramid.top.split(',')[0] : 'Bergamot'}</span>
+              <span class="note-tag">Heart: ${item.pyramid.heart ? item.pyramid.heart.split(',')[0] : 'Amber'}</span>
+              <span class="note-tag">Base: ${item.pyramid.base ? item.pyramid.base.split(',')[0] : 'Oud'}</span>
+            </div>
+
+            <div class="card-controls">
+              <div class="size-toggle">
+                <button type="button" class="size-btn ${currentSize === 50 ? 'active' : ''}" data-id="${item.id}" data-size="50">50 ml</button>
+                <button type="button" class="size-btn ${currentSize === 100 ? 'active' : ''}" data-id="${item.id}" data-size="100">100 ml</button>
+              </div>
+              <button type="button" class="add-bag-btn ${isAvailable ? '' : 'disabled'}" data-add="${item.id}" ${isAvailable ? '' : 'disabled'}>
+                <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                ${isAvailable ? 'Add to Bag' : 'Sold Out'}
+              </button>
+            </div>
+          </div>
+        `;
+
+        const imgEl = card.querySelector('img');
+        handleImageFallback(imgEl, item.fallback);
+
+        card.querySelector('.card-media').addEventListener('click', () => openModal(item));
+
+        const sizeBtns = card.querySelectorAll('.size-btn');
+        sizeBtns.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const chosenSize = parseInt(btn.dataset.size);
+            activeSizes[item.id] = chosenSize;
+            sizeBtns.forEach(b => b.classList.toggle('active', b === btn));
+            card.querySelector(`#price-${item.id}`).textContent = `$${item.prices[chosenSize]}`;
+          });
+        });
+
+        const addBtn = card.querySelector(`[data-add="${item.id}"]`);
+        if (addBtn) {
+          addBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!isAvailable) return;
+            const chosenSize = activeSizes[item.id] || 100;
+            addToBag(item, chosenSize, item.prices[chosenSize]);
+          });
+        }
+
+        grid.appendChild(card);
+      });
+    }
+
+    // 5. QUICK-VIEW MODAL LOGIC
+    const modal = document.getElementById('quickModal');
+    const modalClose = document.getElementById('modalClose');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalConcentration = document.getElementById('modalConcentration');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalStory = document.getElementById('modalStory');
+    const modalTop = document.getElementById('modalTop');
+    const modalHeart = document.getElementById('modalHeart');
+    const modalBase = document.getElementById('modalBase');
+    const modalSizeBtns = document.querySelectorAll('#modalSizeToggle .size-btn');
+    const modalAddBtn = document.getElementById('modalAddBtn');
+
+    let currentModalItem = null;
+    let modalSelectedSize = 100;
+
+    function openModal(item) {
+      currentModalItem = item;
+      modalSelectedSize = activeSizes[item.id] || 100;
+      const isAvailable = item.inStock !== false;
+
+      modalTitle.textContent = item.name;
+      modalConcentration.textContent = item.concentration + (isAvailable ? '' : ' · (Sold Out)');
+      modalStory.textContent = item.description || '';
+      modalTop.textContent = item.pyramid ? item.pyramid.top : '';
+      modalHeart.textContent = item.pyramid ? item.pyramid.heart : '';
+      modalBase.textContent = item.pyramid ? item.pyramid.base : '';
+
+      modalImg.src = item.img;
+      handleImageFallback(modalImg, item.fallback);
+
+      updateModalPrice();
+      modalSizeBtns.forEach(b => {
+        b.classList.toggle('active', parseInt(b.dataset.size) === modalSelectedSize);
+      });
+
+      if (!isAvailable) {
+        modalAddBtn.disabled = true;
+        modalAddBtn.classList.add('disabled');
+        modalAddBtn.innerHTML = `Sold Out`;
+      } else {
+        modalAddBtn.disabled = false;
+        modalAddBtn.classList.remove('disabled');
+        modalAddBtn.innerHTML = `
+          <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Add to Bag
+        `;
+      }
+
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function updateModalPrice() {
+      if (!currentModalItem) return;
+      modalPrice.textContent = `$${currentModalItem.prices[modalSelectedSize]}`;
+    }
+
+    modalSizeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        modalSelectedSize = parseInt(btn.dataset.size);
+        modalSizeBtns.forEach(b => b.classList.toggle('active', b === btn));
+        updateModalPrice();
+      });
+    });
+
+    modalAddBtn.addEventListener('click', () => {
+      if (!currentModalItem || currentModalItem.inStock === false) return;
+      addToBag(currentModalItem, modalSelectedSize, currentModalItem.prices[modalSelectedSize]);
+      closeModal();
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (modal.classList.contains('open')) closeModal();
+        if (cartBackdrop.classList.contains('open')) closeCartDrawer();
+      }
+    });
+
+    // 6. REAL-TIME STORAGE EVENT LISTENER (SYNC WITH ADMIN.HTML)
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY) {
+        renderProductGrid();
+        syncCartWithCatalog();
+        if (modal.classList.contains('open') && currentModalItem) {
+          const fresh = getStoredProducts().find(p => p.id === currentModalItem.id);
+          if (fresh) {
+            openModal(fresh);
+          } else {
+            closeModal();
+          }
+        }
+      } else if (e.key === CART_KEY) {
+        renderCartUI();
+      }
+    });
+
+    // Initial Catalog & Cart Render
+    renderProductGrid();
+    syncCartWithCatalog();
+
+    // Header scroll background effect
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }, { passive: true });
+
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      const target = document.getElementById('collection');
+      target.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // =========================================================
+    // 5. THREE.JS 3D MOON HERO (STAGE 1 - ELEVATED)
+    // =========================================================
+    const MOON_MAP_URL = 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg';
+    const glCanvas = document.getElementById('gl');
+    const dustCanvas = document.getElementById('dust');
+    const heroSection = document.getElementById('hero');
+
+    const renderer = new THREE.WebGLRenderer({ canvas: glCanvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -2e5, 2e5);
+
+    const planet = new THREE.Group();
+    const tilt = new THREE.Group();
+    const spin = new THREE.Group();
+    planet.add(tilt);
+    tilt.add(spin);
+    scene.add(planet);
+
+    const uniforms = {
+      map: { value: null },
+      texel: { value: new THREE.Vector2(1 / 1024, 1 / 512) },
+      sun: { value: new THREE.Vector3(0.62, 0.5, 0.6).normalize() },
+      ready: { value: 0 }
+    };
+
+    // Lunar Crater Surface Shader with Realistic Dynamic Lighting
+    const moonMat = new THREE.ShaderMaterial({
+      uniforms,
+      vertexShader: `
+        varying vec2 vUv;
+        varying vec3 vObj;
+        varying vec3 vN;
+        void main() {
+          vUv = uv;
+          vObj = normalize(position);
+          vN = normalize(mat3(modelMatrix) * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D map;
+        uniform vec2 texel;
+        uniform vec3 sun;
+        uniform float ready;
+        varying vec2 vUv;
+        varying vec3 vObj;
+        varying vec3 vN;
+
+        float luma(vec2 u) {
+          return dot(texture2D(map, u).rgb, vec3(0.3, 0.6, 0.1));
+        }
+
+        void main() {
+          vec3 raw = texture2D(map, vUv).rgb;
+          float gray = dot(raw, vec3(0.333));
+          vec3 col = pow(vec3(gray), vec3(1.4)) * vec3(0.96, 0.98, 1.04);
+
+          vec3 n = normalize(vN);
+          vec3 t = normalize(cross(vec3(0.0, 1.0, 0.0), n));
+          vec3 b = cross(n, t);
+
+          float dx = luma(vUv + vec2(texel.x * 2.0, 0.0)) - luma(vUv - vec2(texel.x * 2.0, 0.0));
+          float dy = luma(vUv + vec2(0.0, texel.y * 2.0)) - luma(vUv - vec2(0.0, texel.y * 2.0));
+          n = normalize(n - (t * dx + b * dy) * 2.2);
+
+          float diff = max(dot(n, sun), 0.0);
+          vec3 lit = col * (vec3(1.35, 1.38, 1.45) * pow(diff, 0.85) + vec3(0.09, 0.10, 0.13));
+
+          // Soft Fresnel Moonlight Rim
+          float fres = pow(1.0 - max(vN.z, 0.0), 3.2);
+          lit += vec3(0.72, 0.82, 1.0) * fres * (0.08 + diff * 0.45);
+
+          // Tone mapping
+          lit = lit / (lit * 0.28 + 1.0) * 1.25;
+          gl_FragColor = vec4(pow(lit, vec3(1.0 / 2.2)), 1.0) * ready;
+        }
+      `
+    });
+
+    const moonMesh = new THREE.Mesh(new THREE.SphereGeometry(1, 128, 96), moonMat);
+    spin.add(moonMesh);
+
+    // Moonlight Atmospheric Halo
+    const atmoMat = new THREE.ShaderMaterial({
+      uniforms: { sun: uniforms.sun, ready: uniforms.ready },
+      side: THREE.BackSide,
+      blending: THREE.AdditiveBlending,
+      transparent: true,
+      depthWrite: false,
+      vertexShader: `
+        varying vec3 vN;
+        void main() {
+          vN = normalize(mat3(modelMatrix) * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 sun;
+        uniform float ready;
+        varying vec3 vN;
+        void main() {
+          float z = clamp(-vN.z, 0.0, 1.0);
+          float a = smoothstep(0.0, 0.55, z);
+          float s = 0.55 + 0.6 * max(dot(-vN * vec3(1.0, 1.0, 0.0), normalize(sun * vec3(1.0, 1.0, 0.0))), 0.0);
+          a = pow(a, 2.6) * s * 0.52;
+          gl_FragColor = vec4(vec3(0.78, 0.86, 1.0), a * ready);
+        }
+      `
+    });
+    planet.add(new THREE.Mesh(new THREE.SphereGeometry(1.14, 64, 48), atmoMat));
+
+    // Texture Loader
+    let loadTime = null;
+    const imgLoader = new Image();
+    imgLoader.crossOrigin = 'anonymous';
+    imgLoader.onload = () => {
+      const tex = new THREE.Texture(imgLoader);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      tex.needsUpdate = true;
+      uniforms.map.value = tex;
+      uniforms.texel.value.set(1 / imgLoader.width, 1 / imgLoader.height);
+      loadTime = performance.now();
+    };
+    imgLoader.src = MOON_MAP_URL;
+
+    // Interaction & Dimensions
+    let W = window.innerWidth;
+    let H = window.innerHeight;
+    let R0 = 200, R = R0;
+    let yaw = 0.4, pitch = 0.16;
+    let vy = 0;
+    let dragging = false;
+    let lastDragTime = 0;
+    let prevX = 0, prevY = 0;
+
+    function resize() {
+      W = window.innerWidth;
+      H = window.innerHeight;
+      renderer.setSize(W, H);
+      camera.left = -W / 2;
+      camera.right = W / 2;
+      camera.top = H / 2;
+      camera.bottom = -H / 2;
+      camera.updateProjectionMatrix();
+
+      dustCanvas.width = W * Math.min(window.devicePixelRatio, 1.5);
+      dustCanvas.height = H * Math.min(window.devicePixelRatio, 1.5);
+
+      const portrait = H > W * 1.05;
+      R0 = portrait ? W * 0.36 : Math.min(H * 0.32, W * 0.20);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Drag-to-spin physics
+    glCanvas.addEventListener('pointerdown', e => {
+      dragging = true;
+      glCanvas.classList.add('drag');
+      prevX = e.clientX;
+      prevY = e.clientY;
+      vy = 0;
+    });
+
+    window.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const dx = e.clientX - prevX;
+      const dy = e.clientY - prevY;
+      prevX = e.clientX;
+      prevY = e.clientY;
+
+      const k = 1.1 / R0;
+      yaw += dx * k;
+      pitch = Math.max(-0.9, Math.min(0.9, pitch + dy * k));
+      vy = dx * k * 0.6;
+      lastDragTime = performance.now();
+    });
+
+    window.addEventListener('pointerup', () => {
+      if (!dragging) return;
+      dragging = false;
+      glCanvas.classList.remove('drag');
+    });
+
+    // Stardust Particles Background Canvas
+    const dCtx = dustCanvas.getContext('2d');
+    const sprite = document.createElement('canvas');
+    sprite.width = sprite.height = 64;
+    const sCtx = sprite.getContext('2d');
+    const sGrad = sCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    sGrad.addColorStop(0, 'rgba(235, 242, 255, 0.9)');
+    sGrad.addColorStop(0.4, 'rgba(180, 195, 220, 0.35)');
+    sGrad.addColorStop(1, 'transparent');
+    sCtx.fillStyle = sGrad;
+    sCtx.fillRect(0, 0, 64, 64);
+
+    let seed = 42;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const motes = Array.from({ length: 32 }, () => ({
+      x: rnd(),
+      y: rnd(),
+      r: 3 + Math.pow(rnd(), 2) * 30,
+      s: 0.003 + rnd() * 0.010,
+      p: rnd() * 6.28
+    }));
+
+    // Animation Render Loop
+    let lastNow = performance.now();
+    function animate(now) {
+      requestAnimationFrame(animate);
+
+      // Only perform heavy rendering if hero is in view
+      if (window.scrollY > H) return;
+
+      const dt = Math.min((now - lastNow) / 1000, 0.05);
+      lastNow = now;
+      const t = now / 1000;
+
+      const age = loadTime ? (now - loadTime) / 1000 : 0;
+      const grow = loadTime ? Math.min(1, age / 1.4) : 0;
+      uniforms.ready.value = loadTime ? Math.min(1, age * 2.5) : 0;
+
+      R = R0 * (0.1 + 0.9 * grow);
+
+      // Auto-rotation when idle
+      if (!dragging && now - lastDragTime > 1200) {
+        yaw += dt * 0.06;
+      }
+      yaw += vy;
+      vy *= Math.exp(-dt * 4);
+      pitch += (0.16 - pitch) * (1 - Math.exp(-dt * 1.5));
+
+      planet.position.set(0, 0, 0);
+      planet.scale.setScalar(R);
+      tilt.rotation.x = pitch;
+      spin.rotation.y = yaw;
+
+      renderer.render(scene, camera);
+
+      // Render Stardust Motifs
+      const dpr = Math.min(window.devicePixelRatio, 1.5);
+      const dW = dustCanvas.width, dH = dustCanvas.height;
+      dCtx.clearRect(0, 0, dW, dH);
+      for (const m of motes) {
+        const mx = (((m.x + t * m.s + 2) % 1.1) - 0.05) * dW;
+        const my = (m.y + Math.sin(t * 0.3 + m.p) * 0.02) * dH;
+        const alpha = 0.25 + 0.3 * Math.pow(Math.sin(t * 0.6 + m.p), 2);
+        dCtx.globalAlpha = alpha;
+        const size = m.r * dpr;
+        dCtx.drawImage(sprite, mx - size / 2, my - size / 2, size, size);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>

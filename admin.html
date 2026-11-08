@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOND — Atelier Administration & Catalog Controls</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --surface: rgba(255, 255, 255, 0.03);
+      --surface-hover: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.1);
+      --border-focus: rgba(255, 255, 255, 0.28);
+      --silver: #e2e8f0;
+      --silver-muted: #8c97a8;
+      --accent: #c81d31;
+      --accent-hover: #e0283e;
+      --accent-glow: rgba(200, 29, 49, 0.4);
+      --green: #10b981;
+      --font-body: 'Montserrat', system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: #fff;
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { background: none; border: 0; cursor: pointer; }
+
+    /* =========================================================
+       1. PASSCODE SECURITY GATE OVERLAY
+       ========================================================= */
+    #authOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: radial-gradient(circle at 50% 40%, #161c28 0%, #0c0f16 50%, #040508 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    #authOverlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .auth-card {
+      max-width: 420px;
+      width: 100%;
+      background: rgba(14, 18, 27, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: clamp(32px, 5vh, 48px) clamp(24px, 4vw, 36px);
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: relative;
+    }
+    .auth-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+    }
+    .auth-logo svg {
+      width: 28px;
+      height: 28px;
+      stroke: #fff;
+    }
+    .auth-subtitle {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+    .auth-desc {
+      font-size: 13px;
+      color: var(--silver-muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+      font-weight: 300;
+    }
+    .auth-input-wrap {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .auth-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 14px 18px;
+      font-size: 15px;
+      letter-spacing: .2em;
+      text-align: center;
+      color: #fff;
+      outline: 0;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .auth-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+    }
+    .auth-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      padding: 14px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      transition: background 0.25s, box-shadow 0.25s, transform 0.15s;
+    }
+    .auth-btn:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 6px 24px var(--accent-glow);
+    }
+    .auth-btn:active {
+      transform: scale(0.99);
+    }
+    .auth-error {
+      color: #ff5569;
+      font-size: 12px;
+      margin-top: 14px;
+      min-height: 18px;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+    .auth-hint {
+      margin-top: 24px;
+      font-size: 11px;
+      color: var(--silver-muted);
+      opacity: 0.7;
+    }
+    .shake {
+      animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+
+    /* =========================================================
+       2. TOP ADMIN HEADER
+       ========================================================= */
+    .admin-header {
+      background: rgba(7, 9, 14, 0.92);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 16px clamp(20px, 3.5vw, 48px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .back-store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--silver-muted);
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.02);
+      transition: all 0.25s ease;
+    }
+    .back-store-btn:hover {
+      color: #fff;
+      border-color: var(--border-focus);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-brand .logo-text {
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .admin-pill {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      background: rgba(200, 29, 49, 0.2);
+      border: 1px solid rgba(200, 29, 49, 0.4);
+      color: #ff6b7e;
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-info {
+      font-size: 11px;
+      color: var(--silver-muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding-right: 12px;
+      border-right: 1px solid var(--border);
+    }
+    .header-action-btn {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--silver);
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .header-action-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border-color: var(--border-focus);
+    }
+    .header-action-btn.logout:hover {
+      border-color: var(--accent);
+      color: #ff6b7e;
+    }
+
+    /* =========================================================
+       3. MAIN CONTAINER & KPI SUMMARY BAR
+       ========================================================= */
+    .admin-main {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: clamp(28px, 4vh, 48px) clamp(20px, 3.5vw, 48px) 80px;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: border-color 0.3s;
+    }
+    .kpi-card:hover {
+      border-color: var(--border-focus);
+    }
+    .kpi-title {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--silver-muted);
+      margin-bottom: 10px;
+    }
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: #fff;
+    }
+    .kpi-sub {
+      font-size: 11.5px;
+      color: var(--silver-muted);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+    }
+
+    /* Action Toolbar */
+    .admin-toolbar {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .toolbar-left, .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 11px 20px;
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.25s, box-shadow 0.25s, transform 0.15s;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 4px 18px var(--accent-glow);
+    }
+    .btn-primary:active {
+      transform: scale(0.99);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--silver);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 10px 16px;
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--border-focus);
+      color: #fff;
+    }
+
+    /* =========================================================
+       4. SEARCH & FILTER BAR
+       ========================================================= */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+    .search-box {
+      flex: 1;
+      min-width: 280px;
+      max-width: 440px;
+      position: relative;
+    }
+    .search-box svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      stroke: var(--silver-muted);
+      fill: none;
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 10px 14px 10px 38px;
+      font-size: 13px;
+      color: #fff;
+      outline: 0;
+      transition: border-color 0.25s;
+    }
+    .search-input:focus {
+      border-color: var(--border-focus);
+    }
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filter-pill {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      color: var(--silver-muted);
+      transition: all 0.2s ease;
+    }
+    .filter-pill.active, .filter-pill:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--border-focus);
+      color: #fff;
+    }
+    .sort-select {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 8px 14px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--silver);
+      outline: 0;
+      letter-spacing: .05em;
+      cursor: pointer;
+    }
+
+    /* =========================================================
+       5. PRODUCTS MANAGEMENT TABLE / GRID
+       ========================================================= */
+    .table-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .catalog-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .catalog-table th {
+      padding: 16px 20px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--silver-muted);
+      background: rgba(0, 0, 0, 0.35);
+      border-bottom: 1px solid var(--border);
+    }
+    .catalog-table td {
+      padding: 18px 20px;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: middle;
+    }
+    .catalog-table tr:hover td {
+      background: var(--surface-hover);
+    }
+    .catalog-table tr:last-child td {
+      border-bottom: 0;
+    }
+    .prod-cell {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .prod-thumb {
+      width: 56px;
+      height: 56px;
+      border-radius: 3px;
+      object-fit: cover;
+      background: #040508;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .prod-meta h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: #fff;
+    }
+    .prod-meta span {
+      font-size: 11px;
+      color: var(--silver-muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .category-badge {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--silver);
+    }
+    .notes-snippet {
+      max-width: 260px;
+      font-size: 11.5px;
+      color: var(--silver-muted);
+      line-height: 1.5;
+    }
+    .notes-snippet b {
+      color: var(--silver);
+      font-weight: 600;
+    }
+    .prices-cell {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--silver);
+      white-space: nowrap;
+    }
+    .prices-cell div:first-child {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    /* Stock Toggle Badge */
+    .stock-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .stock-toggle-btn.in-stock {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+    .stock-toggle-btn.in-stock:hover {
+      background: rgba(16, 185, 129, 0.22);
+    }
+    .stock-toggle-btn.out-stock {
+      background: rgba(200, 29, 49, 0.15);
+      color: #ff6b7e;
+      border-color: rgba(200, 29, 49, 0.35);
+    }
+    .stock-toggle-btn.out-stock:hover {
+      background: rgba(200, 29, 49, 0.25);
+    }
+
+    /* Row Action Buttons */
+    .row-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-action-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      display: grid;
+      place-items: center;
+      color: var(--silver);
+      transition: all 0.2s ease;
+    }
+    .btn-action-icon:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border-color: var(--border-focus);
+    }
+    .btn-action-icon.delete:hover {
+      background: rgba(200, 29, 49, 0.25);
+      border-color: var(--accent);
+      color: #ff6b7e;
+    }
+    .btn-action-icon svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--silver-muted);
+    }
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      stroke: rgba(255, 255, 255, 0.2);
+      fill: none;
+      margin-bottom: 16px;
+    }
+
+    /* =========================================================
+       6. SLIDE-OVER FORM DRAWER (ADD / EDIT)
+       ========================================================= */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(4, 5, 8, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .drawer-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .drawer-panel {
+      width: 580px;
+      max-width: 100vw;
+      height: 100%;
+      background: #090c12;
+      border-left: 1px solid var(--border-focus);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -20px 0 60px rgba(0, 0, 0, 0.9);
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .drawer-backdrop.open .drawer-panel {
+      transform: translateX(0);
+    }
+    .drawer-header {
+      padding: 24px 30px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .drawer-header h3 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .drawer-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      color: #fff;
+      transition: background 0.2s;
+    }
+    .drawer-close:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--silver);
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 12px 14px;
+      font-size: 13.5px;
+      color: #fff;
+      outline: 0;
+      transition: border-color 0.25s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--border-focus);
+    }
+    .form-textarea {
+      min-height: 90px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    /* Image Preview & Upload */
+    .image-upload-box {
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.015);
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    .img-preview-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 3px;
+      background: #040508;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+    }
+    .img-preview-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .img-upload-controls {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .img-file-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      cursor: pointer;
+      width: fit-content;
+      transition: background 0.2s;
+    }
+    .img-file-label:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+    .img-help {
+      font-size: 10.5px;
+      color: var(--silver-muted);
+      line-height: 1.4;
+    }
+
+    .drawer-footer {
+      padding: 20px 30px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    /* =========================================================
+       7. CONFIRMATION & SETTINGS MODALS
+       ========================================================= */
+    .confirm-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      background: rgba(4, 5, 8, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .confirm-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .confirm-card {
+      background: #0d1017;
+      border: 1px solid var(--border-focus);
+      border-radius: 4px;
+      max-width: 440px;
+      width: 100%;
+      padding: 32px 28px;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+    }
+    .confirm-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(200, 29, 49, 0.15);
+      border: 1px solid rgba(200, 29, 49, 0.35);
+      display: grid;
+      place-items: center;
+      margin: 0 auto 16px;
+      color: #ff6b7e;
+    }
+    .confirm-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+    .confirm-card h4 {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .confirm-card p {
+      font-size: 13px;
+      color: var(--silver-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .confirm-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 5000;
+      background: rgba(14, 18, 27, 0.96);
+      border: 1px solid var(--accent);
+      backdrop-filter: blur(14px);
+      padding: 14px 22px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+      transform: translateY(100px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .toast-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+    }
+    .toast-msg {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .header-info { display: none; }
+      .catalog-table th:nth-child(3),
+      .catalog-table td:nth-child(3) { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== 1. SECURITY PASSCODE GATE ==================== -->
+  <div id="authOverlay">
+    <div class="auth-card" id="authCard">
+      <div class="auth-logo">
+        <svg viewBox="0 0 32 32" fill="none" stroke-width="2.2">
+          <path d="M21 5a11 11 0 1 0 6 19.5A9.5 9.5 0 0 1 21 5z"/>
+        </svg>
+        MOND
+      </div>
+      <div class="auth-subtitle">Atelier Administration</div>
+      <p class="auth-desc">Enter the atelier security passcode to access catalog formulation and inventory controls.</p>
+
+      <form id="authForm" onsubmit="event.preventDefault(); verifyPasscode();">
+        <div class="auth-input-wrap">
+          <input type="password" id="passcodeInput" class="auth-input" placeholder="••••••••" autofocus autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="auth-btn">Unlock Atelier</button>
+        <div class="auth-error" id="authError"></div>
+      </form>
+      <div class="auth-hint">Default passcode: <code>mond2026</code></div>
+    </div>
+  </div>
+
+  <!-- ==================== 2. ADMIN HEADER ==================== -->
+  <header class="admin-header">
+    <div class="header-left">
+      <a href="index.html" class="back-store-btn" title="Return to Live Boutique">
+        ← Back to Storefront
+      </a>
+      <div class="admin-brand">
+        <svg viewBox="0 0 32 32" fill="none" stroke-width="2.2" style="width:24px;height:24px;stroke:#fff;">
+          <path d="M21 5a11 11 0 1 0 6 19.5A9.5 9.5 0 0 1 21 5z"/>
+        </svg>
+        <span class="logo-text">MOND</span>
+        <span class="admin-pill">Catalog Admin</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="header-info" id="lunarInfo">● Lunar Cycle Synchronized</div>
+      <button class="header-action-btn" id="pinSettingsBtn" title="Change Admin Passcode">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Security PIN
+      </button>
+      <button class="header-action-btn logout" id="logoutBtn" title="Exit Administration">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Lock
+      </button>
+    </div>
+  </header>
+
+  <!-- ==================== 3. ADMIN CONTENT ==================== -->
+  <main class="admin-main">
+    <!-- KPI Summary Grid -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-title">Total Fragrances</span>
+        <div class="kpi-value" id="kpiTotal">0</div>
+        <div class="kpi-sub">Archived & Live Formulations</div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-title">Boutique Active</span>
+        <div class="kpi-value" id="kpiActive" style="color:#34d399;">0</div>
+        <div class="kpi-sub"><span class="status-dot"></span> In Stock on Storefront</div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-title">Archived / Sold Out</span>
+        <div class="kpi-value" id="kpiSoldOut" style="color:#ff6b7e;">0</div>
+        <div class="kpi-sub">Marked Sold Out in Catalog</div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-title">Avg 100ml Value</span>
+        <div class="kpi-value" id="kpiAvgPrice">$0</div>
+        <div class="kpi-sub">Mean Flacon Formulation Price</div>
+      </div>
+    </section>
+
+    <!-- Action Toolbar -->
+    <section class="admin-toolbar">
+      <div class="toolbar-left">
+        <button class="btn-primary" id="addFragranceBtn">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add New Fragrance
+        </button>
+        <button class="btn-secondary" id="resetDefaultBtn">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset to Default
+        </button>
+      </div>
+
+      <div class="toolbar-right">
+        <button class="btn-secondary" id="exportBtn" title="Export catalog as JSON backup">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export JSON
+        </button>
+        <label class="btn-secondary" style="cursor:pointer;" title="Import catalog from JSON backup">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import JSON
+          <input type="file" id="importInput" accept=".json" style="display:none;">
+        </label>
+        <a href="index.html" target="_blank" class="btn-secondary">
+          Live Store ↗
+        </a>
+      </div>
+    </section>
+
+    <!-- Filter & Search Controls -->
+    <section class="filter-bar">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, notes, or concentration...">
+      </div>
+
+      <div class="filter-group">
+        <button class="filter-pill active" data-filter="all">All (<span id="countAll">0</span>)</button>
+        <button class="filter-pill" data-filter="in-stock">In Stock (<span id="countInStock">0</span>)</button>
+        <button class="filter-pill" data-filter="sold-out">Sold Out (<span id="countSoldOut">0</span>)</button>
+
+        <select id="sortSelect" class="sort-select">
+          <option value="name-asc">Name (A → Z)</option>
+          <option value="name-desc">Name (Z → A)</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="price-asc">Price: Low to High</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Catalog Table -->
+    <div class="table-container">
+      <table class="catalog-table">
+        <thead>
+          <tr>
+            <th>Fragrance Details</th>
+            <th>Category</th>
+            <th>Olfactory Pyramid</th>
+            <th>Prices (50ml / 100ml)</th>
+            <th>Inventory</th>
+            <th style="text-align:right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="catalogTbody">
+          <!-- Rendered dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- ==================== 4. ADD / EDIT DRAWER ==================== -->
+  <div class="drawer-backdrop" id="formDrawer" aria-hidden="true">
+    <aside class="drawer-panel" role="dialog" aria-labelledby="drawerTitle">
+      <div class="drawer-header">
+        <h3 id="drawerTitle">Add Formulation</h3>
+        <button class="drawer-close" id="drawerClose">✕</button>
+      </div>
+
+      <form id="fragranceForm" class="drawer-body" onsubmit="event.preventDefault(); saveFragrance();">
+        <input type="hidden" id="fieldId">
+
+        <div class="form-group">
+          <label class="form-label" for="fieldName">Fragrance Name *</label>
+          <input type="text" id="fieldName" class="form-input" placeholder="e.g. Eclipse Noir" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="fieldConcentration">Concentration *</label>
+            <input type="text" id="fieldConcentration" class="form-input" placeholder="e.g. Extrait de Parfum" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fieldTag">Collection Tag</label>
+            <input type="text" id="fieldTag" class="form-input" placeholder="e.g. Signature, Royal Reserve">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="fieldPrice50">50ml Price ($) *</label>
+            <input type="number" id="fieldPrice50" class="form-input" min="1" step="1" placeholder="170" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fieldPrice100">100ml Price ($) *</label>
+            <input type="number" id="fieldPrice100" class="form-input" min="1" step="1" placeholder="240" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="fieldInStock">Stock Status</label>
+          <select id="fieldInStock" class="form-select">
+            <option value="true">● In Stock (Available for Purchase)</option>
+            <option value="false">○ Sold Out / Archival Allocation</option>
+          </select>
+        </div>
+
+        <!-- Image Upload & Preview -->
+        <div class="form-group">
+          <label class="form-label">Flacon Imagery</label>
+          <div class="image-upload-box">
+            <div class="img-preview-wrap">
+              <img id="formImgPreview" src="" alt="Flacon preview">
+            </div>
+            <div class="img-upload-controls">
+              <input type="text" id="fieldImg" class="form-input" placeholder="Image URL or items/... path">
+              <label class="img-file-label">
+                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                Upload & Compress Image
+                <input type="file" id="localImgUpload" accept="image/*" style="display:none;">
+              </label>
+              <span class="img-help">Local uploads are automatically compressed via HTML5 canvas to keep storage fast and lightweight.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Olfactory Pyramid -->
+        <div class="form-group">
+          <label class="form-label" for="fieldTop">Top Notes</label>
+          <input type="text" id="fieldTop" class="form-input" placeholder="e.g. Italian Bergamot, Pink Peppercorn, Cardamom">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fieldHeart">Heart Notes</label>
+          <input type="text" id="fieldHeart" class="form-input" placeholder="e.g. Smoked Somali Frankincense, Black Amber">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fieldBase">Base Notes</label>
+          <input type="text" id="fieldBase" class="form-input" placeholder="e.g. Wild Cambodian Oud, Birch Tar, Dark Patchouli">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="fieldDesc">Scent Story / Formulation Notes</label>
+          <textarea id="fieldDesc" class="form-textarea" placeholder="Describe the nocturnal inspiration and notes..."></textarea>
+        </div>
+
+        <div class="drawer-footer">
+          <button type="button" class="btn-secondary" id="drawerCancel">Cancel</button>
+          <button type="submit" class="btn-primary" id="drawerSubmitBtn">Save Formulation</button>
+        </div>
+      </form>
+    </aside>
+  </div>
+
+  <!-- ==================== 5. CONFIRMATION MODALS ==================== -->
+  <!-- Delete Modal -->
+  <div class="confirm-backdrop" id="deleteModal" aria-hidden="true">
+    <div class="confirm-card">
+      <div class="confirm-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </div>
+      <h4>Delete Formulation</h4>
+      <p id="deleteMsg">Are you sure you wish to delete this fragrance? This action will remove it from the boutique storefront immediately.</p>
+      <div class="confirm-actions">
+        <button class="btn-secondary" id="cancelDeleteBtn">Cancel</button>
+        <button class="btn-primary" id="confirmDeleteBtn" style="background:#e11d48;">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset Defaults Modal -->
+  <div class="confirm-backdrop" id="resetModal" aria-hidden="true">
+    <div class="confirm-card">
+      <div class="confirm-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      </div>
+      <h4>Restore Default Catalog</h4>
+      <p>This will restore the 4 default signature fragrances (Eclipse Noir, Silver Crater, Mare Tranquillitatis, Lunar Oud). Any custom formulations will be replaced.</p>
+      <div class="confirm-actions">
+        <button class="btn-secondary" id="cancelResetBtn">Cancel</button>
+        <button class="btn-primary" id="confirmResetBtn">Restore Defaults</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change PIN Modal -->
+  <div class="confirm-backdrop" id="pinModal" aria-hidden="true">
+    <div class="confirm-card" style="text-align:left;">
+      <h4 style="margin-bottom:14px; text-align:center;">Change Security PIN</h4>
+      <form id="pinForm" onsubmit="event.preventDefault(); updateAdminPin();">
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Current Passcode</label>
+          <input type="password" id="currentPin" class="form-input" required>
+        </div>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">New Passcode</label>
+          <input type="password" id="newPin" class="form-input" placeholder="At least 4 characters" minlength="4" required>
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label class="form-label">Confirm New Passcode</label>
+          <input type="password" id="confirmNewPin" class="form-input" minlength="4" required>
+        </div>
+        <div class="confirm-actions">
+          <button type="button" class="btn-secondary" id="cancelPinBtn">Cancel</button>
+          <button type="submit" class="btn-primary">Update Passcode</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <div class="toast-icon">✓</div>
+    <div class="toast-msg" id="toastMsg">Operation successful</div>
+  </div>
+
+  <!-- ==================== SCRIPT ==================== -->
+  <script>
+    // SHARED CONSTANTS
+    const STORAGE_KEY = 'mond_products_v1';
+    const PIN_KEY = 'mond_admin_pin';
+    const AUTH_KEY = 'mond_admin_auth';
+    const DEFAULT_PIN = 'mond2026';
+
+    const DEFAULT_CATALOG = [
+      {
+        id: 'eclipse-noir',
+        name: 'Eclipse Noir',
+        concentration: 'Extrait de Parfum',
+        tag: 'Signature',
+        prices: { 50: 170, 100: 240 },
+        inStock: true,
+        description: 'Conceived under the total solar eclipse. An enigmatic synthesis of smoked Somali frankincense, dark patchouli, and black amber veiled in bitter Italian bergamot.',
+        pyramid: {
+          top: 'Italian Bergamot, Pink Peppercorn, Cardamom',
+          heart: 'Smoked Somali Frankincense, Black Amber, Night Violet',
+          base: 'Wild Cambodian Oud, Birch Tar, Dark Patchouli'
+        },
+        img: 'items/adee3ca2-7e4d-4b58-b088-80c84a62d729.JPG',
+        fallback: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=85'
+      },
+      {
+        id: 'silver-crater',
+        name: 'Silver Crater',
+        concentration: 'Eau de Parfum Intense',
+        tag: 'Crystalline',
+        prices: { 50: 150, 100: 210 },
+        inStock: true,
+        description: 'An ethereal distillation of lunar regolith and cold starlight. Opening with frosted aldehydes and aristocratic iris, settling into silken Atlas cedarwood and lunar ambergris.',
+        pyramid: {
+          top: 'Frosted Aldehydes, White Iris, Silver Sage',
+          heart: 'Crushed Mineral Accord, Angelica Seed, Orris Butter',
+          base: 'Atlas Cedarwood, Cashmeran, Lunar Ambergris'
+        },
+        img: 'items/d755243f-03e3-4c35-851c-ac3dd978e7d4.JPG',
+        fallback: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=85'
+      },
+      {
+        id: 'mare-tranquillitatis',
+        name: 'Mare Tranquillitatis',
+        concentration: 'Extrait de Parfum',
+        tag: 'Nocturnal Sea',
+        prices: { 50: 165, 100: 230 },
+        inStock: true,
+        description: 'Named after the tranquil lunar sea. A meditative nocturnal floral wrapped in crystalline neroli, night-blooming jasmine, and milky Mysore sandalwood.',
+        pyramid: {
+          top: 'White Neroli, Bergamot Nectar, Lunar Petals',
+          heart: 'Night-Blooming Jasmine, White Tea, Heliotrope',
+          base: 'Mysore Sandalwood, Silken White Musk, Clean Amber'
+        },
+        img: 'items/dc40686c-4a98-45fc-a82b-0dad0c78b08d.JPG',
+        fallback: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=800&q=85'
+      },
+      {
+        id: 'lunar-oud',
+        name: 'Lunar Oud',
+        concentration: 'Royal Reserve Extrait',
+        tag: 'Collector Edition',
+        prices: { 50: 195, 100: 280 },
+        inStock: true,
+        description: 'A precious reserve aged across nine full moon cycles. 15-year vintage Cambodian oud accented with hand-harvested Taif rose, saffron threads, and honeyed labdanum.',
+        pyramid: {
+          top: 'Persian Saffron, Bitter Orange, Coriander Seed',
+          heart: 'Taif Damask Rose, Smoky Leather, Golden Honey',
+          base: '15-Year Vintage Cambodian Oud, Labdanum, Benzoin'
+        },
+        img: 'items/da39d9fc-b0aa-42b3-a808-1d5923b35ebd.JPG',
+        fallback: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=800&q=85'
+      }
+    ];
+
+    // 1. AUTHENTICATION CONTROLLER
+    const authOverlay = document.getElementById('authOverlay');
+    const authCard = document.getElementById('authCard');
+    const passcodeInput = document.getElementById('passcodeInput');
+    const authError = document.getElementById('authError');
+
+    function checkAuth() {
+      if (sessionStorage.getItem(AUTH_KEY) === 'true') {
+        authOverlay.classList.add('hidden');
+      } else {
+        authOverlay.classList.remove('hidden');
+        passcodeInput.value = '';
+        passcodeInput.focus();
+      }
+    }
+
+    function verifyPasscode() {
+      const entered = passcodeInput.value.trim();
+      const actualPin = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
+
+      if (entered === actualPin) {
+        sessionStorage.setItem(AUTH_KEY, 'true');
+        authOverlay.classList.add('hidden');
+        showToast('Atelier unlocked successfully');
+      } else {
+        authError.textContent = 'Incorrect passcode. Access denied.';
+        authCard.classList.remove('shake');
+        void authCard.offsetWidth; // trigger reflow
+        authCard.classList.add('shake');
+        passcodeInput.select();
+      }
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      sessionStorage.removeItem(AUTH_KEY);
+      checkAuth();
+      showToast('Atelier locked');
+    });
+
+    // 2. TOAST SYSTEM
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    let toastTimeout = null;
+
+    function showToast(msg) {
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // 3. STORAGE & CATALOG MANAGEMENT
+    function getCatalog() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_CATALOG));
+          return DEFAULT_CATALOG;
+        }
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return parsed;
+        return DEFAULT_CATALOG;
+      } catch (e) {
+        return DEFAULT_CATALOG;
+      }
+    }
+
+    function saveCatalog(products, notify = true) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+      window.dispatchEvent(new Event('storage'));
+      renderDashboard();
+      if (notify) showToast('Catalog updated & synced to storefront');
+    }
+
+    // 4. KPI METRICS & RENDERING
+    const kpiTotal = document.getElementById('kpiTotal');
+    const kpiActive = document.getElementById('kpiActive');
+    const kpiSoldOut = document.getElementById('kpiSoldOut');
+    const kpiAvgPrice = document.getElementById('kpiAvgPrice');
+
+    const countAll = document.getElementById('countAll');
+    const countInStock = document.getElementById('countInStock');
+    const countSoldOut = document.getElementById('countSoldOut');
+
+    const catalogTbody = document.getElementById('catalogTbody');
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const filterPills = document.querySelectorAll('.filter-pill');
+
+    let currentFilter = 'all';
+
+    function updateKPIs(products) {
+      const total = products.length;
+      const inStock = products.filter(p => p.inStock !== false).length;
+      const soldOut = total - inStock;
+      const avg100 = total > 0
+        ? Math.round(products.reduce((acc, p) => acc + (p.prices[100] || 0), 0) / total)
+        : 0;
+
+      kpiTotal.textContent = total;
+      kpiActive.textContent = inStock;
+      kpiSoldOut.textContent = soldOut;
+      kpiAvgPrice.textContent = `$${avg100}`;
+
+      countAll.textContent = total;
+      countInStock.textContent = inStock;
+      countSoldOut.textContent = soldOut;
+    }
+
+    function renderDashboard() {
+      const products = getCatalog();
+      updateKPIs(products);
+
+      // Filtering
+      const query = searchInput.value.toLowerCase().trim();
+      let filtered = products.filter(p => {
+        // Stock filter
+        if (currentFilter === 'in-stock' && p.inStock === false) return false;
+        if (currentFilter === 'sold-out' && p.inStock !== false) return false;
+
+        // Search query
+        if (!query) return true;
+        const text = `${p.name} ${p.concentration} ${p.tag || ''} ${p.pyramid?.top || ''} ${p.pyramid?.heart || ''} ${p.pyramid?.base || ''}`.toLowerCase();
+        return text.includes(query);
+      });
+
+      // Sorting
+      const sortVal = sortSelect.value;
+      filtered.sort((a, b) => {
+        if (sortVal === 'name-asc') return a.name.localeCompare(b.name);
+        if (sortVal === 'name-desc') return b.name.localeCompare(a.name);
+        if (sortVal === 'price-desc') return (b.prices[100] || 0) - (a.prices[100] || 0);
+        if (sortVal === 'price-asc') return (a.prices[100] || 0) - (b.prices[100] || 0);
+        return 0;
+      });
+
+      catalogTbody.innerHTML = '';
+
+      if (filtered.length === 0) {
+        catalogTbody.innerHTML = `
+          <tr>
+            <td colspan="6">
+              <div class="empty-state">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <h3>No Formulations Found</h3>
+                <p>Try adjusting your search query or inventory filter.</p>
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const tr = document.createElement('tr');
+        const isAvailable = item.inStock !== false;
+
+        tr.innerHTML = `
+          <td>
+            <div class="prod-cell">
+              <img src="${item.img}" alt="${item.name}" class="prod-thumb" onerror="this.src='${item.fallback || ''}'">
+              <div class="prod-meta">
+                <h4>${item.name}</h4>
+                <span>${item.concentration}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="category-badge">${item.tag || 'Reserve'}</span>
+          </td>
+          <td>
+            <div class="notes-snippet">
+              <div><b>Top:</b> ${item.pyramid?.top ? item.pyramid.top.split(',').slice(0, 2).join(',') : '—'}</div>
+              <div><b>Heart:</b> ${item.pyramid?.heart ? item.pyramid.heart.split(',').slice(0, 2).join(',') : '—'}</div>
+              <div><b>Base:</b> ${item.pyramid?.base ? item.pyramid.base.split(',').slice(0, 2).join(',') : '—'}</div>
+            </div>
+          </td>
+          <td>
+            <div class="prices-cell">
+              <div>$${item.prices[100] || 0} <span style="font-size:11px;color:var(--silver-muted);font-weight:400;">/ 100ml</span></div>
+              <div style="font-size:11.5px;color:var(--silver-muted);">$${item.prices[50] || 0} / 50ml</div>
+            </div>
+          </td>
+          <td>
+            <button class="stock-toggle-btn ${isAvailable ? 'in-stock' : 'out-stock'}" data-toggle-stock="${item.id}" title="Click to toggle stock status">
+              ${isAvailable ? '● In Stock' : '○ Sold Out'}
+            </button>
+          </td>
+          <td style="text-align:right;">
+            <div class="row-actions" style="justify-content:flex-end;">
+              <button class="btn-action-icon" data-edit="${item.id}" title="Edit Formulation">
+                <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              </button>
+              <button class="btn-action-icon" data-duplicate="${item.id}" title="Duplicate Formulation">
+                <svg viewBox="0 0 24 24"><rect width="13" height="13" x="9" y="9" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+              <button class="btn-action-icon delete" data-delete="${item.id}" title="Delete Formulation">
+                <svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </td>
+        `;
+
+        // Action event listeners
+        tr.querySelector(`[data-toggle-stock="${item.id}"]`).addEventListener('click', () => {
+          toggleProductStock(item.id);
+        });
+        tr.querySelector(`[data-edit="${item.id}"]`).addEventListener('click', () => {
+          openEditDrawer(item.id);
+        });
+        tr.querySelector(`[data-duplicate="${item.id}"]`).addEventListener('click', () => {
+          duplicateProduct(item.id);
+        });
+        tr.querySelector(`[data-delete="${item.id}"]`).addEventListener('click', () => {
+          promptDelete(item.id);
+        });
+
+        catalogTbody.appendChild(tr);
+      });
+    }
+
+    function toggleProductStock(id) {
+      const catalog = getCatalog();
+      const prod = catalog.find(p => p.id === id);
+      if (prod) {
+        prod.inStock = prod.inStock === false ? true : false;
+        saveCatalog(catalog);
+        showToast(`${prod.name} status updated: ${prod.inStock ? 'In Stock' : 'Sold Out'}`);
+      }
+    }
+
+    function duplicateProduct(id) {
+      const catalog = getCatalog();
+      const prod = catalog.find(p => p.id === id);
+      if (!prod) return;
+
+      const clone = JSON.parse(JSON.stringify(prod));
+      clone.id = `${prod.id}-copy-${Date.now().toString(36)}`;
+      clone.name = `${prod.name} (Copy)`;
+      catalog.push(clone);
+      saveCatalog(catalog);
+      showToast(`Duplicated "${prod.name}"`);
+    }
+
+    // 5. DRAWER FORM (ADD / EDIT)
+    const formDrawer = document.getElementById('formDrawer');
+    const drawerTitle = document.getElementById('drawerTitle');
+    const fragranceForm = document.getElementById('fragranceForm');
+    const fieldId = document.getElementById('fieldId');
+    const fieldName = document.getElementById('fieldName');
+    const fieldConcentration = document.getElementById('fieldConcentration');
+    const fieldTag = document.getElementById('fieldTag');
+    const fieldPrice50 = document.getElementById('fieldPrice50');
+    const fieldPrice100 = document.getElementById('fieldPrice100');
+    const fieldInStock = document.getElementById('fieldInStock');
+    const fieldImg = document.getElementById('fieldImg');
+    const formImgPreview = document.getElementById('formImgPreview');
+    const localImgUpload = document.getElementById('localImgUpload');
+    const fieldTop = document.getElementById('fieldTop');
+    const fieldHeart = document.getElementById('fieldHeart');
+    const fieldBase = document.getElementById('fieldBase');
+    const fieldDesc = document.getElementById('fieldDesc');
+
+    function openAddDrawer() {
+      drawerTitle.textContent = 'Add New Formulation';
+      fragranceForm.reset();
+      fieldId.value = '';
+      fieldInStock.value = 'true';
+      formImgPreview.src = 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=400&q=80';
+      fieldImg.value = 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=85';
+      formDrawer.classList.add('open');
+      formDrawer.setAttribute('aria-hidden', 'false');
+      fieldName.focus();
+    }
+
+    function openEditDrawer(id) {
+      const catalog = getCatalog();
+      const prod = catalog.find(p => p.id === id);
+      if (!prod) return;
+
+      drawerTitle.textContent = `Edit Formulation: ${prod.name}`;
+      fieldId.value = prod.id;
+      fieldName.value = prod.name;
+      fieldConcentration.value = prod.concentration || 'Extrait de Parfum';
+      fieldTag.value = prod.tag || '';
+      fieldPrice50.value = prod.prices?.[50] || 150;
+      fieldPrice100.value = prod.prices?.[100] || 220;
+      fieldInStock.value = prod.inStock !== false ? 'true' : 'false';
+      fieldImg.value = prod.img || '';
+      formImgPreview.src = prod.img || prod.fallback || '';
+      fieldTop.value = prod.pyramid?.top || '';
+      fieldHeart.value = prod.pyramid?.heart || '';
+      fieldBase.value = prod.pyramid?.base || '';
+      fieldDesc.value = prod.description || '';
+
+      formDrawer.classList.add('open');
+      formDrawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeDrawer() {
+      formDrawer.classList.remove('open');
+      formDrawer.setAttribute('aria-hidden', 'true');
+    }
+
+    document.getElementById('addFragranceBtn').addEventListener('click', openAddDrawer);
+    document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+    document.getElementById('drawerCancel').addEventListener('click', closeDrawer);
+    formDrawer.addEventListener('click', (e) => {
+      if (e.target === formDrawer) closeDrawer();
+    });
+
+    fieldImg.addEventListener('input', () => {
+      formImgPreview.src = fieldImg.value.trim();
+    });
+
+    // Automatic Canvas Image Compression for Local File Uploads
+    localImgUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          // Offscreen canvas downsampling
+          const canvas = document.createElement('canvas');
+          const maxDim = 800;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+
+          // Compress to lightweight JPEG (0.75 quality)
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.75);
+          fieldImg.value = compressedDataUrl;
+          formImgPreview.src = compressedDataUrl;
+          showToast('Image compressed & loaded');
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function saveFragrance() {
+      const catalog = getCatalog();
+      const existingId = fieldId.value.trim();
+      const name = fieldName.value.trim();
+
+      const id = existingId || name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `mond-${Date.now()}`;
+      const imgVal = fieldImg.value.trim() || 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=85';
+
+      const formulation = {
+        id: id,
+        name: name,
+        concentration: fieldConcentration.value.trim() || 'Extrait de Parfum',
+        tag: fieldTag.value.trim() || 'Signature',
+        prices: {
+          50: parseInt(fieldPrice50.value) || 150,
+          100: parseInt(fieldPrice100.value) || 220
+        },
+        inStock: fieldInStock.value === 'true',
+        description: fieldDesc.value.trim(),
+        pyramid: {
+          top: fieldTop.value.trim(),
+          heart: fieldHeart.value.trim(),
+          base: fieldBase.value.trim()
+        },
+        img: imgVal,
+        fallback: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=85'
+      };
+
+      if (existingId) {
+        const idx = catalog.findIndex(p => p.id === existingId);
+        if (idx !== -1) catalog[idx] = formulation;
+        else catalog.push(formulation);
+      } else {
+        catalog.push(formulation);
+      }
+
+      saveCatalog(catalog);
+      closeDrawer();
+      showToast(`Formulation "${name}" saved & live on store`);
+    }
+
+    // 6. DELETE CONFIRMATION
+    const deleteModal = document.getElementById('deleteModal');
+    const deleteMsg = document.getElementById('deleteMsg');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+    let itemToDelete = null;
+
+    function promptDelete(id) {
+      const catalog = getCatalog();
+      const prod = catalog.find(p => p.id === id);
+      if (!prod) return;
+      itemToDelete = id;
+      deleteMsg.textContent = `Are you sure you wish to delete "${prod.name}"? This formulation will be removed from the boutique storefront immediately.`;
+      deleteModal.classList.add('open');
+    }
+
+    confirmDeleteBtn.addEventListener('click', () => {
+      if (!itemToDelete) return;
+      let catalog = getCatalog();
+      catalog = catalog.filter(p => p.id !== itemToDelete);
+      saveCatalog(catalog);
+      deleteModal.classList.remove('open');
+      showToast('Formulation deleted');
+      itemToDelete = null;
+    });
+
+    cancelDeleteBtn.addEventListener('click', () => {
+      deleteModal.classList.remove('open');
+      itemToDelete = null;
+    });
+
+    // 7. RESET DEFAULTS
+    const resetModal = document.getElementById('resetModal');
+    const resetDefaultBtn = document.getElementById('resetDefaultBtn');
+    const confirmResetBtn = document.getElementById('confirmResetBtn');
+    const cancelResetBtn = document.getElementById('cancelResetBtn');
+
+    resetDefaultBtn.addEventListener('click', () => {
+      resetModal.classList.add('open');
+    });
+    confirmResetBtn.addEventListener('click', () => {
+      saveCatalog(DEFAULT_CATALOG);
+      resetModal.classList.remove('open');
+      showToast('Catalog restored to default signature fragrances');
+    });
+    cancelResetBtn.addEventListener('click', () => {
+      resetModal.classList.remove('open');
+    });
+
+    // 8. EXPORT & IMPORT JSON
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const catalog = getCatalog();
+      const json = JSON.stringify(catalog, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `mond_catalog_backup_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Catalog exported as JSON');
+    });
+
+    document.getElementById('importInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const parsed = JSON.parse(event.target.result);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            saveCatalog(parsed);
+            showToast(`Imported ${parsed.length} fragrances into catalog`);
+          } else {
+            alert('Invalid JSON structure: expected an array of fragrance objects.');
+          }
+        } catch (err) {
+          alert('Failed to parse JSON file.');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = ''; // reset file input
+    });
+
+    // 9. SECURITY PIN MODAL
+    const pinModal = document.getElementById('pinModal');
+    const pinSettingsBtn = document.getElementById('pinSettingsBtn');
+    const cancelPinBtn = document.getElementById('cancelPinBtn');
+    const pinForm = document.getElementById('pinForm');
+    const currentPin = document.getElementById('currentPin');
+    const newPin = document.getElementById('newPin');
+    const confirmNewPin = document.getElementById('confirmNewPin');
+
+    pinSettingsBtn.addEventListener('click', () => {
+      pinForm.reset();
+      pinModal.classList.add('open');
+      currentPin.focus();
+    });
+    cancelPinBtn.addEventListener('click', () => {
+      pinModal.classList.remove('open');
+    });
+
+    function updateAdminPin() {
+      const actualPin = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
+      if (currentPin.value !== actualPin) {
+        alert('Current passcode is incorrect.');
+        currentPin.select();
+        return;
+      }
+      if (newPin.value !== confirmNewPin.value) {
+        alert('New passcodes do not match.');
+        confirmNewPin.select();
+        return;
+      }
+      localStorage.setItem(PIN_KEY, newPin.value);
+      pinModal.classList.remove('open');
+      showToast('Atelier passcode updated successfully');
+    }
+
+    // 10. FILTER & SEARCH LISTENERS
+    searchInput.addEventListener('input', renderDashboard);
+    sortSelect.addEventListener('change', renderDashboard);
+
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        filterPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        currentFilter = pill.dataset.filter;
+        renderDashboard();
+      });
+    });
+
+    // Listen to cross-tab storage events
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY) {
+        renderDashboard();
+      }
+    });
+
+    // Escape Key Handler for all Modals
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeDrawer();
+        deleteModal.classList.remove('open');
+        resetModal.classList.remove('open');
+        pinModal.classList.remove('open');
+      }
+    });
+
+    // Initial Execution
+    checkAuth();
+    renderDashboard();
+  </script>
+</body>
+</html>
+
