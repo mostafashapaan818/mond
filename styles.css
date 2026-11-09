@@ -23,9 +23,7 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 img { max-width: 100%; display: block; }
 
-/* =========================================================
-   1. LUXURY STICKY HEADER
-   ========================================================= */
+/* Header */
 header {
   position: fixed;
   top: 0;
@@ -153,12 +151,12 @@ header.scrolled {
   transform: scale(1.35);
 }
 
-/* Mobile Hamburger Menu Toggle Button */
+/* Hamburger toggle */
 .mobile-menu-btn {
   display: none;
 }
 
-/* Luxury Slide-in Mobile Navigation Drawer */
+/* Mobile nav drawer */
 .mobile-nav-backdrop {
   position: fixed;
   inset: 0;
@@ -285,9 +283,7 @@ header.scrolled {
   text-align: center;
 }
 
-/* =========================================================
-   2. 3D MOON HERO SECTION (STAGE 1: 3D MOON AS LETTER 'O')
-   ========================================================= */
+/* Hero (3D Moon & Typography) */
 #hero {
   position: relative;
   width: 100%;
@@ -432,9 +428,7 @@ header.scrolled {
   100% { opacity: 0; }
 }
 
-/* =========================================================
-   3. LUXURY PERFUME SHOWCASE (GRID)
-   ========================================================= */
+/* Products grid */
 .section-wrap {
   max-width: 1360px;
   margin: 0 auto;
@@ -497,7 +491,7 @@ header.scrolled {
   }
 }
 
-/* Product Card */
+/* Card */
 .perfume-card {
   background: var(--bg-surface);
   border: 1px solid var(--bg-elevated);
@@ -612,7 +606,7 @@ header.scrolled {
   font-weight: 500;
 }
 
-/* Olfactory Pyramid Tags */
+/* Olfactory tags */
 .notes-tags {
   display: flex;
   flex-wrap: wrap;
@@ -629,7 +623,7 @@ header.scrolled {
   letter-spacing: .04em;
 }
 
-/* Size Selector & Add to Bag */
+/* Size selection */
 .card-controls {
   margin-top: auto;
   display: flex;
@@ -698,9 +692,7 @@ header.scrolled {
   opacity: 0.65;
 }
 
-/* =========================================================
-   4. FOOTER
-   ========================================================= */
+/* Footer */
 footer {
   border-top: 1px solid var(--bg-elevated);
   background: var(--bg-void);
@@ -744,9 +736,7 @@ footer {
   font-size: 14px;
 }
 
-/* =========================================================
-   5. QUICK-VIEW MODAL & TOAST
-   ========================================================= */
+/* Quick-view modal & toast */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -873,7 +863,7 @@ footer {
   color: var(--text-primary);
 }
 
-/* Toast Notification */
+/* Toast */
 .toast {
   position: fixed;
   bottom: 28px;
@@ -915,7 +905,7 @@ footer {
   color: var(--text-primary);
 }
 
-/* Responsive Base Overrides */
+/* Breakpoints */
 @media (max-width: 900px) {
   .modal-card {
     grid-template-columns: 1fr;
@@ -955,7 +945,7 @@ footer {
   .mobile-menu-btn {
     display: grid;
   }
-  /* Tight Compact Mobile Hero Section Banner (230px - 260px) */
+  /* Compact mobile hero */
   #hero {
     height: 245px;
     min-height: 230px;
@@ -976,11 +966,11 @@ footer {
     letter-spacing: 0.18em;
     max-width: 90vw;
   }
-  /* Hide Scroll Indicator on Mobile */
+  /* Scroll indicator */
   .scroll-indicator {
     display: none !important;
   }
-  /* Tightened Section Spacing Above the Fold on Mobile */
+  /* Section spacing (mobile) */
   .brand-marquee-section {
     padding: 10px 0;
   }
@@ -1008,9 +998,7 @@ footer {
   }
 }
 
-/* =========================================================
-   6. SLIDE-OUT SHOPPING BAG DRAWER
-   ========================================================= */
+/* Cart drawer */
 .cart-backdrop {
   position: fixed;
   inset: 0;
@@ -1330,9 +1318,7 @@ footer {
   }
 }
 
-/* =========================================================
-   7. SCROLLING BRAND LOGO MARQUEE (AUTHENTIC LUXURY HOUSES)
-   ========================================================= */
+/* Brand marquee */
 .brand-marquee-section {
   position: relative;
   background: linear-gradient(180deg, rgba(17, 33, 45, 0.96) 0%, rgba(6, 20, 27, 0.98) 100%);
@@ -1449,7 +1435,7 @@ footer {
   text-transform: uppercase;
 }
 
-/* Authentic Brand Logotype Typography */
+/* Marquee logotypes */
 .brand-versace {
   font-size: 9.5px;
   font-weight: 800;
@@ -1517,9 +1503,7 @@ footer {
   text-transform: uppercase;
 }
 
-/* =========================================================
-   8. FEATURED COLLECTIONS SECTION (8 CATEGORIES WITH MOTIONS)
-   ========================================================= */
+/* Collections */
 .featured-collections-section {
   background: var(--bg-void);
   border-bottom: 1px solid var(--bg-elevated);
@@ -1547,7 +1531,7 @@ footer {
   letter-spacing: -0.01em;
 }
 
-/* 8-Card Grid Layout */
+/* Collections grid */
 .collections-grid-wrap {
   position: relative;
   width: 100%;
@@ -1592,7 +1576,7 @@ footer {
   }
 }
 
-/* Individual Category Card */
+/* Category card */
 .category-card-item {
   display: flex;
   flex-direction: column;
@@ -1609,7 +1593,7 @@ footer {
   transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
 }
 
-/* The White / Light Elevated Bottle Container */
+/* Elevated container */
 .category-box {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -1626,7 +1610,7 @@ footer {
   transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2), box-shadow 0.4s ease, border-color 0.35s ease;
 }
 
-/* Light shimmer sweep on hover */
+/* Shimmer effect */
 .category-box::after {
   content: "";
   position: absolute;
@@ -1662,7 +1646,7 @@ footer {
   transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2);
 }
 
-/* Category Text Meta */
+/* Category typography */
 .category-meta {
   margin-top: 14px;
   display: flex;
@@ -1694,9 +1678,7 @@ footer {
   transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
 }
 
-/* =========================================================
-   MOTIONS & INTERACTIONS (HOVER & CLICK ANIMATIONS)
-   ========================================================= */
+/* Card interactions */
 .category-card-item:hover .category-box {
   transform: translateY(-9px);
   box-shadow: 0 20px 42px rgba(6, 20, 27, 0.75), 0 0 26px rgba(255, 255, 255, 0.45);
@@ -1720,13 +1702,13 @@ footer {
   transform: translateX(5px);
 }
 
-/* Click Magnetic Press Motion */
+/* Press state */
 .category-card-item:active .category-box {
   transform: scale(0.94) translateY(-2px);
   transition: transform 0.12s ease;
 }
 
-/* Active Selected Category State */
+/* Active category */
 .category-card-item.active .category-box {
   border-color: var(--text-primary);
   box-shadow: 0 0 0 3px rgba(204, 208, 207, 0.5), 0 16px 36px rgba(6, 20, 27, 0.85);
@@ -1773,9 +1755,7 @@ footer {
   transform: translateY(-2px);
 }
 
-/* =========================================================
-   9. DUAL CTA BUTTONS & ANIMATED CART ADDITION EFFECT
-   ========================================================= */
+/* Card CTAs & fly-to-cart */
 .card-cta-group {
   display: grid;
   grid-template-columns: 1.2fr 0.9fr;
@@ -1827,9 +1807,7 @@ footer {
   100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(204, 208, 207, 0); }
 }
 
-/* =========================================================
-   10. MOBILE & TOUCHSCREEN UX REFINEMENTS
-   ========================================================= */
+/* Mobile refinements */
 @media (max-width: 400px) {
   .card-cta-group {
     grid-template-columns: 1fr;

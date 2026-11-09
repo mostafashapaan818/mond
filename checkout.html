@@ -51,7 +51,7 @@
 </head>
 <body class="min-h-full bg-void text-mist font-sans antialiased selection:bg-elevated selection:text-mist">
 
-  <!-- ==================== TOP NAVIGATION HEADER ==================== -->
+  <!-- Header -->
   <header class="border-b border-elevated/80 bg-void/90 backdrop-blur-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3 group transition-transform duration-200 hover:scale-[1.02]">
@@ -73,7 +73,7 @@
     </div>
   </header>
 
-  <!-- ==================== MAIN CHECKOUT CONTAINER ==================== -->
+  <!-- Checkout -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
     <!-- Page Header & Steps -->
     <div class="mb-10 text-center lg:text-left">
@@ -91,11 +91,11 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
       
-      <!-- ==================== LEFT COLUMN: CHECKOUT FORM ==================== -->
+      <!-- Form Column -->
       <section class="lg:col-span-7 bg-surface/80 border border-elevated rounded-lg p-6 sm:p-8 lg:p-10 brand-glow">
         <form id="checkout-form" data-id="checkoutForm" novalidate class="space-y-8">
           
-          <!-- 1. Client Information -->
+          <!-- Client Identity -->
           <div>
             <div class="flex items-center gap-2 mb-4 pb-2 border-b border-elevated/60">
               <span class="flex items-center justify-center w-6 h-6 rounded-full bg-elevated text-xs font-bold text-mist">1</span>
@@ -180,7 +180,7 @@
             </div>
           </div>
 
-          <!-- 2. Shipping Destination -->
+          <!-- Shipping Details -->
           <div>
             <div class="flex items-center gap-2 mb-4 pb-2 border-b border-elevated/60">
               <span class="flex items-center justify-center w-6 h-6 rounded-full bg-elevated text-xs font-bold text-mist">2</span>
@@ -281,7 +281,7 @@
             </div>
           </div>
 
-          <!-- 3. Payment Method -->
+          <!-- Payment Method -->
           <div>
             <div class="flex items-center gap-2 mb-4 pb-2 border-b border-elevated/60">
               <span class="flex items-center justify-center w-6 h-6 rounded-full bg-elevated text-xs font-bold text-mist">3</span>
@@ -326,7 +326,7 @@
         </form>
       </section>
 
-      <!-- ==================== RIGHT COLUMN: ORDER SUMMARY ==================== -->
+      <!-- Summary Column -->
       <aside class="lg:col-span-5 bg-surface/80 border border-elevated rounded-lg p-6 sm:p-8 brand-glow static lg:sticky lg:top-28">
         <h2 class="text-sm font-bold uppercase tracking-widest text-mist mb-6 pb-2 border-b border-elevated/60 flex items-center justify-between">
           <span>Order Overview</span>
@@ -373,7 +373,7 @@
     </div>
   </main>
 
-  <!-- ==================== ORDER SUCCESS MODAL ==================== -->
+  <!-- Success Modal -->
   <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-void/90 backdrop-blur-md hidden transition-opacity duration-300">
     <div class="bg-surface border border-elevated rounded-lg max-w-lg w-full p-8 text-center shadow-2xl relative brand-glow transform transition-transform duration-300 scale-95" id="modalCard">
       <!-- Lunar Monogram -->
@@ -428,12 +428,12 @@
     </div>
   </div>
 
-  <!-- ==================== LOGIC & VALIDATION SCRIPT ==================== -->
+  <!-- Scripts -->
   <script>
     const CART_KEY = 'mond_cart_v1';
     const ORDERS_KEY = 'mond_orders_v1';
 
-    // 1. Fetch & Save Cart Items (Synchronized with index.html 'mond_cart_v1')
+    // Cart storage helpers
     function getStoredCart() {
       try {
         const raw = localStorage.getItem('mond_cart_v1') || localStorage.getItem('mond_cart');
@@ -528,7 +528,7 @@
       }
     });
 
-    // 2. Interactive Form Validation (Permissive & Clear)
+    // Validation
     const form = document.getElementById('checkout-form') || document.getElementById('checkoutForm');
     
     // Sync street and address fields
@@ -605,7 +605,7 @@
       }
     });
 
-    // 3. Form Submission Handling with Supabase Sync
+    // Submission
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       let allValid = true;
@@ -643,7 +643,7 @@
         <span>Transmitting to Atelier...</span>
       `;
 
-      // Collect Order Payload with dual compatibility
+      // Build order payload
       const orderRef = 'MND-' + Math.floor(10000 + Math.random() * 90000);
       let cart = getStoredCart();
       if (!cart || cart.length === 0) {
@@ -692,11 +692,11 @@
         }
       };
 
-      // Transmit to Supabase (REST API + localStorage dual write)
+      // Sync to remote / local
       try {
         if (window.MondDB && window.MondDB.createOrder) {
           const res = await window.MondDB.createOrder(orderPayload);
-          console.log('MondDB dispatch result:', res);
+          // synced
         } else {
           // Direct fallback localStorage write
           const local = JSON.parse(localStorage.getItem('mond_orders_v1') || '[]');
@@ -707,15 +707,15 @@
         console.warn('Supabase transmission notice:', syncErr);
       }
 
-      // Clear active cart once placed (both keys)
+      // Clear active cart
       localStorage.removeItem('mond_cart_v1');
       localStorage.removeItem('mond_cart');
       renderOrderSummary();
-      // Broadcast to other open tabs (e.g. admin.html)
+      // Notify other tabs
       localStorage.setItem('mond_orders_updated', Date.now().toString());
       window.dispatchEvent(new Event('storage'));
 
-      // Display Luxury Success Modal
+      // Show confirmation modal
       document.getElementById('clientNameDisplay').textContent = fullNameVal.split(' ')[0] || 'Patron';
       document.getElementById('orderRefDisplay').textContent = orderRef;
       document.getElementById('destDisplay').textContent = `${cityVal}, ${postalCodeVal}`;

@@ -59,9 +59,7 @@
       cursor: pointer;
     }
 
-    /* =========================================================
-       1. PASSCODE SECURITY GATE OVERLAY
-       ========================================================= */
+    /* Auth overlay */
     #authOverlay {
       position: fixed;
       inset: 0;
@@ -227,9 +225,7 @@
       }
     }
 
-    /* =========================================================
-       2. TOP ADMIN HEADER
-       ========================================================= */
+    /* Admin header */
     .admin-header {
       background: rgba(6, 20, 27, 0.94);
       border-bottom: 1px solid var(--bg-elevated);
@@ -341,9 +337,7 @@
       color: var(--text-primary);
     }
 
-    /* =========================================================
-       3. MAIN CONTAINER & KPI SUMMARY BAR
-       ========================================================= */
+    /* Container & KPI bar */
     .admin-main {
       max-width: 1380px;
       margin: 0 auto;
@@ -475,9 +469,7 @@
       color: var(--text-primary);
     }
 
-    /* =========================================================
-       4. SEARCH & FILTER BAR
-       ========================================================= */
+    /* Filters */
     .filter-bar {
       display: flex;
       align-items: center;
@@ -561,9 +553,7 @@
       cursor: pointer;
     }
 
-    /* =========================================================
-       5. PRODUCTS MANAGEMENT TABLE / GRID
-       ========================================================= */
+    /* Products table */
     .table-container {
       background: var(--bg-surface);
       border: 1px solid var(--bg-elevated);
@@ -764,9 +754,7 @@
       margin-bottom: 16px;
     }
 
-    /* =========================================================
-       6. SLIDE-OVER FORM DRAWER (ADD / EDIT)
-       ========================================================= */
+    /* Drawer */
     .drawer-backdrop {
       position: fixed;
       inset: 0;
@@ -964,9 +952,7 @@
       background: var(--bg-void);
     }
 
-    /* =========================================================
-       7. CONFIRMATION & SETTINGS MODALS
-       ========================================================= */
+    /* Modals */
     .confirm-backdrop {
       position: fixed;
       inset: 0;
@@ -1082,9 +1068,7 @@
       color: var(--text-primary);
     }
 
-    /* =========================================================
-       8. ADMIN NAVIGATION TABS & ORDER MANAGEMENT
-       ========================================================= */
+    /* Navigation & orders */
     .admin-nav-tabs {
       display: flex;
       gap: 10px;
@@ -1258,7 +1242,7 @@
 
 <body>
 
-  <!-- ==================== 1. SECURITY PASSCODE GATE (OPTIONAL) ==================== -->
+  <!-- Security gate -->
   <div id="authOverlay" class="hidden">
     <div class="auth-card" id="authCard">
       <div class="auth-logo" style="flex-direction: column;">
@@ -1284,7 +1268,7 @@
     </div>
   </div>
 
-  <!-- ==================== 2. ADMIN HEADER ==================== -->
+  <!-- Admin header -->
   <header class="admin-header">
     <div class="header-left">
       <a href="index.html" class="back-store-btn" title="Return to Live Boutique">
@@ -1321,7 +1305,7 @@
     </div>
   </header>
 
-  <!-- ==================== 3. ADMIN CONTENT ==================== -->
+  <!-- Content -->
   <main class="admin-main">
     <!-- Admin Navigation Tabs -->
     <nav class="admin-nav-tabs">
@@ -1592,7 +1576,7 @@
     </div><!-- End #paneCustomers -->
   </main>
 
-  <!-- ==================== 4. ADD / EDIT DRAWER ==================== -->
+  <!-- Add/Edit drawer -->
   <div class="drawer-backdrop" id="formDrawer" aria-hidden="true">
     <aside class="drawer-panel" role="dialog" aria-labelledby="drawerTitle">
       <div class="drawer-header">
@@ -1732,7 +1716,7 @@
     </aside>
   </div>
 
-  <!-- ==================== 5. CONFIRMATION MODALS ==================== -->
+  <!-- Modals -->
   <!-- Delete Modal -->
   <div class="confirm-backdrop" id="deleteModal" aria-hidden="true">
     <div class="confirm-card">
@@ -1853,7 +1837,7 @@
     <div class="toast-msg" id="toastMsg">Operation successful</div>
   </div>
 
-  <!-- ==================== SCRIPT ==================== -->
+  <!-- Scripts -->
   <script>
     // SHARED CONSTANTS
     const STORAGE_KEY = 'mond_products_v1';
@@ -1932,7 +1916,7 @@
       }
     ];
 
-    // 1. AUTHENTICATION CONTROLLER (SEAMLESS ACCESS)
+    // Authentication
     const authOverlay = document.getElementById('authOverlay');
     const authCard = document.getElementById('authCard');
     const passcodeInput = document.getElementById('passcodeInput');
@@ -1971,7 +1955,7 @@
       showToast('Atelier locked');
     });
 
-    // 2. TOAST SYSTEM
+    // Toast notifications
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toastMsg');
     let toastTimeout = null;
@@ -1985,7 +1969,7 @@
       }, 3000);
     }
 
-    // 3. STORAGE & CATALOG MANAGEMENT
+    // Catalog storage
     function getCatalog() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -2012,7 +1996,7 @@
       if (notify) showToast('Catalog updated & synced to Supabase Cloud');
     }
 
-    // 4. KPI METRICS & RENDERING
+    // KPI metrics
     const kpiTotal = document.getElementById('kpiTotal');
     const kpiActive = document.getElementById('kpiActive');
     const kpiSoldOut = document.getElementById('kpiSoldOut');
@@ -2203,7 +2187,7 @@
       showToast(`Duplicated "${prod.name}"`);
     }
 
-    // 5. DRAWER FORM (ADD / EDIT)
+    // Drawer form
     const formDrawer = document.getElementById('formDrawer');
     const drawerTitle = document.getElementById('drawerTitle');
     const fragranceForm = document.getElementById('fragranceForm');
@@ -2389,7 +2373,7 @@
       showToast(`Formulation "${name}" saved (${checkedBoxes.join(', ')})`);
     }
 
-    // 6. DELETE CONFIRMATION
+    // Deletion modal
     const deleteModal = document.getElementById('deleteModal');
     const deleteMsg = document.getElementById('deleteMsg');
     const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
@@ -2425,7 +2409,7 @@
       itemToDelete = null;
     });
 
-    // 7. RESET DEFAULTS
+    // Reset catalog
     const resetModal = document.getElementById('resetModal');
     const resetDefaultBtn = document.getElementById('resetDefaultBtn');
     const confirmResetBtn = document.getElementById('confirmResetBtn');
@@ -2443,7 +2427,7 @@
       resetModal.classList.remove('open');
     });
 
-    // 8. EXPORT & IMPORT JSON
+    // Export & import
     document.getElementById('exportBtn').addEventListener('click', () => {
       const catalog = getCatalog();
       const json = JSON.stringify(catalog, null, 2);
@@ -2479,7 +2463,7 @@
       e.target.value = ''; // reset file input
     });
 
-    // 9. SECURITY PIN MODAL
+    // PIN settings
     const pinModal = document.getElementById('pinModal');
     const pinSettingsBtn = document.getElementById('pinSettingsBtn');
     const cancelPinBtn = document.getElementById('cancelPinBtn');
@@ -2515,9 +2499,7 @@
     }
 
 
-    // ==============================================================================
-    // 11. SUPABASE INTEGRATION & CONNECTION CONTROLLER
-    // ==============================================================================
+    // Supabase integration
     const supabaseBtn = document.getElementById('supabaseBtn');
     const supabaseStatusText = document.getElementById('supabaseStatusText');
     const supabaseModal = document.getElementById('supabaseModal');
@@ -2595,9 +2577,7 @@
       }
     };
 
-    // ==============================================================================
-    // 12. TAB NAVIGATION (CATALOG / ORDERS / CUSTOMERS)
-    // ==============================================================================
+    // Tab navigation
     const navTabs = document.querySelectorAll('.nav-tab');
     const paneCatalog = document.getElementById('paneCatalog');
     const paneOrders = document.getElementById('paneOrders');
@@ -2619,9 +2599,7 @@
       });
     });
 
-    // ==============================================================================
-    // 13. ORDERS MANAGEMENT CONTROLLER
-    // ==============================================================================
+    // Orders management
     let currentOrders = [];
     let currentOrderFilter = 'all';
     const ordersTbody = document.getElementById('ordersTbody');
@@ -2874,9 +2852,7 @@
       });
     }
 
-    // ==============================================================================
-    // 14. PATRON / CUSTOMERS DIRECTORY CONTROLLER
-    // ==============================================================================
+    // Customers directory
     const customersTbody = document.getElementById('customersTbody');
     const tabCountCustomers = document.getElementById('tabCountCustomers');
 
@@ -2973,7 +2949,7 @@
     }
 
 
-    // 10. FILTER & SEARCH LISTENERS
+    // Filters & search
     searchInput.addEventListener('input', renderDashboard);
     sortSelect.addEventListener('change', renderDashboard);
     if (categoryFilterSelect) categoryFilterSelect.addEventListener('change', renderDashboard);

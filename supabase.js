@@ -1,7 +1,5 @@
 /**
- * MOONED / MOND HAUTE PARFUMERIE — SUPABASE CLIENT & REAL-TIME DATA LAYER
- * Zero data loss architecture: Direct REST API + Supabase JS Client + Realtime WebSockets
- * with automatic fallback to localStorage.
+ * MOND — Supabase client and storage sync layer
  */
 
 const SUPABASE_CONFIG_KEY = 'mond_supabase_config_v1';
@@ -9,7 +7,7 @@ const LOCAL_PRODUCTS_KEY = 'mond_products_v1';
 const LOCAL_ORDERS_KEY = 'mond_orders_v1';
 const LOCAL_CUSTOMERS_KEY = 'mond_customers_v1';
 
-// Production Supabase Project Credentials
+// Credentials
 const SUPABASE_URL = 'https://ocqinkvoghqgjbzrvkje.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_vpGVeaT0V5QlnZQ5g5Bkjg_hnTUfEPU';
 
@@ -47,7 +45,7 @@ function isSupabaseConfigured() {
   return Boolean(cfg.url && cfg.anonKey && cfg.url.startsWith('https://'));
 }
 
-// Global Client Instance
+// Client instance
 let _supabaseClient = null;
 
 function getSupabaseClient() {
@@ -77,9 +75,7 @@ function setSupabaseConfig(url, anonKey) {
   return getSupabaseClient();
 }
 
-// ==============================================================================
-// 1. PRODUCTS CATALOG API
-// ==============================================================================
+// Products
 
 const LEGACY_IMG_MAP = {
   'items/1.png': 'items/adee3ca2-7e4d-4b58-b088-80c84a62d729.JPG',
@@ -147,7 +143,7 @@ function mapToDbProduct(item) {
 
 async function mondFetchProducts() {
   const cfg = getSupabaseConfig();
-  // 1. Direct REST Fetch
+  // Direct REST fetch
   try {
     const res = await fetch(`${cfg.url}/rest/v1/products?select=*&order=created_at.asc`, {
       method: 'GET',
@@ -169,7 +165,7 @@ async function mondFetchProducts() {
     console.warn('REST products fetch failed, using local fallback:', e);
   }
 
-  // 2. Fallback to localStorage
+  // Fallback to local cache
   try {
     const raw = localStorage.getItem(LOCAL_PRODUCTS_KEY);
     if (raw) return JSON.parse(raw);
@@ -220,14 +216,14 @@ async function mondSyncCatalog(productsArray) {
   if (!Array.isArray(productsArray)) return { success: false };
   const cfg = getSupabaseConfig();
 
-  // 1. Save immediately to localStorage
+  // Save to local cache
   try {
     localStorage.setItem(LOCAL_PRODUCTS_KEY, JSON.stringify(productsArray));
     localStorage.setItem('mond_products_updated', Date.now().toString());
     window.dispatchEvent(new Event('storage'));
   } catch (e) {}
 
-  // 2. Sync full catalog to Supabase Cloud (Upsert all + remove deleted)
+  // Sync catalog to remote
   try {
     // Fetch existing cloud IDs to detect deletions
     const existingRes = await fetch(`${cfg.url}/rest/v1/products?select=id`, {
@@ -335,9 +331,7 @@ function mondSubscribeProducts(onInsertOrUpdate, onDelete) {
   }
 }
 
-// ==============================================================================
-// 2. ORDERS & CUSTOMERS API
-// ==============================================================================
+// Orders & Customers
 
 async function mondCreateOrder(orderData) {
   const cfg = getSupabaseConfig();
@@ -424,7 +418,7 @@ async function mondCreateOrder(orderData) {
     items: itemsArr
   };
 
-  // 1. Instant Local Storage Save (Guaranteed zero data loss)
+  // Save to local storage
   try {
     const local = JSON.parse(localStorage.getItem(LOCAL_ORDERS_KEY) || '[]');
     // Prepend new order if not already present
@@ -447,7 +441,7 @@ async function mondCreateOrder(orderData) {
     console.warn('Local storage write notice:', e);
   }
 
-  // 2. Direct REST POST to Supabase Cloud
+  // Remote POST
   try {
     const res = await fetch(`${cfg.url}/rest/v1/orders`, {
       method: 'POST',
@@ -478,7 +472,7 @@ async function mondCreateOrder(orderData) {
 async function mondFetchOrders() {
   const cfg = getSupabaseConfig();
 
-  // 1. Direct REST Fetch
+  // Direct REST fetch
   try {
     const res = await fetch(`${cfg.url}/rest/v1/orders?select=*&order=created_at.desc`, {
       method: 'GET',
@@ -500,7 +494,7 @@ async function mondFetchOrders() {
     console.warn('REST orders fetch error:', err);
   }
 
-  // 2. Fallback to localStorage
+  // Fallback to local cache
   try {
     const local = JSON.parse(localStorage.getItem(LOCAL_ORDERS_KEY) || '[]');
     return local;

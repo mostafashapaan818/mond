@@ -22,7 +22,7 @@
 </head>
 <body>
 
-  <!-- ==================== HEADER ==================== -->
+  <!-- Header -->
   <header id="mainHeader">
     <a class="logo" href="#hero">
       <img src="logo.png?v=3.0" alt="MOND Logo" class="brand-logo-img">
@@ -50,7 +50,7 @@
     </div>
   </header>
 
-  <!-- ==================== HERO (3D MOON AS LETTER 'O') ==================== -->
+  <!-- Hero -->
   <section id="hero">
     <h1 id="word0" class="hero-el" aria-label="MOND">
       <span class="hero-char" aria-hidden="true">M</span>
@@ -70,7 +70,7 @@
     </a>
   </section>
 
-  <!-- ==================== 1. SCROLLING BRAND LOGO MARQUEE ==================== -->
+  <!-- Brand Marquee -->
   <section class="brand-marquee-section" id="brandMarquee" aria-label="Authentic Luxury Perfume Houses">
     <div class="marquee-viewport">
       <div class="marquee-track" id="marqueeTrack">
@@ -327,7 +327,7 @@
     </div>
   </section>
 
-  <!-- ==================== 2. ICON-BASED FEATURED COLLECTIONS ==================== -->
+  <!-- Featured Collections -->
   <section class="featured-collections-section" id="featuredCollections" aria-label="Explore Perfume Categories">
     <div class="section-wrap">
       <div class="section-header">
@@ -624,7 +624,7 @@
     </div>
   </section>
 
-  <!-- ==================== MAIN FRAGRANCES SHOWCASE ==================== -->
+  <!-- Fragrances -->
   <main id="collection">
     <div class="section-wrap">
       <div class="section-header">
@@ -639,7 +639,7 @@
     </div>
   </main>
 
-  <!-- ==================== MINIMAL LUXURY FOOTER ==================== -->
+  <!-- Footer -->
   <footer>
     <div class="section-wrap" style="padding: 36px clamp(20px, 3.5vw, 48px);">
       <div class="footer-bottom" style="padding-top:0; border-top:0;">
@@ -649,7 +649,7 @@
     </div>
   </footer>
 
-  <!-- ==================== MOBILE NAVIGATION DRAWER ==================== -->
+  <!-- Mobile Nav Drawer -->
   <div class="mobile-nav-backdrop" id="mobileNavBackdrop" style="display: none;" aria-hidden="true">
     <nav class="mobile-nav-panel" id="mobileNavPanel" role="dialog" aria-label="Mobile Navigation">
       <div class="mobile-nav-header">
@@ -683,7 +683,7 @@
     </nav>
   </div>
 
-  <!-- ==================== QUICK-VIEW MODAL ==================== -->
+  <!-- Quick-view Modal -->
   <div class="modal-backdrop" id="quickModal" aria-hidden="true">
     <div class="modal-card">
       <button class="modal-close" id="modalClose" aria-label="Close modal">✕</button>
@@ -732,7 +732,7 @@
     </div>
   </div>
 
-  <!-- ==================== SLIDE-OUT SHOPPING BAG DRAWER ==================== -->
+  <!-- Bag Drawer -->
   <div class="cart-backdrop" id="cartBackdrop" aria-hidden="true">
     <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Shopping Bag">
       <div class="cart-header">
@@ -764,11 +764,11 @@
     <div class="toast-msg" id="toastMsg">Added to bag</div>
   </div>
 
-  <!-- ==================== THREE.JS & APP SCRIPT ==================== -->
+  <!-- Application Script -->
   <script type="module">
     import * as THREE from 'three';
 
-    // 1. DATA ARCHITECTURE & STORAGE SYNC
+    // Catalog data & cache
     const STORAGE_KEY = 'mond_products_v1';
     const CART_KEY = 'mond_cart_v1';
 
@@ -860,7 +860,7 @@
       }
     }
 
-    // Helper: Graceful image fallback
+    // Image fallback helper
     function handleImageFallback(imgEl, fallbackUrl) {
       imgEl.onerror = () => {
         imgEl.onerror = null;
@@ -868,11 +868,11 @@
       };
     }
 
-    // Set Copyright Year
+    // Copyright
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    // 2. TOAST NOTIFICATION
+    // Toast notifications
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toastMsg');
     let toastTimeout = null;
@@ -886,7 +886,7 @@
       }, 3000);
     };
 
-    // 3. CART ARCHITECTURE & SLIDE-OUT DRAWER
+    // Bag drawer
     const bagBadge = document.getElementById('bagBadge');
     const cartBackdrop = document.getElementById('cartBackdrop');
     const cartDrawer = document.getElementById('cartDrawer');
@@ -910,7 +910,7 @@
       const serialized = JSON.stringify(cart);
       localStorage.setItem('mond_cart_v1', serialized);
       localStorage.setItem('mond_cart', serialized);
-      renderCartUI();
+      renderCart();
     }
 
     function syncCartWithCatalog() {
@@ -941,11 +941,11 @@
       if (changed) {
         saveCart(cart);
       } else {
-        renderCartUI();
+        renderCart();
       }
     }
 
-    function renderCartUI() {
+    function renderCart() {
       const cart = getStoredCart();
       const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
       const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
@@ -1014,7 +1014,7 @@
       cartBackdrop.classList.add('open');
       cartBackdrop.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
-      renderCartUI();
+      renderCart();
     }
 
     function closeCartDrawer() {
@@ -1029,7 +1029,7 @@
       if (e.target === cartBackdrop) closeCartDrawer();
     });
 
-    // 3A-2. MOBILE NAVIGATION CONTROLS
+    // Mobile navigation
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileNavBackdrop = document.getElementById('mobileNavBackdrop');
     const mobileNavClose = document.getElementById('mobileNavClose');
@@ -1084,7 +1084,7 @@
       }, 700);
     });
 
-    // 3B. ANIMATED FLY-TO-CART EFFECT (DYNAMIC PRODUCT IMAGE TRANSITION)
+    // Fly-to-bag curve animation
     function animateFlyToCart(sourceImgEl, onComplete) {
       if (!sourceImgEl || !bagBtn) {
         if (typeof onComplete === 'function') onComplete();
@@ -1194,12 +1194,12 @@
       return true;
     }
 
-    // 4. RENDER CATALOG SHOWCASE (DYNAMIC FROM LOCALSTORAGE + COLLECTION FILTER)
+    // Catalog rendering & filtering
     const grid = document.getElementById('fragranceGrid');
     const activeSizes = {}; // tracks selected 50ml / 100ml size per item id
     let activeCollectionFilter = null;
 
-    function renderProductGrid() {
+    function renderProducts() {
       const allFragrances = getStoredProducts();
       const isAllCategory = !activeCollectionFilter || activeCollectionFilter.toLowerCase().trim() === 'all perfumes' || activeCollectionFilter.toLowerCase().trim() === 'all';
       const fragrances = isAllCategory
@@ -1331,13 +1331,13 @@
       });
     }
 
-    // 4B. FEATURED COLLECTIONS FILTER LOGIC & MOTIONS INTERACTIVITY
+    // Category filtering
     const categoryCardItems = document.querySelectorAll('.category-card-item[data-category]');
     const collectionFilterBar = document.getElementById('collectionFilterBar');
     const activeFilterName = document.getElementById('activeFilterName');
     const resetCollectionFilterBtn = document.getElementById('resetCollectionFilterBtn');
 
-    function setCollectionFilter(categoryName, displayTitle) {
+    function setCategoryFilter(categoryName, displayTitle) {
       if (!categoryName || categoryName === 'All perfumes' || activeCollectionFilter === categoryName) {
         activeCollectionFilter = null;
       } else {
@@ -1356,7 +1356,7 @@
         collectionFilterBar.classList.remove('visible');
       }
 
-      renderProductGrid();
+      renderProducts();
     }
 
     categoryCardItems.forEach(card => {
@@ -1365,7 +1365,7 @@
         const titleEl = card.querySelector('.category-label-title');
         const label = titleEl ? titleEl.textContent.trim() : cat;
 
-        setCollectionFilter(cat, label);
+        setCategoryFilter(cat, label);
 
         const target = document.getElementById('collection');
         if (target) {
@@ -1384,7 +1384,7 @@
 
     if (resetCollectionFilterBtn) {
       resetCollectionFilterBtn.addEventListener('click', () => {
-        setCollectionFilter(null);
+        setCategoryFilter(null);
       });
     }
 
@@ -1396,7 +1396,7 @@
       });
     });
 
-    // 5. QUICK-VIEW MODAL LOGIC
+    // Quick-view modal
     const modal = document.getElementById('quickModal');
     const modalClose = document.getElementById('modalClose');
     const modalImg = document.getElementById('modalImg');
@@ -1522,10 +1522,10 @@
       }
     });
 
-    // 6. REAL-TIME STORAGE EVENT LISTENER (SYNC WITH ADMIN.HTML)
+    // Storage events & realtime sync
     window.addEventListener('storage', (e) => {
       if (e.key === STORAGE_KEY || e.key === 'mond_products_updated' || !e.key) {
-        renderProductGrid();
+        renderProducts();
         syncCartWithCatalog();
         if (modal.classList.contains('open') && currentModalItem) {
           const fresh = getStoredProducts().find(p => p.id === currentModalItem.id);
@@ -1536,17 +1536,17 @@
           }
         }
       } else if (e.key === CART_KEY || e.key === 'mond_cart') {
-        renderCartUI();
+        renderCart();
       }
     });
 
     window.addEventListener('focus', () => {
-      renderProductGrid();
+      renderProducts();
       syncCartWithCatalog();
       if (window.MondDB && window.MondDB.fetchProducts) {
         window.MondDB.fetchProducts().then(products => {
           if (products && products.length > 0) {
-            renderProductGrid();
+            renderProducts();
             syncCartWithCatalog();
           }
         });
@@ -1554,14 +1554,14 @@
     });
 
     // Initial Catalog & Cart Render
-    renderProductGrid();
+    renderProducts();
     syncCartWithCatalog();
 
     // Asynchronous Supabase Fetch & Realtime Synchronizer (Zero Data Loss)
     if (window.MondDB) {
       window.MondDB.fetchProducts().then(products => {
         if (products && products.length > 0) {
-          renderProductGrid();
+          renderProducts();
           syncCartWithCatalog();
         }
       });
@@ -1569,14 +1569,14 @@
       // Subscribe to live database updates (Zero-latency inventory & formulation sync)
       window.MondDB.subscribeProducts(
         (updatedProduct) => {
-          renderProductGrid();
+          renderProducts();
           syncCartWithCatalog();
           if (modal.classList.contains('open') && currentModalItem && currentModalItem.id === updatedProduct.id) {
             openModal(updatedProduct);
           }
         },
         (deletedId) => {
-          renderProductGrid();
+          renderProducts();
           syncCartWithCatalog();
           if (modal.classList.contains('open') && currentModalItem && currentModalItem.id === deletedId) {
             closeModal();
@@ -1600,9 +1600,7 @@
       target.scrollIntoView({ behavior: 'smooth' });
     });
 
-    // =========================================================
-    // 5. THREE.JS 3D MOON HERO (INTEGRATED AS LETTER 'O' IN MOND)
-    // =========================================================
+    // Three.js 3D moon embedded in typography
     const glCanvas = document.getElementById('gl');
     const dustCanvas = document.getElementById('dust');
     const heroSection = document.getElementById('hero');
@@ -1621,7 +1619,7 @@
     tilt.add(spin);
     scene.add(planet);
 
-    // Procedural Lunar Surface Texture Generator (Guarantees Instant 3D Moon Appearance)
+    // Procedural lunar surface texture generator
     function createProceduralMoonTexture() {
       const canvas = document.createElement('canvas');
       canvas.width = 1024;
@@ -1939,7 +1937,7 @@
       p: rnd() * 6.28
     }));
 
-    // Animation Render Loop (Continuous Calm Auto-Rotation)
+    // Main render loop
     let lastNow = performance.now();
     function animate(now) {
       requestAnimationFrame(animate);
