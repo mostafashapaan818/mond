@@ -1448,6 +1448,10 @@
             <option value="Niche">Niche</option>
           </select>
 
+          <select id="brandFilterSelect" class="sort-select">
+            <option value="all">All Brands</option>
+          </select>
+
           <select id="sortSelect" class="sort-select">
             <option value="name-asc">Name (A → Z)</option>
             <option value="name-desc">Name (Z → A)</option>
@@ -1594,13 +1598,54 @@
 
         <div class="form-row">
           <div class="form-group">
+            <label class="form-label" for="fieldBrand">Brand / Perfume House (Tier 2) *</label>
+            <input type="text" id="fieldBrand" class="form-input" list="brandDatalist" placeholder="e.g. MOND Atelier, Dior, Tom Ford" required>
+            <datalist id="brandDatalist">
+              <option value="MOND Atelier"></option>
+              <option value="Dior"></option>
+              <option value="Tom Ford"></option>
+              <option value="Creed"></option>
+              <option value="Nishane"></option>
+              <option value="Amouage"></option>
+              <option value="Roja Parfums"></option>
+              <option value="Xerjoff"></option>
+              <option value="Kilian"></option>
+              <option value="Le Labo"></option>
+              <option value="Initio Parfums Prives"></option>
+            </datalist>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fieldMainCategory">Main Category (Tier 1) *</label>
+            <select id="fieldMainCategory" class="form-input" required>
+              <option value="Men">Men</option>
+              <option value="Women">Women</option>
+              <option value="Unisex" selected>Unisex</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="fieldCollection">Sub-Collection (Tier 3) *</label>
+            <input type="text" id="fieldCollection" class="form-input" list="collectionDatalist" placeholder="e.g. Summer, Winter, Niche, Signature" required>
+            <datalist id="collectionDatalist">
+              <option value="Signature"></option>
+              <option value="Summer"></option>
+              <option value="Winter"></option>
+              <option value="Niche"></option>
+              <option value="Royal Reserve"></option>
+              <option value="Best sellers"></option>
+            </datalist>
+          </div>
+          <div class="form-group">
             <label class="form-label" for="fieldConcentration">Concentration *</label>
             <input type="text" id="fieldConcentration" class="form-input" placeholder="e.g. Extrait de Parfum" required>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="fieldTag">Custom / Additional Tag</label>
-            <input type="text" id="fieldTag" class="form-input" placeholder="e.g. Special Edition, Reserve">
-          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="fieldTag">Custom / Additional Tag</label>
+          <input type="text" id="fieldTag" class="form-input" placeholder="e.g. Special Edition, Reserve">
         </div>
 
         <div class="form-group">
@@ -2010,6 +2055,7 @@
     const searchInput = document.getElementById('searchInput');
     const sortSelect = document.getElementById('sortSelect');
     const categoryFilterSelect = document.getElementById('categoryFilterSelect');
+    const brandFilterSelect = document.getElementById('brandFilterSelect');
     const filterPills = document.querySelectorAll('.filter-pill');
 
     let currentFilter = 'all';
@@ -2032,6 +2078,18 @@
       countAll.textContent = total;
       countInStock.textContent = inStock;
       countSoldOut.textContent = soldOut;
+
+      // Populate brand filter options dynamically
+      if (brandFilterSelect) {
+        const curBrand = brandFilterSelect.value;
+        const brandSet = new Set();
+        products.forEach(p => {
+          if (p.brand) brandSet.add(p.brand.trim());
+        });
+        const brandList = Array.from(brandSet).sort();
+        brandFilterSelect.innerHTML = `<option value="all">All Brands (${total})</option>` +
+          brandList.map(b => `<option value="${b}" ${b === curBrand ? 'selected' : ''}>${b}</option>`).join('');
+      }
     }
 
     function renderDashboard() {
@@ -2041,11 +2099,17 @@
       // Filtering
       const query = searchInput.value.toLowerCase().trim();
       const selectedCategory = categoryFilterSelect ? categoryFilterSelect.value : 'all';
+      const selectedBrand = brandFilterSelect ? brandFilterSelect.value : 'all';
 
       let filtered = products.filter(p => {
         // Stock filter
         if (currentFilter === 'in-stock' && p.inStock === false) return false;
         if (currentFilter === 'sold-out' && p.inStock !== false) return false;
+
+        // Brand filter (Tier 2)
+        if (selectedBrand !== 'all') {
+          if ((p.brand || 'MOND Atelier').toLowerCase() !== selectedBrand.toLowerCase()) return false;
+        }
 
         // Category filter
         if (selectedCategory !== 'all') {
@@ -2054,13 +2118,15 @@
             ? p.categories
             : (p.tag ? p.tag.split(',').map(s => s.trim()) : [])).map(c => c.toLowerCase().trim());
           const matchCat = prodCats.some(c => c === targetCat || c.includes(targetCat) || targetCat.includes(c)) ||
-                           (p.tag || '').toLowerCase().includes(targetCat);
+                           (p.tag || '').toLowerCase().includes(targetCat) ||
+                           (p.mainCategory || '').toLowerCase() === targetCat ||
+                           (p.collection || '').toLowerCase() === targetCat;
           if (!matchCat) return false;
         }
 
         // Search query
         if (!query) return true;
-        const text = `${p.name} ${p.concentration} ${p.tag || ''} ${(p.categories || []).join(' ')} ${p.pyramid?.top || ''} ${p.pyramid?.heart || ''} ${p.pyramid?.base || ''}`.toLowerCase();
+        const text = `${p.name} ${p.brand || ''} ${p.concentration} ${p.tag || ''} ${(p.categories || []).join(' ')} ${p.pyramid?.top || ''} ${p.pyramid?.heart || ''} ${p.pyramid?.base || ''}`.toLowerCase();
         return text.includes(query);
       });
 
@@ -2103,6 +2169,7 @@
             <div class="prod-cell">
               <img src="${item.img}" alt="${item.name}" class="prod-thumb" onerror="this.src='${item.fallback || ''}'">
               <div class="prod-meta">
+                <span style="font-size:10px; font-weight:700; letter-spacing:0.14em; color:#CFAC62; text-transform:uppercase; display:block; margin-bottom:2px;">${item.brand || 'MOND Atelier'}</span>
                 <h4>${item.name}</h4>
                 <span>${item.concentration}</span>
               </div>
@@ -2193,6 +2260,9 @@
     const fragranceForm = document.getElementById('fragranceForm');
     const fieldId = document.getElementById('fieldId');
     const fieldName = document.getElementById('fieldName');
+    const fieldBrand = document.getElementById('fieldBrand');
+    const fieldMainCategory = document.getElementById('fieldMainCategory');
+    const fieldCollection = document.getElementById('fieldCollection');
     const fieldConcentration = document.getElementById('fieldConcentration');
     const fieldTag = document.getElementById('fieldTag');
     const fieldPrice50 = document.getElementById('fieldPrice50');
@@ -2210,6 +2280,9 @@
       drawerTitle.textContent = 'Add New Formulation';
       fragranceForm.reset();
       fieldId.value = '';
+      if (fieldBrand) fieldBrand.value = 'MOND Atelier';
+      if (fieldMainCategory) fieldMainCategory.value = 'Unisex';
+      if (fieldCollection) fieldCollection.value = 'Signature';
       fieldInStock.value = 'true';
       formImgPreview.src = 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=400&q=80';
       fieldImg.value = 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=85';
@@ -2232,6 +2305,9 @@
       drawerTitle.textContent = `Edit Formulation: ${prod.name}`;
       fieldId.value = prod.id;
       fieldName.value = prod.name;
+      if (fieldBrand) fieldBrand.value = prod.brand || 'MOND Atelier';
+      if (fieldMainCategory) fieldMainCategory.value = prod.mainCategory || 'Unisex';
+      if (fieldCollection) fieldCollection.value = prod.collection || 'Signature';
       fieldConcentration.value = prod.concentration || 'Extrait de Parfum';
       fieldPrice50.value = prod.prices?.[50] || 150;
       fieldPrice100.value = prod.prices?.[100] || 220;
@@ -2338,6 +2414,9 @@
       const formulation = {
         id: id,
         name: name,
+        brand: (fieldBrand ? fieldBrand.value.trim() : '') || 'MOND Atelier',
+        mainCategory: (fieldMainCategory ? fieldMainCategory.value : '') || 'Unisex',
+        collection: (fieldCollection ? fieldCollection.value.trim() : '') || 'Signature',
         concentration: fieldConcentration.value.trim() || 'Extrait de Parfum',
         categories: checkedBoxes,
         tag: checkedBoxes.join(', '),
@@ -2953,6 +3032,7 @@
     searchInput.addEventListener('input', renderDashboard);
     sortSelect.addEventListener('change', renderDashboard);
     if (categoryFilterSelect) categoryFilterSelect.addEventListener('change', renderDashboard);
+    if (brandFilterSelect) brandFilterSelect.addEventListener('change', renderDashboard);
 
     filterPills.forEach(pill => {
       pill.addEventListener('click', () => {

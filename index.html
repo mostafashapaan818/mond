@@ -32,6 +32,7 @@
     <nav class="nav-links">
       <a href="#featuredCollections">Collections</a>
       <a href="#collection">Fragrances</a>
+      <a href="#contact">Concierge</a>
       <a href="admin.html">Atelier Admin</a>
     </nav>
 
@@ -52,14 +53,17 @@
 
   <!-- Hero -->
   <section id="hero">
+    <!-- Modular luxury perfume visual layer (prepared for instant image asset swap) -->
+    <div class="hero-bg-visual" id="heroBgVisual"></div>
+    <div class="hero-bg-overlay"></div>
     <h1 id="word0" class="hero-el" aria-label="MOND">
-      <span class="hero-char" aria-hidden="true">M</span>
+      <span class="hero-char gold-text" aria-hidden="true">M</span>
       <span class="hero-moon-slot" id="moonSlot" aria-hidden="true">
         <div class="moon-flare" id="flare"></div>
         <canvas id="gl"></canvas>
       </span>
-      <span class="hero-char" aria-hidden="true">N</span>
-      <span class="hero-char" aria-hidden="true">D</span>
+      <span class="hero-char gold-text" aria-hidden="true">N</span>
+      <span class="hero-char gold-text" aria-hidden="true">D</span>
     </h1>
     <div id="eyebrow" class="hero-el">Lunar Essence · Haute Parfumerie</div>
     <canvas id="dust"></canvas>
@@ -633,11 +637,145 @@
         <p class="section-desc">Extrait formulations distilled in small batches. Night-blooming botanicals, smoked resins, and cold mineral accords born under celestial phases.</p>
       </div>
 
+      <!-- 3-Tier Multi-Level Catalog Hierarchy Selector -->
+      <div class="catalog-hierarchy" id="catalogHierarchy">
+        <!-- Tier 1: Main Category Tabs -->
+        <div class="tier1-tabs" id="tier1Tabs">
+          <button type="button" class="tier1-tab active" data-tier1="All">All Categories</button>
+          <button type="button" class="tier1-tab" data-tier1="Men">Men</button>
+          <button type="button" class="tier1-tab" data-tier1="Women">Women</button>
+          <button type="button" class="tier1-tab" data-tier1="Unisex">Unisex</button>
+        </div>
+
+        <!-- Tier 2: Brands Filter Bar -->
+        <div class="tier2-brands-wrap" id="tier2BrandsWrap">
+          <span class="tier-label">Brand:</span>
+          <div id="tier2BrandsList" style="display:inline-flex; gap:8px; flex-wrap:wrap;"></div>
+        </div>
+
+        <!-- Tier 3: Collections & Seasons -->
+        <div class="tier3-collections-wrap" id="tier3CollectionsWrap">
+          <span class="tier-label">Collection:</span>
+          <div id="tier3CollectionsList" style="display:inline-flex; gap:8px; flex-wrap:wrap;"></div>
+        </div>
+
+        <!-- Active Breadcrumbs Bar -->
+        <div class="catalog-breadcrumbs" id="catalogBreadcrumbs">
+          <div class="breadcrumbs-path" id="breadcrumbsPath">
+            <span>Catalog</span>
+            <span class="breadcrumbs-sep">/</span>
+            <span class="breadcrumbs-active" id="breadcrumbsActiveText">All Creations</span>
+          </div>
+          <button type="button" class="breadcrumbs-reset" id="resetCatalogHierarchyBtn">Reset Filters ✕</button>
+        </div>
+      </div>
+
       <div class="fragrance-grid" id="fragranceGrid">
         <!-- Rendered dynamically via JavaScript -->
       </div>
     </div>
   </main>
+
+  <!-- Contact Us / Concierge -->
+  <section class="contact-section" id="contact" aria-label="Atelier Concierge and Inquiries">
+    <div class="section-wrap">
+      <div class="section-header">
+        <span class="section-tag">Direct Concierge</span>
+        <h2 class="section-title">Private Consultation & Inquiries</h2>
+        <p class="section-desc">Our nocturnal fragrance curators are at your disposal for bespoke recommendations, corporate gifting, or nocturnal delivery coordination.</p>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Direct Contact Cards -->
+        <div class="contact-card">
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <div class="contact-item-title">VIP Client Care & Orders</div>
+              <div class="contact-item-val"><a href="tel:01157704050">01157704050</a></div>
+              <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">Immediate phone assistance · Cairo, Egypt</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon" style="background:rgba(37,211,102,0.12); border-color:rgba(37,211,102,0.3); color:#25D366;">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <div>
+              <div class="contact-item-title">Direct WhatsApp Dispatch</div>
+              <div class="contact-item-val"><a href="https://wa.me/201157704050" target="_blank" rel="noopener">+20 115 770 4050</a></div>
+              <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">24/7 Priority Nocturnal Concierge</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-item-title">Atelier Dispatch Email</div>
+              <div class="contact-item-val"><a href="mailto:concierge@mondperfumes.com">concierge@mondperfumes.com</a></div>
+              <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">Guaranteed confidential response within 2 hours</div>
+            </div>
+          </div>
+
+          <a href="https://wa.me/201157704050?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%81%D8%B1%D9%8A%D9%82%20MOND%D8%8C%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AA%D8%B4%D9%83%D9%8A%D9%84%D8%A9%20%D8%A7%D9%84%D8%B9%D8%B7%D9%88%D8%B1" target="_blank" rel="noopener" class="concierge-wa-btn">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.301-.15-1.781-.879-2.056-.98-.276-.1-.476-.15-.677.15-.2.301-.777.98-.952 1.18-.175.201-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.785-1.675-2.086-.176-.301-.019-.464.132-.614.136-.135.301-.351.452-.527.15-.175.2-.301.3-.501.1-.2.05-.376-.025-.526-.075-.15-.677-1.632-.927-2.234-.244-.587-.492-.507-.677-.516-.175-.009-.376-.01-.577-.01-.2 0-.526.075-.802.376-.275.301-1.053 1.029-1.053 2.509 0 1.48 1.078 2.909 1.229 3.11.15.201 2.122 3.24 5.141 4.544.718.31 1.279.496 1.716.634.721.23 1.377.197 1.895.12.578-.087 1.781-.728 2.032-1.431.25-.702.25-1.304.175-1.43-.075-.126-.276-.201-.577-.352z"/></svg>
+            <span>Chat via WhatsApp Directly</span>
+          </a>
+        </div>
+
+        <!-- Interactive Concierge Form -->
+        <form class="inquiry-form" id="conciergeInquiryForm">
+          <div style="font-size:16px; font-weight:700; color:var(--text-primary); margin-bottom:4px; letter-spacing:0.02em;">
+            Submit a Bespoke Consultation Request
+          </div>
+          <div style="font-size:12.5px; color:var(--text-secondary); margin-bottom:12px;">
+            Fill in your preferred fragrance or question, and our atelier concierge will respond promptly via WhatsApp.
+          </div>
+
+          <div class="inquiry-field">
+            <label for="inqName">Your Name *</label>
+            <input type="text" id="inqName" placeholder="e.g. Moustafa Shaaban" required>
+          </div>
+
+          <div class="inquiry-field">
+            <label for="inqPhone">Phone / WhatsApp Number *</label>
+            <input type="tel" id="inqPhone" placeholder="e.g. 01157704050" required>
+          </div>
+
+          <div class="inquiry-field">
+            <label for="inqFragrance">Interested Fragrance / Category</label>
+            <select id="inqFragrance">
+              <option value="General Inquiry">General Atelier Inquiry</option>
+              <option value="Eclipse Noir (Men / Winter)">Eclipse Noir (Men · Winter)</option>
+              <option value="Silver Crater (Unisex / Summer)">Silver Crater (Unisex · Summer)</option>
+              <option value="Mare Tranquillitatis (Women / Summer)">Mare Tranquillitatis (Women · Summer)</option>
+              <option value="Lunar Oud (Niche / Unisex)">Lunar Oud (Niche · Royal Reserve)</option>
+              <option value="Bespoke Private Formulation">Bespoke Private Formulation</option>
+            </select>
+          </div>
+
+          <div class="inquiry-field">
+            <label for="inqMessage">Your Inquiry or Delivery Notes</label>
+            <textarea id="inqMessage" rows="3" placeholder="Tell us about your olfactory preferences, questions, or custom order needs..."></textarea>
+          </div>
+
+          <div class="inquiry-cta-row">
+            <button type="button" class="inquiry-wa-btn" id="inqSubmitWhatsApp">
+              <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M17.472 14.382c-.301-.15-1.781-.879-2.056-.98-.276-.1-.476-.15-.677.15-.2.301-.777.98-.952 1.18-.175.201-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.785-1.675-2.086-.176-.301-.019-.464.132-.614.136-.135.301-.351.452-.527.15-.175.2-.301.3-.501.1-.2.05-.376-.025-.526-.075-.15-.677-1.632-.927-2.234-.244-.587-.492-.507-.677-.516-.175-.009-.376-.01-.577-.01-.2 0-.526.075-.802.376-.275.301-1.053 1.029-1.053 2.509 0 1.48 1.078 2.909 1.229 3.11.15.201 2.122 3.24 5.141 4.544.718.31 1.279.496 1.716.634.721.23 1.377.197 1.895.12.578-.087 1.781-.728 2.032-1.431.25-.702.25-1.304.175-1.43-.075-.126-.276-.201-.577-.352z"/></svg>
+              <span>Inquire via WhatsApp</span>
+            </button>
+            <button type="submit" class="inquiry-submit-btn" id="inqSubmitAtelier">
+              <span>Send to Atelier</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer>
@@ -666,6 +804,10 @@
         </a>
         <a href="#collection" class="mobile-nav-link">
           <span>Haute Fragrances</span>
+          <span class="mobile-nav-arrow">›</span>
+        </a>
+        <a href="#contact" class="mobile-nav-link">
+          <span>Concierge & Inquiries</span>
           <span class="mobile-nav-arrow">›</span>
         </a>
         <a href="checkout.html" class="mobile-nav-link">
@@ -776,6 +918,9 @@
       {
         id: 'eclipse-noir',
         name: 'Eclipse Noir',
+        brand: 'MOND Atelier',
+        mainCategory: 'Men',
+        collection: 'Winter',
         concentration: 'Extrait de Parfum',
         categories: ['Men', 'Winter', 'Best sellers', 'All perfumes'],
         tag: 'Men, Winter, Best sellers',
@@ -793,6 +938,9 @@
       {
         id: 'silver-crater',
         name: 'Silver Crater',
+        brand: 'MOND Atelier',
+        mainCategory: 'Unisex',
+        collection: 'Summer',
         concentration: 'Eau de Parfum Intense',
         categories: ['Unisex', 'Summer', 'Best sellers', 'All perfumes'],
         tag: 'Unisex, Summer, Best sellers',
@@ -810,6 +958,9 @@
       {
         id: 'mare-tranquillitatis',
         name: 'Mare Tranquillitatis',
+        brand: 'MOND Atelier',
+        mainCategory: 'Women',
+        collection: 'Summer',
         concentration: 'Extrait de Parfum',
         categories: ['Women', 'Summer', 'All perfumes'],
         tag: 'Women, Summer, All perfumes',
@@ -827,6 +978,9 @@
       {
         id: 'lunar-oud',
         name: 'Lunar Oud',
+        brand: 'MOND Atelier',
+        mainCategory: 'Unisex',
+        collection: 'Niche',
         concentration: 'Royal Reserve Extrait',
         categories: ['Niche', 'Winter', 'Unisex', 'All perfumes'],
         tag: 'Niche, Winter, Unisex, Royal Reserve',
@@ -840,20 +994,115 @@
         },
         img: 'items/da39d9fc-b0aa-42b3-a808-1d5923b35ebd.JPG',
         fallback: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=800&q=85'
+      },
+      {
+        id: 'sauvage-elixir',
+        name: 'Sauvage Elixir',
+        brand: 'Dior',
+        mainCategory: 'Men',
+        collection: 'Winter',
+        concentration: 'Parfum Concentré',
+        categories: ['Men', 'Winter', 'Best sellers', 'All perfumes'],
+        tag: 'Dior, Men, Winter, Reserve',
+        prices: { 50: 190, 100: 275 },
+        inStock: true,
+        description: 'An extraordinarily concentrated fragrance steeped in the iconic freshness of Sauvage with an intoxicating heart of spices, a custom lavender essence, and rich ambery woods.',
+        pyramid: {
+          top: 'Cinnamon, Nutmeg, Cardamom, Grapefruit',
+          heart: 'Lavender Nyons AOC, Frankincense',
+          base: 'Licorice, Sandalwood, Amber, Patchouli'
+        },
+        img: 'items/adee3ca2-7e4d-4b58-b088-80c84a62d729.JPG',
+        fallback: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=85'
+      },
+      {
+        id: 'tobacco-vanille',
+        name: 'Tobacco Vanille',
+        brand: 'Tom Ford',
+        mainCategory: 'Unisex',
+        collection: 'Niche',
+        concentration: 'Eau de Parfum',
+        categories: ['Unisex', 'Winter', 'Niche', 'All perfumes'],
+        tag: 'Tom Ford, Unisex, Niche',
+        prices: { 50: 210, 100: 310 },
+        inStock: true,
+        description: 'Opulent, warm, and iconic. Reminiscent of an English gentlemens club, blended with rich spices, creamy tonka bean, vanilla, cocoa, dry fruit accords, and sweet wood sap.',
+        pyramid: {
+          top: 'Tobacco Leaf, Spicy Accords',
+          heart: 'Tonka Bean, Tobacco Blossom, Vanilla, Cacao',
+          base: 'Dry Fruit Accord, Rich Wood Sap'
+        },
+        img: 'items/d755243f-03e3-4c35-851c-ac3dd978e7d4.JPG',
+        fallback: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=85'
+      },
+      {
+        id: 'aventus-millesime',
+        name: 'Aventus',
+        brand: 'Creed',
+        mainCategory: 'Men',
+        collection: 'Summer',
+        concentration: 'Millesime Extrait',
+        categories: ['Men', 'Summer', 'Best sellers', 'All perfumes'],
+        tag: 'Creed, Men, Summer, Best sellers',
+        prices: { 50: 225, 100: 330 },
+        inStock: true,
+        description: 'Celebrating strength, power, and success. Opening with crisp lemon and blackcurrant before evolving into birch, patchouli, and clean Moroccan jasmine resting on oakmoss.',
+        pyramid: {
+          top: 'Lemon, Pink Pepper, Apple, Blackcurrant',
+          heart: 'Pineapple, Jasmine, Indonesian Patchouli',
+          base: 'Birch, Ambergris, Cedarwood, Oakmoss'
+        },
+        img: 'items/dc40686c-4a98-45fc-a82b-0dad0c78b08d.JPG',
+        fallback: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=800&q=85'
+      },
+      {
+        id: 'ani-extrait',
+        name: 'Ani Extrait',
+        brand: 'Nishane',
+        mainCategory: 'Unisex',
+        collection: 'Winter',
+        concentration: 'Extrait de Parfum',
+        categories: ['Unisex', 'Winter', 'Niche', 'All perfumes'],
+        tag: 'Nishane, Unisex, Niche',
+        prices: { 50: 185, 100: 265 },
+        inStock: true,
+        description: 'A romantic and calm perfume conceived under an ancient medieval metropolis. A world-famous vanilla accord crowned with radiant bergamot, green notes, blue ginger, and creamy sandalwood.',
+        pyramid: {
+          top: 'Bergamot, Green Notes, Blue Ginger, Pink Pepper',
+          heart: 'Blackcurrant, Turkish Rose, Cardamom',
+          base: 'Patchouli, Cedarwood, Vanilla, Benzoin, Ambergris'
+        },
+        img: 'items/da39d9fc-b0aa-42b3-a808-1d5923b35ebd.JPG',
+        fallback: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=800&q=85'
       }
     ];
 
     function getStoredProducts() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_FRAGRANCES));
-          return DEFAULT_FRAGRANCES;
+        let list = DEFAULT_FRAGRANCES;
+        if (raw) {
+          try {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              list = parsed;
+            }
+          } catch (e) {}
         }
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_FRAGRANCES));
-        return DEFAULT_FRAGRANCES;
+        // Normalize products with 3-tier attributes
+        return list.map(item => {
+          const cats = Array.isArray(item.categories) ? item.categories : (item.tag ? item.tag.split(',').map(s => s.trim()) : []);
+          const mainCat = item.mainCategory || (cats.some(c => c.toLowerCase() === 'men') ? 'Men' : (cats.some(c => c.toLowerCase() === 'women') ? 'Women' : 'Unisex'));
+          const brand = item.brand || 'MOND Atelier';
+          const coll = item.collection || (cats.find(c => ['Summer', 'Winter', 'Niche', 'Best sellers', 'Royal Reserve'].includes(c)) || 'Signature');
+          return {
+            ...item,
+            brand,
+            mainCategory: mainCat,
+            collection: coll,
+            categories: cats
+          };
+        });
       } catch (e) {
         console.error('Error reading catalog:', e);
         return DEFAULT_FRAGRANCES;
@@ -1194,41 +1443,179 @@
       return true;
     }
 
-    // Catalog rendering & filtering
+    // Catalog rendering & 3-tier hierarchy filtering
     const grid = document.getElementById('fragranceGrid');
     const activeSizes = {}; // tracks selected 50ml / 100ml size per item id
     let activeCollectionFilter = null;
 
+    let tier1Category = 'All'; // 'All' | 'Men' | 'Women' | 'Unisex'
+    let tier2Brand = 'All';    // 'All' | Brand Name
+    let tier3Collection = 'All'; // 'All' | Collection Name
+
+    const tier1Tabs = document.querySelectorAll('.tier1-tab');
+    const tier2BrandsList = document.getElementById('tier2BrandsList');
+    const tier3CollectionsList = document.getElementById('tier3CollectionsList');
+    const breadcrumbsActiveText = document.getElementById('breadcrumbsActiveText');
+    const resetCatalogHierarchyBtn = document.getElementById('resetCatalogHierarchyBtn');
+
+    function updateCatalogHierarchyUI() {
+      const allFragrances = getStoredProducts();
+
+      // Update Tier 1 Tabs UI
+      tier1Tabs.forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.tier1 === tier1Category);
+      });
+
+      // Filter products by Tier 1 to get available brands
+      const tier1Products = tier1Category === 'All'
+        ? allFragrances
+        : allFragrances.filter(p => {
+            const cat = (p.mainCategory || '').toLowerCase();
+            const t1 = tier1Category.toLowerCase();
+            const inArr = Array.isArray(p.categories) && p.categories.some(c => c.toLowerCase() === t1);
+            return cat === t1 || inArr;
+          });
+
+      // Collect unique brands in this Tier 1
+      const brandSet = new Set();
+      tier1Products.forEach(p => {
+        if (p.brand) brandSet.add(p.brand.trim());
+      });
+      const brands = ['All', ...Array.from(brandSet)];
+
+      // Render Tier 2 Brand Chips
+      if (tier2BrandsList) {
+        tier2BrandsList.innerHTML = brands.map(b => `
+          <button type="button" class="tier2-chip ${tier2Brand === b ? 'active' : ''}" data-brand="${b}">
+            ${b === 'All' ? 'All Houses' : b}
+          </button>
+        `).join('');
+
+        tier2BrandsList.querySelectorAll('.tier2-chip').forEach(chip => {
+          chip.addEventListener('click', () => {
+            tier2Brand = chip.dataset.brand;
+            updateCatalogHierarchyUI();
+            renderProducts();
+          });
+        });
+      }
+
+      // Filter products by Tier 1 & Tier 2 to get available collections
+      const tier2Products = tier2Brand === 'All'
+        ? tier1Products
+        : tier1Products.filter(p => (p.brand || 'MOND Atelier').toLowerCase() === tier2Brand.toLowerCase());
+
+      const collSet = new Set();
+      tier2Products.forEach(p => {
+        if (p.collection && p.collection !== 'Signature') collSet.add(p.collection.trim());
+        if (Array.isArray(p.categories)) {
+          p.categories.forEach(c => {
+            if (['Summer', 'Winter', 'Niche', 'Best sellers', 'Royal Reserve'].includes(c)) collSet.add(c);
+          });
+        }
+      });
+      const collections = ['All', ...Array.from(collSet)];
+
+      // Render Tier 3 Collection Pills
+      if (tier3CollectionsList) {
+        tier3CollectionsList.innerHTML = collections.map(c => `
+          <button type="button" class="tier3-pill ${tier3Collection === c ? 'active' : ''}" data-collection="${c}">
+            ${c === 'All' ? 'All Collections' : c}
+          </button>
+        `).join('');
+
+        tier3CollectionsList.querySelectorAll('.tier3-pill').forEach(pill => {
+          pill.addEventListener('click', () => {
+            tier3Collection = pill.dataset.collection;
+            updateCatalogHierarchyUI();
+            renderProducts();
+          });
+        });
+      }
+
+      // Update Breadcrumbs
+      if (breadcrumbsActiveText) {
+        const parts = [];
+        if (tier1Category !== 'All') parts.push(tier1Category);
+        if (tier2Brand !== 'All') parts.push(tier2Brand);
+        if (tier3Collection !== 'All') parts.push(tier3Collection);
+        if (activeCollectionFilter) parts.push(activeCollectionFilter);
+        breadcrumbsActiveText.textContent = parts.length > 0 ? parts.join(' › ') : 'All Creations';
+      }
+    }
+
+    tier1Tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tier1Category = tab.dataset.tier1;
+        tier2Brand = 'All';
+        tier3Collection = 'All';
+        updateCatalogHierarchyUI();
+        renderProducts();
+      });
+    });
+
+    if (resetCatalogHierarchyBtn) {
+      resetCatalogHierarchyBtn.addEventListener('click', () => {
+        tier1Category = 'All';
+        tier2Brand = 'All';
+        tier3Collection = 'All';
+        activeCollectionFilter = null;
+        updateCatalogHierarchyUI();
+        if (collectionFilterBar) collectionFilterBar.classList.remove('visible');
+        categoryCardItems.forEach(c => c.classList.remove('active'));
+        renderProducts();
+      });
+    }
+
     function renderProducts() {
       const allFragrances = getStoredProducts();
-      const isAllCategory = !activeCollectionFilter || activeCollectionFilter.toLowerCase().trim() === 'all perfumes' || activeCollectionFilter.toLowerCase().trim() === 'all';
-      const fragrances = isAllCategory
-        ? allFragrances
-        : allFragrances.filter(item => {
-            const filterTag = activeCollectionFilter.toLowerCase().trim();
-            // Check categories array if present
-            if (Array.isArray(item.categories)) {
-              if (item.categories.some(c => {
-                const lc = String(c).toLowerCase().trim();
-                return lc === filterTag || lc.includes(filterTag) || filterTag.includes(lc);
-              })) return true;
-            }
-            // Check tag string (comma-separated or single)
-            const itemTag = (item.tag || '').toLowerCase();
-            const tagsList = itemTag.split(',').map(s => s.trim());
-            if (tagsList.some(t => t === filterTag || t.includes(filterTag) || filterTag.includes(t))) return true;
-            // Fallback match by name or concentration or description
-            return (item.concentration || '').toLowerCase().includes(filterTag) ||
-                   (item.name || '').toLowerCase().includes(filterTag);
-          });
+
+      const fragrances = allFragrances.filter(item => {
+        // Tier 1 check
+        if (tier1Category !== 'All') {
+          const itemCat = (item.mainCategory || '').toLowerCase();
+          const t1 = tier1Category.toLowerCase();
+          const inCategories = Array.isArray(item.categories) && item.categories.some(c => c.toLowerCase() === t1);
+          if (itemCat !== t1 && !inCategories) return false;
+        }
+
+        // Tier 2 check (Brand)
+        if (tier2Brand !== 'All') {
+          const itemBrand = (item.brand || 'MOND Atelier').toLowerCase();
+          if (itemBrand !== tier2Brand.toLowerCase()) return false;
+        }
+
+        // Tier 3 check (Collection)
+        if (tier3Collection !== 'All') {
+          const t3 = tier3Collection.toLowerCase();
+          const itemColl = (item.collection || '').toLowerCase();
+          const inTags = (item.tag || '').toLowerCase().includes(t3);
+          const inCategories = Array.isArray(item.categories) && item.categories.some(c => c.toLowerCase().includes(t3));
+          if (itemColl !== t3 && !inTags && !inCategories) return false;
+        }
+
+        // Additional Category Filter bar check (if activated from featured collections)
+        if (activeCollectionFilter) {
+          const filterTag = activeCollectionFilter.toLowerCase().trim();
+          if (filterTag !== 'all' && filterTag !== 'all perfumes') {
+            const inCats = Array.isArray(item.categories) && item.categories.some(c => c.toLowerCase().includes(filterTag));
+            const inTags = (item.tag || '').toLowerCase().includes(filterTag);
+            const inName = (item.name || '').toLowerCase().includes(filterTag);
+            if (!inCats && !inTags && !inName) return false;
+          }
+        }
+
+        return true;
+      });
 
       grid.innerHTML = '';
 
       if (fragrances.length === 0) {
         grid.innerHTML = `
-          <div class="empty-catalog">
-            <h3>${activeCollectionFilter ? `No "${activeCollectionFilter}" Formulations Found` : 'No Formulations Available'}</h3>
-            <p>${activeCollectionFilter ? 'Try selecting "All perfumes" or resetting the category filter to view all creations.' : 'The atelier is currently preparing next lunar macerations. Visit the <a href="admin.html" class="admin-link">Admin Portal</a> to configure fragrances.'}</p>
+          <div class="empty-catalog" style="grid-column: 1 / -1; text-align: center; padding: 48px 20px;">
+            <h3 style="font-size:20px; font-weight:700; color:var(--text-primary); margin-bottom:8px;">No Formulations Found</h3>
+            <p style="color:var(--text-secondary); margin-bottom:18px;">No fragrances match your selected category, brand, or collection filter.</p>
+            <button type="button" class="breadcrumbs-reset" style="padding:8px 18px; font-size:12px;" onclick="document.getElementById('resetCatalogHierarchyBtn').click()">Reset All Filters ✕</button>
           </div>
         `;
         return;
@@ -1241,7 +1628,7 @@
 
         const card = document.createElement('article');
         card.className = 'perfume-card';
-        card.style.animationDelay = `${index * 60}ms`;
+        card.style.animationDelay = `${index * 50}ms`;
         card.innerHTML = `
           <div class="card-media" data-id="${item.id}">
             <span class="card-badge ${isAvailable ? '' : 'sold-out'}">
@@ -1251,6 +1638,7 @@
             <button class="card-quick-btn" type="button">Discover Scent</button>
           </div>
           <div class="card-body">
+            <div class="card-brand">${item.brand || 'MOND Atelier'}</div>
             <div class="card-header">
               <h3 class="card-title">${item.name}</h3>
               <span class="card-price" id="price-${item.id}">${item.prices[currentSize].toLocaleString()}</span>
@@ -1338,10 +1726,24 @@
     const resetCollectionFilterBtn = document.getElementById('resetCollectionFilterBtn');
 
     function setCategoryFilter(categoryName, displayTitle) {
-      if (!categoryName || categoryName === 'All perfumes' || activeCollectionFilter === categoryName) {
+      if (!categoryName || categoryName === 'All perfumes') {
+        tier1Category = 'All';
+        tier2Brand = 'All';
+        tier3Collection = 'All';
         activeCollectionFilter = null;
       } else {
-        activeCollectionFilter = categoryName;
+        const lc = categoryName.toLowerCase();
+        if (['men', 'women', 'unisex'].includes(lc)) {
+          tier1Category = categoryName;
+          tier2Brand = 'All';
+          tier3Collection = 'All';
+          activeCollectionFilter = null;
+        } else if (['summer', 'winter', 'niche', 'best sellers'].includes(lc)) {
+          tier3Collection = categoryName;
+          activeCollectionFilter = null;
+        } else {
+          activeCollectionFilter = categoryName;
+        }
       }
 
       categoryCardItems.forEach(c => {
@@ -1356,6 +1758,7 @@
         collectionFilterBar.classList.remove('visible');
       }
 
+      updateCatalogHierarchyUI();
       renderProducts();
     }
 
@@ -1388,9 +1791,13 @@
       });
     }
 
-    // Marquee Brand Item Click -> Scroll to Collection
+    // Marquee Brand Item Click -> Scroll to Collection and filter by Brand
     document.querySelectorAll('.marquee-brand-item').forEach(brandEl => {
       brandEl.addEventListener('click', () => {
+        const brandName = brandEl.textContent.trim();
+        tier2Brand = brandName;
+        updateCatalogHierarchyUI();
+        renderProducts();
         const target = document.getElementById('collection');
         if (target) target.scrollIntoView({ behavior: 'smooth' });
       });
@@ -1554,8 +1961,68 @@
     });
 
     // Initial Catalog & Cart Render
+    updateCatalogHierarchyUI();
     renderProducts();
     syncCartWithCatalog();
+
+    // Concierge & Inquiries Form Handling
+    const inqForm = document.getElementById('conciergeInquiryForm');
+    const inqWaBtn = document.getElementById('inqSubmitWhatsApp');
+
+    function sendConciergeWhatsApp() {
+      const name = (document.getElementById('inqName')?.value || 'Patron').trim();
+      const phone = (document.getElementById('inqPhone')?.value || '').trim();
+      const fragrance = document.getElementById('inqFragrance')?.value || 'General Inquiry';
+      const msg = (document.getElementById('inqMessage')?.value || '').trim();
+
+      const waMessage = 
+`🌙 *طلب استشارة خاصة من بوتيك MOND*
+━━━━━━━━━━━━━━━━━━
+👤 *الاسم:* ${name}
+📞 *رقم الهاتف / واتساب:* ${phone || 'غير مسجل'}
+💎 *العطر / الفئة:* ${fragrance}
+📝 *تفاصيل الاستفسار:* ${msg || 'طلب استشارة خاصة وتوصيل'}
+━━━━━━━━━━━━━━━━━━
+يرجى تأكيد التواصل وتقديم الاستشارة الفورية.`;
+
+      window.open(`https://wa.me/201157704050?text=${encodeURIComponent(waMessage)}`, '_blank');
+    }
+
+    if (inqWaBtn) {
+      inqWaBtn.addEventListener('click', () => {
+        sendConciergeWhatsApp();
+      });
+    }
+
+    if (inqForm) {
+      inqForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = (document.getElementById('inqName')?.value || '').trim();
+        const phone = (document.getElementById('inqPhone')?.value || '').trim();
+        const fragrance = document.getElementById('inqFragrance')?.value || '';
+        const msg = (document.getElementById('inqMessage')?.value || '').trim();
+
+        if (!name || !phone) {
+          alert('Please enter your name and phone number.');
+          return;
+        }
+
+        const payload = {
+          client_name: name,
+          client_phone: phone,
+          fragrance,
+          message: msg,
+          status: 'pending'
+        };
+
+        if (window.MondDB && window.MondDB.createInquiry) {
+          await window.MondDB.createInquiry(payload);
+        }
+        showToast('Consultation request dispatched to Atelier Concierge');
+        sendConciergeWhatsApp();
+        inqForm.reset();
+      });
+    }
 
     // Asynchronous Supabase Fetch & Realtime Synchronizer (Zero Data Loss)
     if (window.MondDB) {

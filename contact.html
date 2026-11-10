@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#06141B]">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOND — Private Concierge & Inquiries</title>
+  <link rel="icon" type="image/png" href="logo.png?v=3.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            void: '#06141B',
+            surface: '#11212D',
+            elevated: '#253745',
+            muted: '#4A5C6A',
+            secondary: '#9BA8AB',
+            mist: '#CCD0CF',
+            gold: '#CFAC62'
+          },
+          fontFamily: {
+            sans: ['Montserrat', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #06141B; }
+    ::-webkit-scrollbar-thumb { background: #253745; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #4A5C6A; }
+    
+    .brand-glow {
+      box-shadow: 0 0 50px -12px rgba(204, 208, 207, 0.08);
+    }
+    .gold-gradient {
+      background: linear-gradient(135deg, #CFAC62 0%, #F5E6BE 40%, #B8923E 100%);
+    }
+  </style>
+</head>
+<body class="min-h-full bg-void text-mist font-sans antialiased selection:bg-elevated selection:text-mist flex flex-col justify-between">
+
+  <!-- Header -->
+  <header class="border-b border-elevated/80 bg-void/90 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group transition-transform duration-200 hover:scale-[1.02]">
+        <img src="logo.png?v=3.0" alt="MOND Logo" class="h-10 w-auto object-contain filter drop-shadow">
+        <div class="flex flex-col">
+          <span class="text-xl font-extrabold tracking-[0.22em] uppercase text-mist">MOND</span>
+          <span class="text-[9px] font-medium tracking-[0.35em] uppercase text-secondary">Haute Parfumerie</span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-4 text-xs font-semibold uppercase tracking-wider text-secondary">
+        <a href="index.html" class="flex items-center gap-2 hover:text-mist transition-colors py-2 px-3 rounded border border-elevated/60 bg-surface/50 hover:bg-elevated">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          <span>Back to Boutique</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16 flex-grow w-full">
+    <div class="mb-10 text-center lg:text-left">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-elevated/50 border border-muted/50 text-[11px] font-semibold uppercase tracking-widest text-secondary mb-3">
+        <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+        Direct Atelier Concierge
+      </div>
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight uppercase text-mist">
+        Private Consultation & Support
+      </h1>
+      <p class="mt-2 text-sm text-secondary font-light max-w-2xl">
+        Our nocturnal fragrance curators are at your disposal for bespoke formulation advice, custom allocations, and nocturnal delivery coordination.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      
+      <!-- Left Column: Contact Cards -->
+      <section class="lg:col-span-5 space-y-6">
+        <div class="bg-surface/80 border border-elevated rounded-lg p-6 sm:p-8 brand-glow space-y-6">
+          <h2 class="text-xs font-bold uppercase tracking-widest text-gold pb-3 border-b border-elevated/60">
+            Immediate Contact Channels
+          </h2>
+
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-[#25D366]/10 border border-[#25D366]/30 flex items-center justify-center flex-shrink-0 text-[#25D366]">
+              <svg class="w-6 h-6 fill-currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.301-.15-1.781-.879-2.056-.98-.276-.1-.476-.15-.677.15-.2.301-.777.98-.952 1.18-.175.201-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.785-1.675-2.086-.176-.301-.019-.464.132-.614.136-.135.301-.351.452-.527.15-.175.2-.301.3-.501.1-.2.05-.376-.025-.526-.075-.15-.677-1.632-.927-2.234-.244-.587-.492-.507-.677-.516-.175-.009-.376-.01-.577-.01-.2 0-.526.075-.802.376-.275.301-1.053 1.029-1.053 2.509 0 1.48 1.078 2.909 1.229 3.11.15.201 2.122 3.24 5.141 4.544.718.31 1.279.496 1.716.634.721.23 1.377.197 1.895.12.578-.087 1.781-.728 2.032-1.431.25-.702.25-1.304.175-1.43-.075-.126-.276-.201-.577-.352z"/></svg>
+            </div>
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider text-secondary">VIP WhatsApp Dispatch</div>
+              <a href="https://wa.me/201157704050" target="_blank" rel="noopener" class="text-base font-semibold text-mist hover:text-gold transition-colors">+20 115 770 4050</a>
+              <div class="text-xs text-secondary/80 mt-1">24/7 direct encrypted messaging</div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center flex-shrink-0 text-gold">
+              <svg class="w-6 h-6 stroke-current fill-none stroke-2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider text-secondary">Direct Telephone Support</div>
+              <a href="tel:01157704050" class="text-base font-semibold text-mist hover:text-gold transition-colors">01157704050</a>
+              <div class="text-xs text-secondary/80 mt-1">Cairo, Egypt · Immediate assistance</div>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-elevated border border-muted/50 flex items-center justify-center flex-shrink-0 text-secondary">
+              <svg class="w-6 h-6 stroke-current fill-none stroke-2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider text-secondary">Atelier Dispatch Email</div>
+              <a href="mailto:concierge@mondperfumes.com" class="text-base font-semibold text-mist hover:text-gold transition-colors">concierge@mondperfumes.com</a>
+              <div class="text-xs text-secondary/80 mt-1">Guaranteed response within 2 hours</div>
+            </div>
+          </div>
+
+          <a href="https://wa.me/201157704050?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%81%D8%B1%D9%8A%D9%82%20MOND%D8%8C%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AA%D8%B4%D9%83%D9%8A%D9%84%D8%A9%20%D8%A7%D9%84%D8%B9%D8%B7%D9%88%D8%B1" target="_blank" rel="noopener" class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#25D366] hover:bg-[#1EBE5D] text-void font-bold text-xs uppercase tracking-wider transition-transform hover:-translate-y-0.5 shadow-lg shadow-[#25D366]/20">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.301-.15-1.781-.879-2.056-.98-.276-.1-.476-.15-.677.15-.2.301-.777.98-.952 1.18-.175.201-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.785-1.675-2.086-.176-.301-.019-.464.132-.614.136-.135.301-.351.452-.527.15-.175.2-.301.3-.501.1-.2.05-.376-.025-.526-.075-.15-.677-1.632-.927-2.234-.244-.587-.492-.507-.677-.516-.175-.009-.376-.01-.577-.01-.2 0-.526.075-.802.376-.275.301-1.053 1.029-1.053 2.509 0 1.48 1.078 2.909 1.229 3.11.15.201 2.122 3.24 5.141 4.544.718.31 1.279.496 1.716.634.721.23 1.377.197 1.895.12.578-.087 1.781-.728 2.032-1.431.25-.702.25-1.304.175-1.43-.075-.126-.276-.201-.577-.352z"/></svg>
+            <span>Open WhatsApp Consultation</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Right Column: Consultation Form -->
+      <section class="lg:col-span-7 bg-surface/80 border border-elevated rounded-lg p-6 sm:p-8 lg:p-10 brand-glow">
+        <form id="contactPageForm" class="space-y-6">
+          <div class="flex items-center gap-2 pb-2 border-b border-elevated/60">
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gold text-void text-xs font-bold">★</span>
+            <h2 class="text-sm font-bold uppercase tracking-widest text-mist">Bespoke Inquiry Submission</h2>
+          </div>
+
+          <div>
+            <label for="contactName" class="block text-xs font-semibold uppercase tracking-wider text-secondary mb-2">
+              Full Name <span class="text-gold">*</span>
+            </label>
+            <input type="text" id="contactName" required placeholder="e.g. Moustafa Shaaban" class="w-full bg-void/90 border border-elevated rounded px-4 py-3 text-sm text-mist focus:outline-none focus:border-gold transition-colors">
+          </div>
+
+          <div>
+            <label for="contactPhone" class="block text-xs font-semibold uppercase tracking-wider text-secondary mb-2">
+              WhatsApp / Phone Number <span class="text-gold">*</span>
+            </label>
+            <input type="tel" id="contactPhone" required placeholder="e.g. 01157704050" class="w-full bg-void/90 border border-elevated rounded px-4 py-3 text-sm text-mist focus:outline-none focus:border-gold transition-colors">
+          </div>
+
+          <div>
+            <label for="contactFragrance" class="block text-xs font-semibold uppercase tracking-wider text-secondary mb-2">
+              Interested Formulation / Category
+            </label>
+            <select id="contactFragrance" class="w-full bg-void/90 border border-elevated rounded px-4 py-3 text-sm text-mist focus:outline-none focus:border-gold transition-colors">
+              <option value="General Atelier Consultation">General Atelier Consultation</option>
+              <option value="Eclipse Noir (Men · Winter)">Eclipse Noir (Men · Winter)</option>
+              <option value="Silver Crater (Unisex · Summer)">Silver Crater (Unisex · Summer)</option>
+              <option value="Mare Tranquillitatis (Women · Summer)">Mare Tranquillitatis (Women · Summer)</option>
+              <option value="Lunar Oud (Niche · Royal Reserve)">Lunar Oud (Niche · Royal Reserve)</option>
+              <option value="Sauvage Elixir (Dior)">Sauvage Elixir (Dior)</option>
+              <option value="Tobacco Vanille (Tom Ford)">Tobacco Vanille (Tom Ford)</option>
+              <option value="Aventus (Creed)">Aventus (Creed)</option>
+              <option value="Ani Extrait (Nishane)">Ani Extrait (Nishane)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="contactMessage" class="block text-xs font-semibold uppercase tracking-wider text-secondary mb-2">
+              Inquiry / Olfactory Preferences
+            </label>
+            <textarea id="contactMessage" rows="4" placeholder="Describe notes you love or any private order specifications..." class="w-full bg-void/90 border border-elevated rounded px-4 py-3 text-sm text-mist focus:outline-none focus:border-gold transition-colors"></textarea>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4 pt-2">
+            <button type="button" id="submitWaDirect" class="flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded gold-gradient text-void font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-transform hover:-translate-y-0.5">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.301-.15-1.781-.879-2.056-.98-.276-.1-.476-.15-.677.15-.2.301-.777.98-.952 1.18-.175.201-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.785-1.675-2.086-.176-.301-.019-.464.132-.614.136-.135.301-.351.452-.527.15-.175.2-.301.3-.501.1-.2.05-.376-.025-.526-.075-.15-.677-1.632-.927-2.234-.244-.587-.492-.507-.677-.516-.175-.009-.376-.01-.577-.01-.2 0-.526.075-.802.376-.275.301-1.053 1.029-1.053 2.509 0 1.48 1.078 2.909 1.229 3.11.15.201 2.122 3.24 5.141 4.544.718.31 1.279.496 1.716.634.721.23 1.377.197 1.895.12.578-.087 1.781-.728 2.032-1.431.25-.702.25-1.304.175-1.43-.075-.126-.276-.201-.577-.352z"/></svg>
+              <span>Transmit via WhatsApp</span>
+            </button>
+            <button type="submit" class="flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded bg-elevated hover:bg-mist hover:text-void border border-muted/60 text-mist font-bold text-xs uppercase tracking-wider transition-colors">
+              <span>Record with Atelier</span>
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-elevated bg-void/90 py-6 text-center text-xs text-secondary">
+    © <span id="yearVal"></span> MOND Fragrance House · Nocturnal Concierge · <a href="index.html" class="underline hover:text-gold">Return to Boutique</a>
+  </footer>
+
+  <script>
+    document.getElementById('yearVal').textContent = new Date().getFullYear();
+
+    function sendWhatsApp() {
+      const name = (document.getElementById('contactName').value || 'عميل كريم').trim();
+      const phone = (document.getElementById('contactPhone').value || '').trim();
+      const fragrance = document.getElementById('contactFragrance').value;
+      const message = (document.getElementById('contactMessage').value || '').trim();
+
+      const text = 
+`🌙 *استفسار جديد من صفحة التواصل — متجر MOND Perfumes*
+━━━━━━━━━━━━━━━━━━
+👤 *الاسم:* ${name}
+📞 *رقم الهاتف:* ${phone || 'غير مسجل'}
+💎 *العطر / الاستفسار:* ${fragrance}
+📝 *الرسالة:* ${message || 'طلب استشارة خاصة حول العطور والتوصيل'}
+━━━━━━━━━━━━━━━━━━
+يرجى المتابعة وتقديم الاستشارة الفورية.`;
+
+      window.open(`https://wa.me/201157704050?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    document.getElementById('submitWaDirect').addEventListener('click', sendWhatsApp);
+
+    document.getElementById('contactPageForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('contactName').value || '').trim();
+      const phone = (document.getElementById('contactPhone').value || '').trim();
+      const fragrance = document.getElementById('contactFragrance').value;
+      const message = (document.getElementById('contactMessage').value || '').trim();
+
+      if (!name || !phone) {
+        alert('Please fill in required fields.');
+        return;
+      }
+
+      const payload = {
+        client_name: name,
+        client_phone: phone,
+        fragrance,
+        message,
+        date: new Date().toISOString()
+      };
+
+      if (window.MondDB && window.MondDB.createInquiry) {
+        await window.MondDB.createInquiry(payload);
+      }
+      alert('Your inquiry has been registered with the Atelier Concierge. We are now opening WhatsApp for instant chat.');
+      sendWhatsApp();
+    });
+  </script>
+</body>
+</html>
+

@@ -95,9 +95,16 @@ function mapFromDbProduct(row) {
     ? row.categories
     : rawTag.split(',').map(s => s.trim()).filter(Boolean);
 
+  const mainCategory = row.main_category || (categories.some(c => c.toLowerCase() === 'men') ? 'Men' : (categories.some(c => c.toLowerCase() === 'women') ? 'Women' : 'Unisex'));
+  const brand = row.brand || 'MOND Atelier';
+  const collection = row.collection || (categories.find(c => ['Summer', 'Winter', 'Niche', 'Best sellers', 'Royal Reserve'].includes(c)) || 'Signature');
+
   return {
     id: row.id,
     name: row.name,
+    brand: brand,
+    mainCategory: mainCategory,
+    collection: collection,
     concentration: row.concentration || 'Extrait de Parfum',
     tag: rawTag,
     categories: categories,
@@ -123,10 +130,14 @@ function mapToDbProduct(item) {
   const p100 = item.prices?.[100] ?? item.price_100 ?? item.price100 ?? 220;
   const rawImg = item.img || DEFAULT_FALLBACK_IMG;
   const tagVal = item.tag || (Array.isArray(item.categories) ? item.categories.join(', ') : 'Signature');
+  const mainCat = item.mainCategory || item.main_category || (tagVal.includes('Men') ? 'Men' : (tagVal.includes('Women') ? 'Women' : 'Unisex'));
 
   return {
     id: item.id,
     name: item.name,
+    brand: item.brand || 'MOND Atelier',
+    main_category: mainCat,
+    collection: item.collection || 'Signature',
     concentration: item.concentration || 'Extrait de Parfum',
     tag: tagVal,
     price_50: Number(p50),
@@ -601,5 +612,23 @@ window.MondDB = {
   updateOrderStatus: mondUpdateOrderStatus,
   subscribeOrders: mondSubscribeOrders,
   // Customers
-  fetchCustomers: mondFetchCustomers
+  fetchCustomers: mondFetchCustomers,
+  // Concierge Inquiries
+  createInquiry: async function (payload) {
+    try {
+      const local = JSON.parse(localStorage.getItem('mond_inquiries_v1') || '[]');
+      const record = {
+        id: 'inq_' + Date.now(),
+        created_at: new Date().toISOString(),
+        ...payload
+      };
+      local.unshift(record);
+      localStorage.setItem('mond_inquiries_v1', JSON.stringify(local));
+      localStorage.setItem('mond_inquiries_updated', Date.now().toString());
+      window.dispatchEvent(new Event('storage'));
+      return { success: true, inquiry: record };
+    } catch (e) {
+      return { success: false, error: e };
+    }
+  }
 };

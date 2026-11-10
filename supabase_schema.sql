@@ -15,6 +15,9 @@
 CREATE TABLE IF NOT EXISTS public.products (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
+  brand TEXT DEFAULT 'MOND Atelier',
+  main_category TEXT DEFAULT 'Unisex',
+  collection TEXT DEFAULT 'Signature',
   concentration TEXT DEFAULT 'Extrait de Parfum',
   tag TEXT DEFAULT 'Signature',
   price_50 NUMERIC NOT NULL,
